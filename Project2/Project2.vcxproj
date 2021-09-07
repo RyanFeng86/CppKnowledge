@@ -123,6 +123,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="account.cpp" />
+    <ClCompile Include="clock.cpp" />
+    <ClCompile Include="data.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Project2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="account.h" />
+    <ClInclude Include="accumulator.h" />
+    <ClInclude Include="clock.h" />
+    <ClInclude Include="date.h" />
+    <ClInclude Include="node.h" />
+    <ClInclude Include="Point.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
