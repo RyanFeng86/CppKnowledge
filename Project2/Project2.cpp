@@ -1215,6 +1215,7 @@ int main() {
 
 
 //联合体举例2
+/*
 union {
 	int i;
 	int c;
@@ -1223,11 +1224,14 @@ union {
 int main()
 {
 	cout << "Hello world!" << endl;
-	a.x[0] = 10;
-	a.x[1] = 1;
-	cout << a.c << endl;
+	a.i = 0x4142;
+	//a.x[1] = 1;
+	cout << a.x[0] << endl;
+	cout << a.x[1] << endl;
+	cout << sizeof(a) << endl;
 	return 0;
 }
+*/
 
 
 
@@ -1240,8 +1244,10 @@ int main()
 {
 	Side s = Side::Right;
 	Thing w = Thing::Wrong;
-	Category test = Category::Pistol;
-	cout << test << endl;  //编译错误，无法直接比较不同枚举类
+	Category test1 = Category::General;
+	Category test2 = Category::General;
+	string out = (test1 == test2) ? "yes" : "no";
+	cout << out << endl; //编译错误，无法直接比较不同枚举类
 	system("pause");
 	return 0;
 }
