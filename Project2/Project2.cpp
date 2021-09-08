@@ -1693,7 +1693,7 @@ int main() {
 
 
 /*
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 template<class T>
 class point {
 private:
@@ -2445,7 +2445,7 @@ private:
 	Point *points;
 	int size;
 };
-/*
+
 //int main() {
 //	int count;
 //	cout << "Please enter the count of points:";
@@ -2455,7 +2455,7 @@ private:
 //	points.element(1).move(15, 20);
 //	return 0;
 //}
-*/
+
 
 
 
