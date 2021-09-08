@@ -2500,7 +2500,7 @@ int main() {
 
 
 //对象的浅层复制（需使用封装动态数组类）
-/*
+
 int main() {
 	int count;
 	cout << "Please enter the count of Points:";
@@ -2526,7 +2526,7 @@ int main() {
 
 	return 0;//两个指针同时指向同一个内存单元，第一个析构发生后该内存单元释放，那么第二个析构时就会出错，即浅层复制无法满足需求，提出深层复制
 }
-*/
+
 
 
 
