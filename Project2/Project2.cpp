@@ -13,6 +13,7 @@
 #include <cmath>
 #include <limits.h>
 #include <assert.h>//引入assert()函数
+#include <math.h>
 //#include <ctime>
 
 //STL标准库
@@ -29,7 +30,7 @@
 #include <numeric>
 
 //#include "clock.h"
-//#include "point.h"//Point项目分文件
+#include "point.h"//Point项目分文件
 //#include "account.h"//employee使用文件   信用卡使用文件
 
 
@@ -1635,16 +1636,20 @@ int main() {
 class A {
 public:
 	A(int i);
-	void print();
+	void print();	
 private:
 	const int a;
 	static const int b;  //静态常数据成员
 };
 
 const int A::b = 10;
-A::A(int i) : a(i) { }
+A::A(int i) : a(i) {}
+
+
 void A::print() {
+
 	cout << a << ":" << b << endl;
+	//b++;
 }
 
 int main() {
@@ -1686,6 +1691,99 @@ int main() {
 }
 */
 
+
+/*
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+template<class T>
+class point {
+private:
+	T x;
+	T y;
+	static int pointnum;
+public:
+	point() { pointnum++; };
+	point(T a=0, T b=0) :x(a), y(b) { pointnum++; };	
+	point(point<T> &k) {
+		x = k.getX();
+		y = k.getY();
+		pointnum++;
+	};
+	~point() { pointnum--; };
+	T getX();
+	T getY();	
+	int getPointNum();
+};
+
+template<class T>
+int point<T>::pointnum = 0;
+
+template<class T>
+T point<T>::getX() {
+	cout <<"X: "<< x << endl;
+	return x;
+}
+
+template<class T>
+T point<T>::getY() {
+	cout << "Y: " << y << endl;
+	return y;
+}
+
+template<class T>
+int point<T>::getPointNum() {
+	cout << "Now node number: ";
+	return pointnum;
+}
+
+template<class T>
+class line {
+private:	
+	T distance;
+	static int linenum;
+public:
+	point<T>  node1;
+    point<T> node2;
+	line() { 
+		linenum++; }
+
+	line(line<T> &k) {
+		node1(k.node1);
+		node2(k.node2);
+		linenum++;
+	}
+	
+	line(point<T> &a,point<T> &b) {
+		node1(a);
+		node2(b);
+		linenum++;
+	};
+
+	~line() {
+		linenum--;
+	}
+
+	T getDistance() {
+		distance = sqrt((node1.getX() - node2.getX())*(node1.getX() - node2.getX())
+			+ (node1.getY() - node2.getY())*(node1.getY() - node2.getY()));
+		return distance;
+	}
+};
+template<class T>
+int line<T>::linenum = 0;
+
+int main() {
+	point<double> a(1.2, 1.2);
+	cout << a.getPointNum() << endl;
+	point<double> b(2.4, 2.4);
+	cout << b.getPointNum() << endl;
+	point<double> c(b);
+	cout << b.getPointNum() << endl;
+	
+	
+	line<double> k( c, b);
+	cout << k.getDistance() << endl;
+	return 0;
+}*/
 
 
 //point项目分文件
@@ -1859,10 +1957,10 @@ int main() {
 	int a[] = { 5,4,3,2,1,0 };
 	int *b = &a[1];
 	int **c = &b;
-	cout << c << endl;
+	cout << *c << endl;
 	cout << a+1 << endl;
-	cout << &b << endl;
-	system("pause");
+	cout << b << endl;
+	
 	return 0;
 }
 */
@@ -1872,30 +1970,74 @@ int main() {
 
 //数组学习2   对指针的认识
 /*
-void rowSum(int a[][4], int nRow) {
+void rowSum1(int *a, int nRow) {
 	for (int i = 0; i < nRow; i++) {
 		for (int j = 1; j < 4; j++)
-			a[i][0] += a[i][j];
+			*(a+i*4)+=*(a+i*4+j);
 	}
+}
+
+void rowSum2(int a[][4], int nRow) {
+	for (int i = 0; i < nRow; i++)
+		for (int j = 1; j < 4; j++)
+			a[i][0] += a[i][j];
+}
+void rowSum3(int (&r)[3][4]) {
+	
+	for (int i = 0; i < 3; i++) {
+		for (int j = 1; j < 4; j++) {
+			r[i][0] += r[i][j];
+
+		}
+	}
+	
 }
 
 int main() {
 	int table[3][4] = { {1, 2, 3, 4}, {2, 3, 4, 5}, {3, 4, 5, 6} };
+	
 	//输出数组元素
+	cout << "way1" << endl;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 4; j++)
 			cout << table[i][j] << "   ";
 			cout << endl;
-		}
-	rowSum(table, 3);     //调用子函数，计算各行和
-	//输出计算结果
-	for (int i = 0; i < 3; i++)
-		cout << "Sum of row " << i << " is " << table[i][0] << endl;
+		}	
+	rowSum1(&table[0][0], 3);     //调用子函数，计算各行和, 传递指针
+	for (int i = 0; i < 3; i++) {
+		cout << "Sum1 of row " << i << " is " << table[i][0] << endl;
+		table[i][0] = i+1;
+	}
+		
+
+	cout << "way2" << endl;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 4; j++)
+			cout << table[i][j] << "   ";
+		cout << endl;
+	}	
+	rowSum2(table, 3);			//传递数组
+	for (int i = 0; i < 3; i++) {
+		cout << "Sum2 of row " << i << " is " << table[i][0] << endl;
+		table[i][0] = i + 1;
+	}
+
+	cout << "way3" << endl;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 4; j++)
+			cout << table[i][j] << "   ";
+		cout << endl;
+	}
+
+	int (&r)[3][4] =table;
+	rowSum3(r);					//引用数组
+	for (int i = 0; i < 3; i++) {
+		cout << "Sum3 of row " << i << " is " << table[i][0] << endl;
+		table[i][0] = i + 1;
+	}
 	return 0;
 }
 */
-
-
 
 //接上  对指针的认识
 /*
@@ -1951,20 +2093,39 @@ int main()
 		e += 2;
 		cout << e << endl;
 	}
+	int num[2][3] = { {1,2,3},{4,5,6} };
+	for (int (&p)[3]:num) {
+		for (int &q : p) {
+			cout << q << " ";
+		}
+		cout << endl;
+	}
+
+	for (auto &p : num) {
+		for (auto &q : p) {
+			cout << q << " ";
+		}
+		cout << endl;
+	}
 	return 0;
-}
-*/
+}*/
+
 
 
 
 //指向常量的指针
 /*
 int main() {
-	int a;
+	int a=0;
 	const int *p1 = &a; //p1是指向常量的指针
 	int b;
+	int c=0;
 	p1 = &b; //正确，p1本身的值可以改变
-	*p1 = 1; //编译时出错，不能通过p1改变所指的对象
+	p1 = &c; //编译时出错，不能通过p1改变所指的对象
+	cout << c << endl;
+	*(p1) = (a + 10);
+	cout << a << endl;
+	cout << c << endl;
 }
 */
 
@@ -1978,6 +2139,7 @@ int main() {
 	p2 = &b; //错误，p2是指针常量，值不能改变
 }
 */
+
 
 
 
@@ -2186,6 +2348,17 @@ int main() {
 
 //动态内存分配
 /*
+class Point {
+private:
+	int x, y;
+public:
+	Point() {};
+	int getX() { return x; };
+	Point(int a, int b) { x = a; y = b; };
+
+
+};
+
 int main() {
 	//int a = 10; 下面代码报错，删除一个非new分配的内存空间指针是不允许的
 	//int *p = &a;
@@ -2204,6 +2377,8 @@ int main() {
 	return 0;
 }
 */
+
+
 
 
 
@@ -2245,7 +2420,7 @@ int main() {
 
 
 //封装动态数组类
-/*
+
 class ArrayOfPoints {
 public:
 	ArrayOfPoints(int size) :size(size) {
@@ -2270,7 +2445,7 @@ private:
 	Point *points;
 	int size;
 };
-
+/*
 //int main() {
 //	int count;
 //	cout << "Please enter the count of points:";
@@ -2322,7 +2497,6 @@ int main() {
 		cout << e << endl;
 }
 */
-
 
 
 //对象的浅层复制（需使用封装动态数组类）
