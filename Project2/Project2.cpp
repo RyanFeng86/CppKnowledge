@@ -3963,7 +3963,7 @@ int main() {
 
 
 
-//虚函数学习
+//虚函数学习1
 /*
 class Base1 {
 public:
@@ -3988,6 +3988,7 @@ public:
 };
 
 
+
 class Base1 {
 public:
 	virtual void display() const;  //virtual 在运行阶段做动态绑定
@@ -4007,7 +4008,7 @@ void Base2::display() const {
 
 class Derived :public Base2 {
 public:
-	void display() const;
+	virtual void display() const;
 };
 void Derived::display() const {
 	cout << "Derived::display()" << endl;
@@ -4028,6 +4029,66 @@ int main() {
 }
 */
 
+//虚函数学习2
+class A{
+public:
+	void foo() {
+		printf("1\n");
+	}
+	virtual void fuu() {
+		printf("2\n");
+	}
+};
+
+class B :public A {
+public:
+	void foo()	{
+		printf("3\n");
+	}
+	void fuu()	{
+		printf("4\n");
+	}	
+	void kkk() {
+		printf("kkk\n");
+	}
+	int j = 10;
+};
+
+int main(){//fuu()为虚函数
+	A a;									//基类
+	B b;									//派生类
+	A *p = &a;								//将基类指针指向基类
+	cout << "p->foo()---"; p->foo();		//p指向基类对象，基类指针无法代替派生类指针，所以直接调用基类成员函数foo()
+	cout << "p->fuu()---"; p->fuu();		//同上
+	cout << "-------向上转型-----------" << endl;
+
+	p = &b;									//将基类指针指向派生类对象	
+	cout << "p->foo()---"; p->foo();		//派生类指向基类成员函数，派生类中定义的同名成员函数不起作用。foo不是虚函数，会直接调用最初定义(基类)的位置
+	cout << "p->fuu()---"; p->fuu();		//由于fuu是虚函数，指针会指向派生类中定义的成员虚函数
+	
+	cout << "--------向下转型----------" << endl;
+	//B *pt = &a;							//错误，派生类指针不能指向基类，必须进项强制转换
+	B *ptr = (B *)&a;						//用一个派生类指针指向一个由指向基类对象的指针强制转换为指向派生类指针的指针。
+											//此用法可以理解为一个派生类的模子指向了基类的内存空间。调用模子时为派生类，访问空间中数据又指向了基类。慎用！！！！
+											//特别容易造成内存访问上的错误，倘若派生类中定义了一个新成员,二基类中又没有，则会访问一段位置的空间；
+											//如果这段空间是操作系统占用的，那样程序就会出错
+	cout << "ptr->foo()----"; ptr->foo();	//由于是派生类指针，所以指向派生类的成员函数
+	cout << "ptr->fuu()----"; ptr->fuu();	//
+	cout << "j: " << ptr->j << endl;
+
+	cout << "**************" << endl;
+	A *pk = (B *)&a;
+	pk->foo();
+	pk->fuu();
+
+	cout << "++++++++++++++++" << endl;
+	B *pt = &b;
+	pt->foo();
+	pt->fuu();
+	pt->kkk();
+	
+	return 0;
+}
 
 
 //虚函数析构
