@@ -3172,7 +3172,7 @@ int main() {
 
 
 //多基类继承二义性理解
-
+/*
 class A {
 public:
 	void  f() { cout << "Member of A" << endl; };
@@ -3220,12 +3220,16 @@ int main() {    //程序主函数
 	Derived d;
 	d.Base1::var0 = 2;
 	d.Base1::fun0();
+	cout << d.Base1::var0 << endl;
+	cout << d.Base2::var0 << endl;
+
 	d.Base2::var0 = 3;
 	d.Base2::fun0();
-
+	cout << d.Base1::var0 << endl;
+	cout << d.Base2::var0 << endl;
 	return 0;
 }
-
+*/
 
 
 //虚基类1
@@ -3239,6 +3243,7 @@ class Base1 : virtual public Base0 {
 public:
 	int var1;
 };
+
 class Base2 : virtual public Base0 {
 public:
 	int var2;
@@ -3258,6 +3263,7 @@ int main() {
 	Derived d;
 	d.var0 = 2; //直接访问虚基类的数据成员
 	d.fun0();     //直接访问虚基类的函数成员
+	cout << d.var0 << endl;
 	return 0;
 }
 */
@@ -3268,27 +3274,29 @@ int main() {
 /*
 class Base0 {
 public:
-	Base0(int var) : var0(var) { }
+	Base0(int var) : var0(var) { cout << "constructing Base0" << endl; }
 	int var0;
 	void fun0() { cout << "Member of Base0" << endl; }
 };
 
 class Base1 : virtual public Base0 {
 public:
-	Base1(int var) : Base0(var) { }
+	Base1(int var) : Base0(var) { cout << "constructing Base1" << endl; }
 	int var1;
 };
 
 class Base2 : virtual public Base0 {
 public:
-	Base2(int var) : Base0(var) { }
+	Base2(int var) : Base0(var) { cout << "constructing Base2" << endl; }
 	int var2;
 };
 
 class Derived : public Base1, public Base2 {
 public:
-	Derived(int var) : Base0(var), Base1(var), Base2(var)
-	{ }
+	Derived(int var) : Base1(var), Base0(var), Base2(var)
+	{
+		cout << "constructing Derived" << endl;
+	}
 	int var;
 	void fun()
 	{
@@ -3298,7 +3306,10 @@ public:
 
 int main() {    //程序主函数
 	Derived d(1);
+	cout << d.var0 << endl;
+
 	d.var0 = 2; //直接访问虚基类的数据成员
+	cout << d.var0 << endl;
 	d.fun0();   //直接访问虚基类的函数成员
 	return 0;
 }
@@ -3389,6 +3400,7 @@ class Base1
 {
 public:
 	Base1(int x);
+	Base1();
 	~Base1();
 };
 
@@ -3396,12 +3408,14 @@ class Base2
 {
 public:
 	Base2(int x);
+	Base2();
 	~Base2();
 };
 class Base3
 {
 public:
 	Base3(int x);
+	Base3();
 	~Base3();
 };
 
@@ -3410,7 +3424,27 @@ class Derived :public Base2, public Base1, public Base3//继承上面3个类
 public:
 	Derived(int x1, int x2, int x3, int x4);
 	~Derived();
+
+private:
+	Base3 a;
+	Base2 b;
+	Base1 c;
 };
+
+Base1::Base1()
+{
+	cout << "Base1 constructor called " << endl;
+}
+Base2::Base2()
+{
+	cout << "Base2 constructor called " << endl;
+}
+Base3::Base3()
+{
+	cout << "Base3 constructor called " << endl;
+}
+
+
 
 Base1::Base1(int x)
 {
@@ -3454,9 +3488,8 @@ Derived::~Derived(){
 
 int main()
 {
-	int x[4];
-	for (int i = 0; i < 4; ++i)
-		cin >> x[i];
+	int x[4] = {1,2,3,4};
+	
 	Derived d(x[0], x[1], x[2], x[3]);
 	return 0;
 }
@@ -3535,6 +3568,7 @@ public:
 
 int main() {
 	DerivedClass d;
+	
 	return 0;
 }
 */
@@ -3555,10 +3589,6 @@ public:
 	}
 private:
 	static int num;
-
-
-
-
 };
 
 int vehicle::num = 0;
@@ -3616,6 +3646,7 @@ public:
 	Complex operator + (Complex & c2) const;
 	Complex operator - (Complex & c2) const;
 	Complex operator * (Complex & c2) const;
+	Complex operator / (Complex & c2) const;
 	//运算符-重载成员函数
 
 	void display() const;
@@ -3624,23 +3655,29 @@ private:
 	double imag;
 };
 
-Complex Complex::operator+( Complex &c2) const {
+Complex Complex::operator + ( Complex &c2) const {
 	//创建一个临时无名对象作为返回值
 	return Complex(real + c2.real, imag + c2.imag);
 }
 
-Complex Complex::operator-( Complex &c2) const {
+Complex Complex::operator - ( Complex &c2) const {
 	//创建一个临时无名对象作为返回值
 	return Complex(real - c2.real, imag - c2.imag);
 }
 
-Complex Complex::operator*(Complex &c2) const {
+Complex Complex::operator * (Complex &c2) const {
 	return Complex(real*c2.real - imag * c2.imag, real*c2.imag + imag * c2.real);
+}
+
+Complex Complex::operator / (Complex &c2) const {
+	return Complex((real*c2.real + imag * c2.imag) / (c2.real*c2.real + c2.imag*c2.imag),
+		(imag*c2.real - real * c2.imag) / (c2.real*c2.real + c2.imag*c2.imag));
 }
 
 void Complex::display() const {
 	cout << "(" << real << ", " << imag << "i)" << endl;
 }
+
 
 int main() {
 	Complex c1(5, 2), c2(2,5), c3;
@@ -3652,7 +3689,8 @@ int main() {
 	cout << "c3 = c1 + c2 = "; c3.display();
 	c3 = c1 * c2;
 	cout << "c3 = c1 * c2 = "; c3.display();
-
+	c3 = c1 / c2;
+	cout << "c3 = c1 / c2 = "; c3.display();
 	return 0;
 }
 */
@@ -3666,7 +3704,7 @@ public:
 	Clock(int hour = 0, int minute = 0, int second = 0);
 	void showTime() const;
 	//前置单目运算符重载
-	Clock& operator ++ ();
+	Clock & operator ++ ();
 	//后置单目运算符重载
 	Clock operator ++ (int);
 private:
@@ -3684,7 +3722,7 @@ Clock::Clock(int hour, int minute, int second) {
 		cout << "Time error!" << endl;
 }
 void Clock::showTime() const {  //显示时间
-	cout << hour << ":" << minute << ":" << second << endl;
+	cout << hour << ": " << minute << ": " << second << endl;
 }
 
 
@@ -3704,6 +3742,10 @@ Clock Clock::operator ++ (int) {
 	Clock old = *this;
 	++(*this);  //调用前置“++”运算符
 	return old;
+
+	//另一种方法
+	//Clock new_ = ++(*this);
+	//return new_;
 }
 
 int main() {
