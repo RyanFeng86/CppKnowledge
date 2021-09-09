@@ -2420,7 +2420,7 @@ int main() {
 
 
 //封装动态数组类
-
+/*
 class ArrayOfPoints {
 public:
 	ArrayOfPoints(int size) :size(size) {
@@ -2455,7 +2455,7 @@ private:
 //	points.element(1).move(15, 20);
 //	return 0;
 //}
-
+*/
 
 
 
@@ -2500,7 +2500,7 @@ int main() {
 
 
 //对象的浅层复制（需使用封装动态数组类）
-
+/*
 int main() {
 	int count;
 	cout << "Please enter the count of Points:";
@@ -2526,7 +2526,7 @@ int main() {
 
 	return 0;//两个指针同时指向同一个内存单元，第一个析构发生后该内存单元释放，那么第二个析构时就会出错，即浅层复制无法满足需求，提出深层复制
 }
-
+*/
 
 
 
@@ -2564,6 +2564,7 @@ IntNum getNum() {//将局部对象返回
 }
 
 int main() {
+	int a;
 	cout << getNum().getInt() << endl;//用返回的对象，取其数值
 	return 0;
 }
@@ -2872,8 +2873,8 @@ int main() {
 		<< rect.getW() << ", "
 		<< rect.getH() << endl;
 	return 0;
-}
-*/
+}*/
+
 
 
 
@@ -3075,12 +3076,18 @@ public:
 	{
 		cout << "Constructing Base1 " << i << endl;
 	}
+	~Base1() {
+		cout << "Destructing Base1" << endl;
+	}
 };
 class Base2 {//基类Base2，构造函数有参数
 public:
 	Base2(int j)
 	{
 		cout << "Constructing Base2 " << j << endl;
+	}
+	~Base2() {
+		cout << "Destructing Base2" << endl;
 	}
 };
 class Base3 {//基类Base3，构造函数无参数
@@ -3089,13 +3096,21 @@ public:
 	{
 		cout << "Constructing Base3 *" << endl;
 	}
+	~Base3() {
+		cout << "Destructing Base3" << endl;
+	}
 };
 
 class Derived : public Base2, public Base1, public Base3 {//根据继承顺序初始化基类
 public:
 	Derived(int a, int b, int c, int d) : Base1(a), member2(d), member1(c), Base2(b)
 		//此处的次序与构造函数的执行次序无关
-	{ }
+	{
+		cout << "Constructing Derived" << endl;
+	}
+	~Derived() {
+		cout << "Destructing Derived" << endl;
+	}
 private:
 	Base1 member1;//成员在构造时按照代码顺序
 
@@ -3147,6 +3162,9 @@ int main() {
 	p->Base2::var = 3;
 	p->Base2::fun();
 
+
+
+	
 	return 0;
 }
 */
@@ -3154,7 +3172,7 @@ int main() {
 
 
 //多基类继承二义性理解
-/*
+
 class A {
 public:
 	void  f() { cout << "Member of A" << endl; };
@@ -3207,7 +3225,6 @@ int main() {    //程序主函数
 
 	return 0;
 }
-*/
 
 
 

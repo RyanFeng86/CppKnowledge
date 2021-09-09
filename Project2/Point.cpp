@@ -1,4 +1,4 @@
-
+/*
 #include "point.h"
 #include <iostream>
 using namespace std;
@@ -12,3 +12,4 @@ Point::Point(Point const &p) :x(p.x), y(p.y) {}
 
 
 
+*/
