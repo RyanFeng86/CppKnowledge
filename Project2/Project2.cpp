@@ -18,8 +18,8 @@
 
 //STL标准库
 #include <iterator>
-#include <algorithm>
-#include <functional>
+#include <algorithm>//用于使用STL算法库
+#include <functional>//用于使用STL的函数对象
 #include <deque>
 #include <list>
 #include <stack>
@@ -3225,6 +3225,7 @@ int main() {    //程序主函数
 
 	d.Base2::var0 = 3;
 	d.Base2::fun0();
+	
 	cout << d.Base1::var0 << endl;
 	cout << d.Base2::var0 << endl;
 	return 0;
@@ -4123,7 +4124,7 @@ int main() {
 
 
 //抽象类
-
+/*
 class Base1 {
 public:
 	virtual void display() = 0;
@@ -4156,6 +4157,8 @@ int main() {
 	fun(&derived);
 	return 0;
 }
+*/
+
 
 
 
@@ -4184,6 +4187,33 @@ class Derived :public Base3 {
 };
 */
 
+/*
+class Base1 {
+	void display() {
+		cout << "Base1::display()" << endl;
+	}
+};
+
+class Base2  final :public Base1 {
+
+};
+
+class derive :public Base2 {
+
+};
+class Base3 {
+	virtual void display() final {
+		cout << "Base3::display()" << endl;
+	}
+};
+
+class Derived :public Base3 {
+	virtual void display() final {
+		cout << "Derived::display()" << endl;
+	}
+	
+};
+*/
 
 //运算符重载2
 /*
@@ -4233,6 +4263,7 @@ int main() {
 
 
 
+
 //虚函数的动态绑定2
 /*
 class Vehicle {
@@ -4248,20 +4279,20 @@ public:
 class Bicycle :virtual public Vehicle {
 public:
 	int Height;
-	void Run() { cout << "bicycle run" << endl; }
-	void Stop() { cout << "bicycle stop" << endl; }
+	virtual void Run() { cout << "bicycle run" << endl; }
+	virtual void Stop() { cout << "bicycle stop" << endl; }
 
 };
 class Motocar :virtual public Vehicle {
 public:
 	int SeatNum;
-	void Run() { cout << "motocar run" << endl; }
-	void Stop() { cout << "motocar stop" << endl; }
+	virtual void Run() { cout << "motocar run" << endl; }
+	virtual void Stop() { cout << "motocar stop" << endl; }
 };
 class Motorcycle :public Bicycle, public Motocar {
 public:
-	void Run() { cout << "motocycle run" << endl; }
-	void Stop() { cout << "motocycle stop" << endl; }
+	virtual void Run() { cout << "motocycle run" << endl; }
+	virtual void Stop() { cout << "motocycle stop" << endl; }
 };
 int main() {
 	Vehicle v;
@@ -4276,6 +4307,7 @@ int main() {
 	Motorcycle mc;
 	mc.Run();
 	mc.Stop();
+	cout << "###########" << endl;
 	Vehicle *vp = &v;
 	vp->Run();
 	vp->Stop();
@@ -4285,10 +4317,12 @@ int main() {
 	vp = &mc;
 	vp->Run();
 	vp->Stop();
+	cout << mc.MaxSpeed << endl;
 	return 0;
 
 }
 */
+
 
 
 
@@ -4915,8 +4949,8 @@ int main() {
 
 
 
-/*
 //从标准输入读入几个实数，分别将他们的平方输出
+/*
 double square(double x) {
 	return x * x;
 }
@@ -4947,7 +4981,7 @@ int main() {
 	double a[5] = { 1.2,2.4,0.8,3.3,3.2 };
 	mySort<double>(a, a + 5, ostream_iterator<double>(cout, " "));
 	cout << endl;
-	mySort<int>(istream_iterator<int>(cin), istream_iterator<int>(), ostream_iterator<int>(cout, " "));
+	mySort<int>(istream_iterator<int>(), istream_iterator<int>(), ostream_iterator<int>(cout, " "));
 	cout << endl;
 	return 0;
 }
@@ -4972,7 +5006,6 @@ int main() {
 	}
 	cout << endl;
 	printContainer("deque at first", s);
-
 
 	list<int> l(s.rbegin(), s.rend());
 	printContainer("list at first", l);
@@ -5014,6 +5047,7 @@ int main() {
 	return 0;
 }
 */
+
 
 
 //列表容器的splice操作
@@ -5140,6 +5174,49 @@ int main() {
 	cout << endl;
 	return 0;
 }
+
+
+int main() {
+	set<int> a;
+	while (1) {
+		int tmp;
+		cin >> tmp;
+		if (tmp == 0)
+			break;
+		else {
+			a.insert(tmp);
+		}
+	}
+	cout << "total identical num: " << a.size() << endl;
+	float mid = (*(a.begin()) + *(--a.end())) / 2;
+	cout << "The mid is: " << mid << endl;
+	cout << "Smaller than mid:" << endl;
+	copy(a.begin(), a.upper_bound(mid), ostream_iterator<int>(cout, " "));
+	cout << endl;
+	cout << "Larger than mid:" << endl;
+	copy(a.lower_bound(mid), a.end(), ostream_iterator<int>(cout, " "));
+	cout << endl;
+	cout << "xxxxxxxxxxxxxxxx" << endl;
+	
+}
+*/
+
+
+
+//map的简单使用
+/*
+int main()
+{
+	map<string, int> m;//string 为第一个键，int为键值类型，m则为键值
+	m["abc"] = 5;
+	m["cdf"] = 6;
+	m["b"] = 1;
+	m.insert(make_pair("ba", 6));//insert插入
+	m["a"] = 5;//使用下标插入
+	for (auto it = m.begin(); it != m.end(); it++)
+		cout << it->first << " " << it->second << endl;
+	return 0;
+}
 */
 
 
@@ -5154,6 +5231,7 @@ int main() {
 	courses.insert(make_pair("CSARCH", 4));
 	courses.insert(make_pair("COMPILER", 4));
 	courses.insert(make_pair("OS", 5));
+	cout << courses["C++"] << endl;	
 	int n = 3;      //剩下的可选次数
 	int sum = 0;    //学分总和
 	while (n > 0) {
@@ -5190,7 +5268,7 @@ int main() {
 	} while (c != '.'); //碰到“.”则结束输入
 	//输出每个字母出现次数
 	for (map<char, int>::iterator iter = s.begin(); iter != s.end(); ++iter)
-		cout << iter->first << " " << iter->second << "  ";
+		cout << iter->first << " " << iter->second << "  " << endl;
 	cout << endl;
 	return 0;
 }
@@ -5244,12 +5322,13 @@ int mult(int x, int y) {
 int main() {
 	int a[] = { 1,2,3,4,5 };
 	const int N = sizeof(a) / sizeof(int);
-	cout << "The result by multipling all elements in a is"
+	cout << "The result by multipling all elements in a is "
 		<< accumulate(a, a + N, 1, mult) //mult函数名作为对象传输进去，1 为累乘的初始值
 		<< endl;
 	return 0;
 }
 */
+
 
 
 //类函数对象
@@ -5294,9 +5373,15 @@ int main() {
 	cout << "before sorting:" << endl;
 	copy(a.begin(), a.end(), ostream_iterator<int>(cout, "\t"));
 	cout << endl;
+	sort(a.begin(), a.end(), less<int>());
+	cout << "after sorting:" << endl;
+	copy(a.begin(), a.end(), ostream_iterator<int>(cout, "\t"));
 
+
+	cout << "before sorting:" << endl;
+	copy(a.begin(), a.end(), ostream_iterator<int>(cout, "\t"));
+	cout << endl;
 	sort(a.begin(), a.end(), greater<int>());
-
 	cout << "after sorting:" << endl;
 	copy(a.begin(), a.end(), ostream_iterator<int>(cout, "\t"));
 	cout << endl;
@@ -5368,7 +5453,7 @@ struct Car {
 		this->id = id;
 	}
 	void display() const {
-		cout << "car" << id << endl;
+		cout << "car " << id << endl;
 	}
 };
 int main() {
@@ -5388,7 +5473,7 @@ int main() {
 
 	for (size_t i = 0; i < pcars.size(); ++i)
 		delete pcars[i];
-
+	
 	return 0;
 }
 */
@@ -5438,6 +5523,7 @@ int main() {
 	return 0;
 }
 */
+
 
 
 
