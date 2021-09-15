@@ -1,0 +1,14 @@
+int i = 53;
+float f = 4700113.141593;
+T.setf(ios::unitbuf);
+T.setf(ios::uppercase);
+T.setf(ios::showpos);
+T << i << endl;
++53
+T.setf(ios::hex, ios::basefield);
+T << i << endl;
+35
+T.setf(ios::showbase);
+T.setf(ios::basefield);
+T.setf(ios::adjustfield);
+T.fill('0');

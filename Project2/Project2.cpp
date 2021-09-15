@@ -5557,7 +5557,7 @@ int main() {
 	int num[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
 	cout << setiosflags(ios_base::oct);
 	for(int i=0;i<21;i++)
-		cout<<num[i]<<" ";
+		cout<< num[i]<<" ";
 	cout << endl;
 	return 0;
 }
@@ -5570,8 +5570,8 @@ int main() {
 int main() {
 	double values[] = { 1.23, 35.36, 653.7, 4358.24 };
 	string names[] = { "Zoot", "Jimmy", "Al", "Stan" };
-	//cout << setiosflags(ios_base::fixed);
-	cout << setiosflags(ios_base::scientific);
+	cout << setiosflags(ios_base::fixed);
+	//cout << setiosflags(ios_base::scientific);
 	for (int i = 0; i < 4; i++)
 		cout << setiosflags(ios_base::left)
 		<< setw(6) << names[i]
@@ -5611,9 +5611,39 @@ inline string toString(const T &v) {
 int main() {
 	string str1 = toString(5);
 	cout << str1 << endl;
-	string str2 = toString(1.2);
+	string str2 = toString(1.23);
 	cout << str2 << endl;
 	return 0;
+}
+*/
+
+
+//用istringstream将字符串转换为数值
+/*
+template <class T>
+inline T fromString(const string &str) {
+	istringstream is(str);  //创建字符串输入流
+	T v;
+	is >> v;    //从字符串输入流中读取变量v
+	return v;   //返回变量v
+}
+
+int main() {
+	int v1 = fromString<int>("5");
+	cout << v1 << endl;
+	double v2 = fromString<double>("1.2");
+	cout << v2 << endl;
+	return 0;
+}
+*/
+
+/*
+int main() {
+	string a = "123.56 8";
+	istringstream k(a);
+	float n; int m;
+	k >> n >> m;
+	cout << n << " " << m << endl;
 }
 */
 
@@ -5655,8 +5685,9 @@ int main() {
 	ofstream os("payroll", ios_base::out | ios_base::binary);
 	os.write(reinterpret_cast<char *>(&employee1), sizeof(employee1));//write 第一个参数需要一个字符指针
 	os.close();
+	
 	ifstream is("payroll", ios_base::in | ios_base::binary);
-	if (is) {
+	if (is) { 
 		SalaryInfo employee2;
 		is.read(reinterpret_cast<char *>(&employee2), sizeof(employee2));
 		cout << employee2.id << " " << employee2.salary << endl;
@@ -5675,6 +5706,7 @@ int main() {
 int main() {
 	int values[] = { 3,7,0,5,4 };
 	ofstream os("temp.txt");
+	
 	os.write(reinterpret_cast<char *>(values), sizeof(values));
 	os.close();
 
@@ -5716,34 +5748,7 @@ int main() {
 
 
 
-//用istringstream将字符串转换为数值
-/*
-template <class T>
-inline T fromString(const string &str) {
-	istringstream is(str);  //创建字符串输入流
-	T v;
-	is >> v;    //从字符串输入流中读取变量v
-	return v;   //返回变量v
-}
 
-int main() {
-	int v1 = fromString<int>("5");
-	cout << v1 << endl;
-	double v2 = fromString<double>("1.2");
-	cout << v2 << endl;
-	return 0;
-}
-
-
-
-int main() {
-	string a = "123.56 8";
-	istringstream k(a);
-	float n; int m;
-	k >> n >> m;
-	cout << n << " " << m << endl;
-}
-*/
 
 
 
@@ -5800,13 +5805,15 @@ int divide(int x, int y) {
 		throw x;//抛出以后，后面的计算就不会继续进行了，进行捕获
 	return x / y;
 }
-int main() {
+
+
+int main(){
 	try {//如果异常没有出现，则跟在try后面的catch不会被执行
 		cout << "5 / 2 = " << divide(5, 2) << endl;
 		cout << "8 / 0 = " << divide(8, 0) << endl;
 		cout << "7 / 1 = " << divide(7, 1) << endl;
-	}
-	catch (float e) {
+	}	
+	catch (int e) {
 		cout << e << " is divided by zero!" << endl;
 	}
 	cout << "That is ok." << endl;
@@ -5855,8 +5862,8 @@ int main() {
 	cout << "Resume the execution of main()" << endl;
 	return 0;
 
-}*/
-
+}
+*/
 
 
 //计算三角形面积，并加入异常处理机制
@@ -5877,6 +5884,9 @@ int main() {
 	double a, b, c; //三角形三边长
 	cout << "Please input the side lengths of a triangle: ";
 	cin >> a >> b >> c;
+	cout << a << endl;
+	cout << b << endl;
+	cout << c << endl;
 	try {
 		double s = area(a, b, c);   //尝试计算三角形面积,因为有可能抛出异常，所以要放在try块内
 		cout << "Area: " << s << endl;
