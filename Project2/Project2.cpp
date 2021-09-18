@@ -7719,3 +7719,29 @@ int main() {
 }*/
 
 
+
+
+
+//n cell FC -> m cell FC
+/*
+int main() {
+	double FC_N_T, FC_N_S, FC_N_C, FC_M_T;
+	double n,m;
+	
+	cout << "Please put in:" << endl << "    (1) Current mem size: ";
+	cin >> n;		
+	cout<<	"    (2) The FC of single cell fault of "<<n<<"-location mem: ";
+	cin >> FC_N_S;
+	cout << "    (3) The FC of double cell(coupling) fault of " << n << "-location mem: ";
+	cin >> FC_N_C;
+	cout << "    (4) Target mem size: ";
+	cin >> m;
+	double k = m / n;
+	double alf = (49 * k*n*FC_N_C - (10 * FC_N_S / n) + (35 * FC_N_C / n))/7;
+	FC_N_T = (2 * FC_N_S + 7 * (n - 1)*FC_N_C) / (7 * n - 5);
+	FC_M_T = FC_N_T * (2 * FC_N_S - 7 * FC_N_C - 5 * k*FC_N_C + alf) / (2 * FC_N_S*k - 7 * k*FC_N_C - 5 * FC_N_C + alf);
+	cout << "The total FC of " << n << "-location mem: " << FC_N_T << endl;
+	cout << "The total FC of " << m << "-location mem: " << FC_M_T << endl;
+	return 0;
+}
+*/
