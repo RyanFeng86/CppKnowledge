@@ -7050,6 +7050,7 @@ T3:	cout << "Type in the Server working port number here(if you type 'default', 
 
 
 
+
 //Gupta Random Insert
 /*
 string path = "./best/best13.txt";
@@ -7743,5 +7744,29 @@ int main() {
 	cout << "The total FC of " << n << "-location mem: " << FC_N_T << endl;
 	cout << "The total FC of " << m << "-location mem: " << FC_M_T << endl;
 	return 0;
+}
+*/
+
+
+//读取文件，统计相同字符串的出现频率
+/*
+int main() {
+	
+	ifstream input("input.txt");	
+	map<string, int> k;
+	string tmp;
+	while (getline(input,tmp , ',')) {
+		k[tmp]++;
+	}
+	int total=0;
+	for (auto i = k.begin(); i != k.end(); ++i) {
+		total += i->second;
+	}
+	cout << total << endl;
+	for (map<string, int>::iterator i = k.begin(); i != k.end();++i) {
+		
+		cout << i->first << ":" << (float)i->second/total << endl;
+	}
+
 }
 */
