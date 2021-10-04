@@ -7044,13 +7044,6 @@ T3:	cout << "Type in the Server working port number here(if you type 'default', 
 
 
 
-
-
-
-
-
-
-
 //Gupta Random Insert
 /*
 string path = "./best/best13.txt";
@@ -7770,3 +7763,103 @@ int main() {
 
 }
 */
+
+
+
+
+//creat data
+string path1 = "4.txt";//marchtest file name
+string path2 = "kkk32.txt";//subtype FC file name
+string path3 = "data_32.csv";//output file path name
+
+template <class T>
+inline string toString(const T &v) {
+	ostringstream os;
+	os << v;
+	return os.str();
+}
+
+int main() {
+	//ifstream file1(path1);
+	ifstream file2(path2);
+	ofstream file3(path3);
+
+	string tmp;	
+	string subtype = ",";		
+	int subtype_num = 0;
+	string each_line = 'M' + toString(subtype_num / 54)+',';
+	while (getline(file2, tmp)) {		
+		for (int it1 = 0; it1 < tmp.size();it1++) {			
+			if (tmp[it1] == '/') {	
+				subtype_num++;				
+				string b = "";
+				//deal with subtype name
+				if (subtype_num <= 54) {					
+					int index = 38;
+					while (index < tmp.size()) {
+						if (tmp[index] == 'i' && tmp[index + 1] == 's' && tmp[index + 2] == ' ')
+							break;
+						else
+							b.push_back(tmp[index]);
+						index++;
+					}					
+					b = b.substr(0, b.size() - 1);
+					subtype = subtype + b + ",,";
+
+					if (subtype_num == 54) {
+						cout << subtype << endl;
+						file3 << subtype << endl;
+					}
+				}
+				
+
+				//deal with data
+				if (subtype_num % 54 == 0 &&subtype_num>1) {
+					
+						stack<char> a0;
+						for (int i = it1 - 2; (tmp[i] != ' ' || tmp[i - 1] != 's'); i--) {
+							a0.push(tmp[i]);
+						}
+						while (!a0.empty()) {
+							each_line.push_back(a0.top());
+							a0.pop();
+						}
+						each_line.push_back(',');
+						for (int i = it1 + 2; tmp[i] != ' '; i++)
+							each_line.push_back(tmp[i]);				
+
+
+					cout << each_line << endl;
+					file3 << each_line << endl;
+					each_line = 'M'+toString(subtype_num/54)+',';
+				}	
+				if (subtype_num%54!=0) {
+					stack<char> a0;
+					for (int i = it1 - 2; (tmp[i] != ' ' || tmp[i - 1] != 's'); i--) {
+						a0.push(tmp[i]);
+					}
+					while (!a0.empty()) {
+						each_line.push_back(a0.top());
+						a0.pop();
+					}
+					each_line.push_back(',');
+					for (int i = it1 + 2; tmp[i] != ' '; i++)
+						each_line.push_back(tmp[i]);
+					each_line.push_back(',');
+				}				
+				
+				break;
+			}			
+		}
+		
+	}
+	
+	
+
+
+	//file1.close();
+	file2.close();
+	file3.close();
+	//system("rename data.txt data.csv");
+	return 0;
+}
