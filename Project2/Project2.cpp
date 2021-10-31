@@ -6257,8 +6257,8 @@ int main() {
 	}
 	outfile.close();
 }
-*/
 
+*/
 
 
 //Gupta Random Insert
@@ -7714,6 +7714,259 @@ int main() {
 
 
 
+//creat data
+/*
+string path1 = "2_4.txt";//marchtest file name
+string path2 = "2_4_detail.txt";//subtype FC file name
+string path3 = "data_2_4.csv";//output file path name
+
+template <class T>
+inline string toString(const T &v) {
+	ostringstream os;
+	os << v;
+	return os.str();
+}
+
+int main() {
+	//ifstream file1(path1);
+	ifstream file2(path2);
+	ofstream file3(path3);
+
+	string tmp;
+	string subtype = ",";
+	int subtype_num = 0;
+	string each_line = 'M' + toString(subtype_num / 54)+',';
+	while (getline(file2, tmp)) {
+		for (int it1 = 0; it1 < tmp.size();it1++) {
+			if (tmp[it1] == '/') {
+				subtype_num++;
+				string b = "";
+				//deal with subtype name
+				if (subtype_num <= 54) {
+					int index = 38;
+					while (index < tmp.size()) {
+						if (tmp[index] == 'i' && tmp[index + 1] == 's' && tmp[index + 2] == ' ')
+							break;
+						else
+							b.push_back(tmp[index]);
+						index++;
+					}
+					b = b.substr(0, b.size() - 1);
+					subtype = subtype + b + ",,";
+
+					if (subtype_num == 54) {
+						cout << subtype << endl;
+						file3 << subtype << endl;
+					}
+				}
+
+
+				//deal with data
+				if (subtype_num % 54 == 0 &&subtype_num>1) {
+
+						stack<char> a0;
+						for (int i = it1 - 2; (tmp[i] != ' ' || tmp[i - 1] != 's'); i--) {
+							a0.push(tmp[i]);
+						}
+						while (!a0.empty()) {
+							each_line.push_back(a0.top());
+							a0.pop();
+						}
+						each_line.push_back(',');
+						for (int i = it1 + 2; tmp[i] != ' '; i++)
+							each_line.push_back(tmp[i]);
+
+
+					cout << each_line << endl;
+					file3 << each_line << endl;
+					each_line = 'M'+toString(subtype_num/54)+',';
+				}
+				if (subtype_num%54!=0) {
+					stack<char> a0;
+					for (int i = it1 - 2; (tmp[i] != ' ' || tmp[i - 1] != 's'); i--) {
+						a0.push(tmp[i]);
+					}
+					while (!a0.empty()) {
+						each_line.push_back(a0.top());
+						a0.pop();
+					}
+					each_line.push_back(',');
+					for (int i = it1 + 2; tmp[i] != ' '; i++)
+						each_line.push_back(tmp[i]);
+					each_line.push_back(',');
+				}
+
+				break;
+			}
+		}
+
+	}
+
+
+
+
+	//file1.close();
+	file2.close();
+	file3.close();
+	//system("rename data.txt data.csv");
+	return 0;
+}
+*/
+
+
+
+//find aggrassor and victim
+#define mem_size 4 
+string path1 = "2_4.txt";//marchtest file name
+string path2 = "temp.txt";//subtype FC file name
+string path3 = "agg_vic.csv";//output file path name
+string path4 = "fault_list_single.csv"; //fault list file
+
+template <class T>
+inline string toString(const T &v) {
+	ostringstream os;
+	os << v;
+	return os.str();
+}
+
+
+string convert(int i, int j) {//i which fault type, j which fault 
+	ifstream file4(path4);
+	int row = i * mem_size*(mem_size - 1) + j;
+	static string agg_vic = {}, tmp;
+	agg_vic = "(";
+	int line_num = 0;
+	while (1) {
+		tmp = {};
+		getline(file4, tmp);
+		if (row == line_num)
+			break;
+		line_num++;
+	}
+
+	int col_2 = 2, col_3 = 3, col_5 = 5, col_6 = 6,col=0,slash=1;
+
+	for (int k = 0; k < tmp.length(); k++) {
+		if (tmp[k] == ',')
+			col++;
+		if (col == 2  && tmp[k] != ',') {
+			agg_vic += tmp[k];
+		}
+		if (col == 5 && slash == 1) {
+			agg_vic += '/';
+			slash--;
+		}
+		if (col ==5 && tmp[k] != ',') {
+			agg_vic += tmp[k];
+		}
+		if (col == 6)
+			break;
+	}
+	agg_vic += ")";
+	file4.close();
+	cout << agg_vic << endl;
+	return agg_vic;
+}
+
+struct each_MT {
+	string MT;
+	int arr[42][mem_size*(mem_size - 1)] = {};
+};
+
+int main() {
+	//ifstream file1(path1);
+	ifstream file2(path2);
+	ofstream file3(path3);
+	
+	string tmp; //use to store each line from detail file
+	string subtype = "MT,";//use to store all the subtype name, and print to the first line of output file
+	int subtype_num = 0; //count all possible subtype number
+
+	int element_num = -1;//record each circumistance's number
+	vector<each_MT> arr; //use to store each_MT's detail
+	each_MT MT;
+	while (getline(file2, tmp)) {
+		for (int it1 = 0; it1 < tmp.size(); it1++) {
+			if (tmp[it1] == '/') {
+				subtype_num++;
+				string b = "";
+				//deal with subtype name
+				if (subtype_num <= 42) {
+					int index = 38;
+					while (index < tmp.size()) {
+						if (tmp[index] == 'i' && tmp[index + 1] == 's' && tmp[index + 2] == ' ')
+							break;
+						else
+							b.push_back(tmp[index]);
+						index++;
+					}
+					b = b.substr(0, b.size() - 1);
+					subtype = subtype + b + ",";
+
+					if (subtype_num == 42) {
+						cout << subtype << endl;
+						file3 << subtype << endl;
+					}
+				}
+			}
+		}
+
+
+		//read detail file, init the arr vector
+		int vec, row, col;
+		if (tmp[0] == '-'&&tmp[1] == '-') {
+			element_num++;
+			//cout << tmp << "xxxxx" << element_num << endl;			
+			if (element_num % (42 * mem_size*(mem_size - 1)) == 0) {				
+				MT.MT = "M" + toString(element_num / (42 * mem_size*(mem_size - 1)));
+				arr.push_back(MT);
+			}
+		}
+		vec = element_num / (42 * mem_size*(mem_size - 1));
+		row = (element_num - vec * (42 * mem_size*(mem_size - 1))) / (mem_size * (mem_size - 1));
+		col = element_num - vec * (42 * mem_size*(mem_size - 1)) - row * (mem_size * (mem_size - 1));
+		
+		if (tmp[0] == 'E'&&tmp[1] == 'r'&&tmp[2] == 'r'&&tmp[3] == 'o'&&tmp[4] == 'r') {			
+			arr[vec].arr[row][col] = 1;
+			cout << "vec:" << vec<<'\t' ;
+			cout << "row:" << row<<'\t' ;
+			cout << "col:" << col << '\t' << endl;
+		}
+	}
+
+
+	for (int i = 0; i < arr.size(); i++) {
+		string line = {};
+		line = arr[i].MT + ',';
+		for (int j = 0; j < 42; j++) {
+			int sum = 0;
+			for (int k = 0; k < mem_size*(mem_size - 1); k++) {
+				sum += arr[i].arr[j][k];
+			}
+			if (sum != mem_size * (mem_size - 1) && sum != 0) {
+				for (int k = 0; k < mem_size*(mem_size - 1); k++) {
+					if(arr[i].arr[j][k]==1)
+						line += convert(j,k);
+				}				
+			}
+			else {
+				line += "NA";
+			}
+			if (j != 41)
+				line += ',';
+		}
+		file3 << line << endl;
+
+	}
+
+	file2.close();
+	file3.close();
+
+
+
+}
+
+
 
 
 //n cell FC -> m cell FC
@@ -7767,99 +8020,74 @@ int main() {
 
 
 
-//creat data
-string path1 = "4.txt";//marchtest file name
-string path2 = "kkk32.txt";//subtype FC file name
-string path3 = "data_32.csv";//output file path name
-
-template <class T>
-inline string toString(const T &v) {
-	ostringstream os;
-	os << v;
-	return os.str();
-}
-
-int main() {
-	//ifstream file1(path1);
-	ifstream file2(path2);
-	ofstream file3(path3);
-
-	string tmp;	
-	string subtype = ",";		
-	int subtype_num = 0;
-	string each_line = 'M' + toString(subtype_num / 54)+',';
-	while (getline(file2, tmp)) {		
-		for (int it1 = 0; it1 < tmp.size();it1++) {			
-			if (tmp[it1] == '/') {	
-				subtype_num++;				
-				string b = "";
-				//deal with subtype name
-				if (subtype_num <= 54) {					
-					int index = 38;
-					while (index < tmp.size()) {
-						if (tmp[index] == 'i' && tmp[index + 1] == 's' && tmp[index + 2] == ' ')
-							break;
-						else
-							b.push_back(tmp[index]);
-						index++;
-					}					
-					b = b.substr(0, b.size() - 1);
-					subtype = subtype + b + ",,";
-
-					if (subtype_num == 54) {
-						cout << subtype << endl;
-						file3 << subtype << endl;
-					}
-				}
-				
-
-				//deal with data
-				if (subtype_num % 54 == 0 &&subtype_num>1) {
-					
-						stack<char> a0;
-						for (int i = it1 - 2; (tmp[i] != ' ' || tmp[i - 1] != 's'); i--) {
-							a0.push(tmp[i]);
-						}
-						while (!a0.empty()) {
-							each_line.push_back(a0.top());
-							a0.pop();
-						}
-						each_line.push_back(',');
-						for (int i = it1 + 2; tmp[i] != ' '; i++)
-							each_line.push_back(tmp[i]);				
 
 
-					cout << each_line << endl;
-					file3 << each_line << endl;
-					each_line = 'M'+toString(subtype_num/54)+',';
-				}	
-				if (subtype_num%54!=0) {
-					stack<char> a0;
-					for (int i = it1 - 2; (tmp[i] != ' ' || tmp[i - 1] != 's'); i--) {
-						a0.push(tmp[i]);
-					}
-					while (!a0.empty()) {
-						each_line.push_back(a0.top());
-						a0.pop();
-					}
-					each_line.push_back(',');
-					for (int i = it1 + 2; tmp[i] != ' '; i++)
-						each_line.push_back(tmp[i]);
-					each_line.push_back(',');
-				}				
-				
+
+//∞Àª ∫ÛŒ Ã‚
+/*
+ofstream outfile("queen.txt");
+bool check(int(&queen)[8], int lev, int place) {
+	bool sign = true;
+	if (lev == 0)
+		return sign;
+	else {
+		for (int j = 0; j < lev; j++) {
+			if (queen[j] == place) {
+				sign = false;
 				break;
-			}			
+			}
+			
+			if ( (place-queen[j]==lev-j)||(queen[j] -place == lev -j) ) {
+				sign = false;
+				break;
+			}
+
 		}
-		
+		return sign;
 	}
 	
 	
+}
+void print_place(int(&queen)[8]) {
+	static int solutions = 1;
+	
+	outfile << "Solution " << solutions << ":";
+	for (int i = 0; i < 8;i++) {
+		outfile << " (" << queen[i] << "," << i << ")";
+		//outfile << queen[i];
+		if (i != 7)
+			outfile << ",";
+			//;
+		else
+			outfile << endl;
+	}
+	solutions++;
+}
+void place_queen(int (&queen)[8], int lev) {
+	if (lev == 7) {
+		for (int j = 0; j < 8; j++) {
+			if (check(queen, lev, j)) {
+				queen[lev] = j;
+				print_place(queen);
+			}
+		}
+	}
+	else {
+		for (int j = 0; j < 8; j++) {
+			if (check(queen, lev, j)) {
+				queen[lev] = j;
+				place_queen(queen, lev + 1);
+			}
+		}
+	}
+}
 
 
-	//file1.close();
-	file2.close();
-	file3.close();
-	//system("rename data.txt data.csv");
+int main() {
+	
+	int queen[8] = {};
+	place_queen(queen, 0);
+	
 	return 0;
 }
+*/
