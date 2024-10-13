@@ -7,19 +7,17 @@
 #include <string>
 #include <iomanip>
 #include <thread>
-#include <Windows.h>
-#include <conio.h> //ÅĞ¶Ï¼üÅÌÊäÈë
 #include <cstring>
 #include <cmath>
 #include <limits.h>
-#include <assert.h>//ÒıÈëassert()º¯Êı
+#include <assert.h>//å¼•å…¥assert()å‡½æ•°
 #include <math.h>
 //#include <ctime>
 
-//STL±ê×¼¿â
+//STLæ ‡å‡†åº“
 #include <iterator>
-#include <algorithm>//ÓÃÓÚÊ¹ÓÃSTLËã·¨¿â
-#include <functional>//ÓÃÓÚÊ¹ÓÃSTLµÄº¯Êı¶ÔÏó
+#include <algorithm>//ç”¨äºä½¿ç”¨STLç®—æ³•åº“
+#include <functional>//ç”¨äºä½¿ç”¨STLçš„å‡½æ•°å¯¹è±¡
 #include <deque>
 #include <list>
 #include <stack>
@@ -30,14 +28,14 @@
 #include <numeric>
 
 //#include "clock.h"
-#include "point.h"//PointÏîÄ¿·ÖÎÄ¼ş
-//#include "account.h"//employeeÊ¹ÓÃÎÄ¼ş   ĞÅÓÃ¿¨Ê¹ÓÃÎÄ¼ş
+#include "Point.h"//Pointé¡¹ç›®åˆ†æ–‡ä»¶
+//#include "account.h"//employeeä½¿ç”¨æ–‡ä»¶   ä¿¡ç”¨å¡ä½¿ç”¨æ–‡ä»¶
 
 
 
 using namespace std;
 
-//¼ÆËãbÖĞÈ¡aµÄ·½·¨Êı
+//è®¡ç®—bä¸­å–açš„æ–¹æ³•æ•°
 /*
 int common(int a, int b) {
 	if (a > b)
@@ -52,14 +50,14 @@ int main() {
 	int a, b;
 	cin >> a >> b;
 	cout << "C(" << a << "," << b << ")=" << common(a, b) << endl;
-	cout << "ÊÇ·ñ¼ÌĞø¼ÆËã£¿Y/N";
+	cout << "æ˜¯å¦ç»§ç»­è®¡ç®—?Y/N";
 	system("pause");
 	return 0;
-	}
+}
 */
 
 
-//´Ón¸öÊıÖĞÈ¡m¸öÊı£¬Êä³öËùÓĞÈ¡³öµÄ¿ÉÄÜ
+//ä»nä¸ªæ•°ä¸­å–mä¸ªæ•°ï¼Œè¾“å‡ºæ‰€æœ‰å–å‡ºçš„å¯èƒ½
 /*
 void select_core(vector<int> &a, vector<int> &b, int left, int m, int M) {
 	int N = a.size();
@@ -105,15 +103,16 @@ int main() {
 
 
 
-//ººÅµËşÒÆ¶¯ÅÌ×Ó
+
+//æ±‰è¯ºå¡”ç§»åŠ¨ç›˜å­
 /*
-//°ÑsrcÕë×îÉÏÃæµÄÒ»¸öÅÌ×ÓÒÆ¶¯µ½destÖ¸ÕëÉÏ
+//æŠŠsrcé’ˆæœ€ä¸Šé¢çš„ä¸€ä¸ªç›˜å­ç§»åŠ¨åˆ°destæŒ‡é’ˆä¸Š
 int i;
 void move(char src, char dest) {
 	cout << src << "-->" << dest << endl;
 	i++;
 }
-//°Ñn¸öÅÌ×Ó´ÓsrcÕëÒÆ¶¯µ½destÕë£¬ÒÔmediumÕë×÷ÎªÖĞ½é
+//æŠŠnä¸ªç›˜å­ä»srcé’ˆç§»åŠ¨åˆ°desté’ˆï¼Œä»¥mediumé’ˆä½œä¸ºä¸­ä»‹
 void hanoi(int n, char src, char medium, char dest) {
 	if (n == 1)
 		move(src, dest);
@@ -123,13 +122,13 @@ void hanoi(int n, char src, char medium, char dest) {
 		hanoi(n - 1, medium, src, dest);
 	}
 }
-//½«n ¸öÅÌ×Ó´ÓAÕëÒÆµ½CÕë¿ÉÒÔ·Ö½âÎªÈı¸ö²½Öè£º
+//å°†n ä¸ªç›˜å­ä»Aé’ˆç§»åˆ°Cé’ˆå¯ä»¥åˆ†è§£ä¸ºä¸‰ä¸ªæ­¥éª¤ï¼š
 
-//½«A ÉÏn - 1¸öÅÌ×ÓÒÆµ½ BÕëÉÏ£¨½èÖúCÕë£©£»
+//å°†A ä¸Šn - 1ä¸ªç›˜å­ç§»åˆ° Bé’ˆä¸Šï¼ˆå€ŸåŠ©Cé’ˆï¼‰ï¼›
 
-//°ÑAÕëÉÏÊ£ÏÂµÄÒ»¸öÅÌ×ÓÒÆµ½CÕëÉÏ£»
+//æŠŠAé’ˆä¸Šå‰©ä¸‹çš„ä¸€ä¸ªç›˜å­ç§»åˆ°Cé’ˆä¸Šï¼›
 
-//½«n - 1¸öÅÌ×Ó´ÓBÕëÒÆµ½CÕëÉÏ£¨½èÖúAÕë£©¡£
+//å°†n - 1ä¸ªç›˜å­ä»Bé’ˆç§»åˆ°Cé’ˆä¸Šï¼ˆå€ŸåŠ©Aé’ˆï¼‰ã€‚
 
 
 int main() {
@@ -146,7 +145,7 @@ int main() {
 
 
 
-//Ê¹ÓÃÖ¸Õë½»»»Á½¸öÊıÖµ
+//ä½¿ç”¨æŒ‡é’ˆäº¤æ¢ä¸¤ä¸ªæ•°å€¼
 /*
 void swap(int *a, int *b) {
 	int tmp;
@@ -164,7 +163,7 @@ int main() {
 
 
 
-//Ê¹ÓÃÒıÓÃ½»»»Á½¸öÊıÖµ
+//ä½¿ç”¨å¼•ç”¨äº¤æ¢ä¸¤ä¸ªæ•°å€¼
 /*
 void swap(int &a, int &b) {
 	int t = a;
@@ -173,24 +172,24 @@ void swap(int &a, int &b) {
 }
 void main() {
 	int x, y;
-	cout << "ÊäÈëÁ½¸öintĞÍÊıÖµ" << endl;
+	cout << "è¾“å…¥ä¸¤ä¸ªintå‹æ•°å€¼" << endl;
 	cin >> x >> y;
 	swap(x, y);
-	cout << "½»»»ºóµÄÊıÖµ" << x << " , " << y << endl;
+	cout << "äº¤æ¢åçš„æ•°å€¼" << x << " , " << y << endl;
 	system("pause");
 }
 */
 
 
 
-//º¯ÊıµÄÒıÓÃ·µ»ØÖµ
+//å‡½æ•°çš„å¼•ç”¨è¿”å›å€¼
 /*
 int & valplus(int &a);
 int main()
 {
 	int num1 = 10;
 	int num2;
-	num2 = valplus(num1);  //Ö±½Ó½«valplus¼ÆËãµÃµ½µÄÖµ´«¸ønum2£¬²»¾­¹ıÁÙÊ±¿Õ¼ä£¨ÒıÓÃ·µ»Ø£©
+	num2 = valplus(num1);  //ç›´æ¥å°†valplusè®¡ç®—å¾—åˆ°çš„å€¼ä¼ ç»™num2ï¼Œä¸ç»è¿‡ä¸´æ—¶ç©ºé—´ï¼ˆå¼•ç”¨è¿”å›ï¼‰
 	cout << num1 << " " << num2 << endl;
 	system("pause");
 	return 0;
@@ -204,7 +203,7 @@ int & valplus(int &a)
 
 
 
-//static_castÇ¿ÖÆÀàĞÍ×ª»»
+//static_castå¼ºåˆ¶ç±»å‹è½¬æ¢
 /*
 void main() {
 	int a, b;
@@ -218,7 +217,7 @@ void main() {
 
 
 
-//const_castÇ¿ÖÆÀàĞÍ×ª»»
+//const_castå¼ºåˆ¶ç±»å‹è½¬æ¢
 /*
 void main()
 {
@@ -235,7 +234,7 @@ void main()
 
 
 
-//´øÄ¬ÈÏ²ÎÊıÖµµÄº¯Êı£¨³¤·½ĞÎÌå»ı¼ÆËã£©
+//å¸¦é»˜è®¤å‚æ•°å€¼çš„å‡½æ•°ï¼ˆé•¿æ–¹å½¢ä½“ç§¯è®¡ç®—ï¼‰
 /*
 int getVolume(int length, int width = 2, int height = 3);
 
@@ -257,10 +256,10 @@ int getVolume(int length, int width, int height) {
 
 
 
-//ÄÚÁªº¯ÊıµÄ¼òµ¥ÌåÏÖ
+//å†…è”å‡½æ•°çš„ç®€å•ä½“ç°
 /*
 const double PI = 3.14159265358979;
-inline double calArea(double radius) {  //inlineÊÇÒ»¸ö½¨Òé£¬½«º¯Êı´úÂëÇ¶ÈëÖ÷³ÌĞò£¬µ±È»±àÒëÆ÷¿ÉÄÜ²ÉÄÉ»ò²»²ÉÄÉ
+inline double calArea(double radius) {  //inlineæ˜¯ä¸€ä¸ªå»ºè®®ï¼Œå°†å‡½æ•°ä»£ç åµŒå…¥ä¸»ç¨‹åºï¼Œå½“ç„¶ç¼–è¯‘å™¨å¯èƒ½é‡‡çº³æˆ–ä¸é‡‡çº³
 
 	return PI * radius * radius;
 
@@ -281,10 +280,10 @@ int main() {
 
 
 
-//constexprº¯Êı¾ÙÀı
+//constexprå‡½æ•°ä¸¾ä¾‹
 /*
 constexpr int get_size() { return 20; }
-constexpr int foo = get_size();  //ÕıÈ·£ºfooÊÇÒ»¸ö³£Á¿±í´ïÊ½
+constexpr int foo = get_size();  //æ­£ç¡®ï¼šfooæ˜¯ä¸€ä¸ªå¸¸é‡è¡¨è¾¾å¼
 void main()
 {
 	get_size();
@@ -295,7 +294,7 @@ void main()
 
 
 
-//namespaceÓ¦ÓÃ¾ÙÀı
+//namespaceåº”ç”¨ä¸¾ä¾‹
 /*
 namespace feng {
 	int a;
@@ -314,24 +313,24 @@ void main() {
 
 
 
-//»Øµ÷º¯ÊıÑ§Ï°1
+//å›è°ƒå‡½æ•°å­¦ä¹ 1
 /*
-int basketball()//º¯Êı1
+int basketball()//å‡½æ•°1
 {
-	printf("Ñ¡ÔñÀºÇò\n");
+	printf("é€‰æ‹©ç¯®çƒ\n");
 	return 0;
 }
 
-int football()//º¯Êı2
+int football()//å‡½æ•°2
 {
-	printf("Ñ¡Ôñ×ãÇò\n");
+	printf("é€‰æ‹©è¶³çƒ\n");
 	return 0;
 }
 
-void selectball(int (*ball)())//º¯Êı3
+void selectball(int (*ball)())//å‡½æ•°3
 //void selectball(int ball())
 {
-	printf("Ñ¡ÔñÊ²Ã´Çò£¿\n");
+	printf("é€‰æ‹©ä»€ä¹ˆçƒï¼Ÿ\n");
 	ball();
 }
 
@@ -348,14 +347,14 @@ int main(void)
 
 
 
-//»Øµ÷º¯ÊıÑ§Ï°2
+//å›è°ƒå‡½æ•°å­¦ä¹ 2
 /*
 typedef int (callBack)(const void *buffer, size_t size, char *p_out);
 
 void callFunc(callBack *consume_bytes, char *p_out) {
 	printf("callFunc\n");
 	const void *buffer = NULL;
-	consume_bytes(buffer, 0, p_out); //´«ÈëÖµ¿ÉÒÔËæ±ãÌî
+	consume_bytes(buffer, 0, p_out); //ä¼ å…¥å€¼å¯ä»¥éšä¾¿å¡«
 }
 
 int callBackFunc(const void *buffer, size_t size, char *p_out) {
@@ -376,7 +375,8 @@ int main(int argc, char *args[]) {
 
 
 
-//»Øµ÷Ñ§Ï°3
+
+//å›è°ƒå­¦ä¹ 3
 /*
 class A
 {
@@ -396,7 +396,7 @@ public:
 	}
 };
 
-typedef void (A::*A_mFun)();//¶¨ÒåÀàµÄ³ÉÔ±º¯ÊıÖ¸Õë
+typedef void (A::*A_mFun)();//å®šä¹‰ç±»çš„æˆå‘˜å‡½æ•°æŒ‡é’ˆ
 
 typedef void (B::*B_mFun)();
 
@@ -405,17 +405,17 @@ int main()
 
 	A a;
 	B b;
-	A_mFun pAFun = &(A::Test); //Note:Test³ÉÔ±º¯Êı±ØĞëÎªpublic,·ñÔò»á±¨´í
-	B_mFun pBFun = &(B::Test); //Note:Test³ÉÔ±º¯Êı±ØĞëÎªpublic,·ñÔò»á±¨´í
-	(a.*pAFun)();        //Êä³öA::Test()
-	(b.*pBFun)();        //Êä³öB::Test()
-	(b.*pAFun)();        //Êä³öA::Test()
+	A_mFun pAFun = &(A::Test)(); //Note:Testæˆå‘˜å‡½æ•°å¿…é¡»ä¸ºpublic,å¦åˆ™ä¼šæŠ¥é”™
+	B_mFun pBFun = &(B::Test)(); //Note:Testæˆå‘˜å‡½æ•°å¿…é¡»ä¸ºpublic,å¦åˆ™ä¼šæŠ¥é”™
+	(a.*pAFun)();        //è¾“å‡ºA::Test()
+	(b.*pBFun)();        //è¾“å‡ºB::Test()
+	(b.*pAFun)();        //è¾“å‡ºA::Test()
 	system("Pause");
 	A* pA = &a;
 	B* pB = &b;
-	(pA->*pAFun)();       //Êä³öA::Test()
-	(pB->*pBFun)();       //Êä³öB::Test()
-	(pB->*pAFun)();       //Êä³öA::Test(),B*±äÁ¿¿É¸³Öµ¸øA*±äÁ¿
+	(pA->*pAFun)();       //è¾“å‡ºA::Test()
+	(pB->*pBFun)();       //è¾“å‡ºB::Test()
+	(pB->*pAFun)();       //è¾“å‡ºA::Test(),B*å˜é‡å¯èµ‹å€¼ç»™A*å˜é‡
 
 	system("Pause");
 	return 0;
@@ -424,9 +424,9 @@ int main()
 
 
 
-//»Øµ÷Ñ§Ï°4
+//å›è°ƒå­¦ä¹ 4
 /*
-int compute(int a, int b, int(*func)(int, int)) {//»ñµÃº¯ÊıÊ×µØÖ·ºóÖ¸Ïò¶ÔÓ¦º¯Êı³ÌĞò¶Î£¬ÔËĞĞ¶ÔÓ¦º¯Êı
+int compute(int a, int b, int(*func)(int, int)) {//è·å¾—å‡½æ•°é¦–åœ°å€åæŒ‡å‘å¯¹åº”å‡½æ•°ç¨‹åºæ®µï¼Œè¿è¡Œå¯¹åº”å‡½æ•°
 	return func(a, b);
 }
 
@@ -444,9 +444,9 @@ int sum(int a, int b) {
 
 int main() {
 	int a=10, b=2, res;
-	//cout << "ÇëÊäÈëÕûÊıa:"; cin >> a;
-	//cout << "ÇëÊäÈëÕûÊıb:"; cin >> b;
-	res = compute(a, b, &maximum);//½«º¯ÊıµÄÊ×µØÖ·´«Èëcomputeº¯Êı
+	//cout << "è¯·è¾“å…¥æ•´æ•°a:"; cin >> a;
+	//cout << "è¯·è¾“å…¥æ•´æ•°b:"; cin >> b;
+	res = compute(a, b, &maximum);//å°†å‡½æ•°çš„é¦–åœ°å€ä¼ å…¥computeå‡½æ•°
 	cout << "Max of " << a << " and " << b << " is " << res << endl;
 	res = compute(a, b, minimun);
 	cout << "Min of " << a << " and " << b << " is " << res << endl;
@@ -462,7 +462,7 @@ int main() {
 */
 
 
-//¶àÏß³ÌÑ§Ï°1
+//å¤šçº¿ç¨‹å­¦ä¹ 1
 /*
 void thread1() {
 	for (int i = 0; i < 10; ++i)
@@ -481,7 +481,7 @@ void thread2() {
 }
 
 int main() {
-	thread th1(thread1);   //ÊµÀı»¯Ò»¸öÏß³Ì¶ÔÏóth1£¬¸ÃÏß³Ì¿ªÊ¼Ö´ĞĞ
+	thread th1(thread1);   //å®ä¾‹åŒ–ä¸€ä¸ªçº¿ç¨‹å¯¹è±¡th1ï¼Œè¯¥çº¿ç¨‹å¼€å§‹æ‰§è¡Œ
 	thread th2(thread2);
 
 
@@ -498,7 +498,7 @@ int main() {
 
 
 
-//¶àÏß³ÌÑ§Ï°2  ĞèÒª×¢ÒâµÄÊÇ£¬ÔÚLinuxÖĞ²»Ö§³Öº¯Êısystem("Pause"),ĞèÌí¼Óunistd.hÍ·ÎÄ¼şÊ¹ÓÃpause()´úÌæ¡£
+//å¤šçº¿ç¨‹å­¦ä¹ 2  éœ€è¦æ³¨æ„çš„æ˜¯ï¼Œåœ¨Linuxä¸­ä¸æ”¯æŒå‡½æ•°system("Pause"),éœ€æ·»åŠ unistd.hå¤´æ–‡ä»¶ä½¿ç”¨pause()ä»£æ›¿ã€‚
 /*
 void a(int i) {
 
@@ -522,16 +522,16 @@ void main() {
 
 
 
-//¼üÈëĞÅÏ¢¿ØÖÆ
+//é”®å…¥ä¿¡æ¯æ§åˆ¶
 /*
 int main()
 {
 	int ch;
 	while (1) {
-		if (_kbhit()) {//Èç¹ûÓĞ°´¼ü°´ÏÂ£¬Ôò_kbhit()º¯Êı·µ»ØÕæ
-			ch = _getch();//Ê¹ÓÃ_getch()º¯Êı»ñÈ¡°´ÏÂµÄ¼üÖµ
+		if (_kbhit()) {//å¦‚æœæœ‰æŒ‰é”®æŒ‰ä¸‹ï¼Œåˆ™_kbhit()å‡½æ•°è¿”å›çœŸ
+			ch = _getch();//ä½¿ç”¨_getch()å‡½æ•°è·å–æŒ‰ä¸‹çš„é”®å€¼
 			cout << ch;
-			if (ch == 27) { break; }//µ±°´ÏÂESCÊ±Ñ­»·£¬ESC¼üµÄ¼üÖµÊ±27.
+			if (ch == 27) { break; }//å½“æŒ‰ä¸‹ESCæ—¶å¾ªç¯ï¼ŒESCé”®çš„é”®å€¼æ—¶27.
 		}
 	}
 	system("Pause");
@@ -541,23 +541,36 @@ int main()
 
 
 
-//ÄÚ´æ¸´ÖÆ
+//å†…å­˜å¤åˆ¶
 /*
-int *neicun() {
-	static int a[10] = { 0,1,2,3,4 };
+void neicun(int *a) {
+	
 	memcpy(a + 5, a, 5 * sizeof(int));
-	return a;
+	
 }
 
-void main() {
-	cout << *neicun() << endl;
-	system("Pause");
+int test() {
+	if (1==2) {
+		return 1;
+	} else {
+		return 2;
+	}
+}
+
+int main() {
+	int a[10] = {0,1,2,3,4};
+	neicun(a);
+	for (int i =0;i<10;i++){
+		cout << a[i] << " ";
+	}
+	
+	return 0;
 }
 */
 
 
 
-//¨H×ª¡æ
+//â„‰è½¬â„ƒ
 /*
 float Convert(float F) {
 	float C;
@@ -576,7 +589,7 @@ int main() {
 
 
 
-//ÊäÈë·Ê²»À­¼¸¼¶Êı¼ÆËãÆäÊıÖµ
+//è¾“å…¥è‚¥ä¸æ‹‰å‡ çº§æ•°è®¡ç®—å…¶æ•°å€¼
 /*
 int fib(int n) {
 	int a;
@@ -600,16 +613,16 @@ int main() {
 
 
 
-//Êı×éµÄ·½·¨Çó·Ê²»À­¼¸Ç°20Ïî
+//æ•°ç»„çš„æ–¹æ³•æ±‚è‚¥ä¸æ‹‰å‡ å‰20é¡¹
 /*
 int main() {
-	int f[20] = { 1,1 }; //³õÊ¼»¯µÚ0¡¢1¸öÊı
-	for (int i = 2; i < 20; i++) //ÇóµÚ2¡«19¸öÊı
+	int f[20] = { 1,1 }; //åˆå§‹åŒ–ç¬¬0ã€1ä¸ªæ•°
+	for (int i = 2; i < 20; i++) //æ±‚ç¬¬2ï½19ä¸ªæ•°
 		f[i] = f[i - 2] + f[i - 1];
-	for (int i = 0; i < 20; i++) { //Êä³ö£¬Ã¿ĞĞ5¸öÊı
+	for (int i = 0; i < 20; i++) { //è¾“å‡ºï¼Œæ¯è¡Œ5ä¸ªæ•°
 		if (i % 5 == 0)
 			cout << endl;
-		cout.width(12); //ÉèÖÃÊä³ö¿í¶ÈÎª12
+		cout.width(12); //è®¾ç½®è¾“å‡ºå®½åº¦ä¸º12
 		cout << f[i];
 	}
 	return 0;
@@ -617,7 +630,7 @@ int main() {
 */
 
 
-//ÊäÈëÒ»¸öÊıÅĞ¶ÏÆäÊÇ·ñÎª³óÊı
+//è¾“å…¥ä¸€ä¸ªæ•°åˆ¤æ–­å…¶æ˜¯å¦ä¸ºä¸‘æ•°
 /*
 bool uglynumber(int a) {
 	int b,c,d;
@@ -676,7 +689,7 @@ void main() {
 
 
 
-//µİ¹é·¨ÊµÏÖ»ØÎÄ×Ö·û´®¼ì²é
+//é€’å½’æ³•å®ç°å›æ–‡å­—ç¬¦ä¸²æ£€æŸ¥
 /*
 bool Recursion(string str, int len, int left, int right) {
 	if (!len || len == 1)
@@ -688,7 +701,7 @@ bool Recursion(string str, int len, int left, int right) {
 
 void main() {
 	string a;
-	cout << "ÇëÊäÈëÒ»´®×Ö·û£º";
+	cout << "è¯·è¾“å…¥ä¸€ä¸²å­—ç¬¦ï¼š";
 	cout << endl;
 	cin >> a;
 	int b = a.length();
@@ -699,7 +712,7 @@ void main() {
 
 
 
-//n½×Â¥Ìİ£¬Ò»´ÎÖ»ÄÜ×ßÒ»½×»òÁ½½×£¬×ß·¨Êı
+//né˜¶æ¥¼æ¢¯ï¼Œä¸€æ¬¡åªèƒ½èµ°ä¸€é˜¶æˆ–ä¸¤é˜¶ï¼Œèµ°æ³•æ•°
 /*
 long stairs(int a) {
 	static int i = 0;
@@ -711,19 +724,77 @@ long stairs(int a) {
 
 int main() {
 	int a;
-	cout << "Â¥Ìİ½×Êı£º";
+	cout << "æ¥¼æ¢¯é˜¶æ•°ï¼š";
 	cin >> a;
 	cout << stairs(a) << endl;
 	system("pause");
 }
 */
 
+// n stairs, only move 1 or 2 stairs each time, print the way of doing so and each time's move
+/*
+int sum(vector<int> &steps) {
+	int j=0;
+	for(auto i:steps){
+		j+=i;
+	}
+	return j;
+}
+
+bool check(int a, vector<int> &steps) {
+	if(a == sum(steps)){
+		return true;
+	} else {
+		return false;
+	}
+}
 
 
-//ÓĞnÕµµÆ£¬±àºÅÒÀ´ÎÎª1, 2, 3, ¡­, n£»³õÊ¼»¯Ê±£¬ËùÓĞµÆ¶¼ÊÇ¹Ø±Õ×´Ì¬£»
-//Ğ¡Ã÷µÚÒ»´Î½«±àºÅÎª1, 2, 3, ¡­, ¹²nÕµµÆ¶¼´ò¿ªÁË£»µÚ¶ş´Î½«±àºÅÎª2, 4, 6, ¡­, ¹²n / 2ÕµµÆ¶¼¹Ø±ÕÁË£»
-//µÚÈı´Î½«±àºÅÎª3, 6, 9, ¡­, ¹²n / 3ÕµµÆ½øĞĞ²Ù×÷£¬ÈôÊÇÖ®Ç°¹Ø±Õ×´Ì¬Ôò´ò¿ª£¬ÈôÊÇ´ò¿ª×´Ì¬£¬Ôò¹Ø±Õ£»
-//µÚËÄ´Î½«4, 8, 12, ¡­, ¹²n / 4ÕµµÆ½øĞĞ²Ù×÷¡£ÕâÑù²Ù×÷ÁËn´Î£¬ÎÊ×îºóÁÁÁË¼¸ÕµµÆ¡£
+int total=0;
+void stairs(int a, vector<int> &steps) {
+	
+	if(a==0) {		
+		total++;
+		for(auto i:steps){
+			cout<<i<<" ";
+		}
+		cout<<endl;
+		return;
+	}
+
+	if (a<0) {
+		return;
+	}
+	steps.push_back(1);
+	stairs(a-1,steps);
+	steps.pop_back();
+
+	steps.push_back(2);
+	stairs(a-2,steps);
+	steps.pop_back();
+
+	
+}
+
+
+int main() {
+	int a;
+	vector<int> b;
+	cout<<"stair number:";
+	cin>>a;
+	stairs(a,b);
+	cout<<"total ways: "<<total<<endl;
+	return 0;
+}
+*/
+
+
+
+
+//æœ‰nç›ç¯ï¼Œç¼–å·ä¾æ¬¡ä¸º1, 2, 3, â€¦, nï¼›åˆå§‹åŒ–æ—¶ï¼Œæ‰€æœ‰ç¯éƒ½æ˜¯å…³é—­çŠ¶æ€ï¼›
+//å°æ˜ç¬¬ä¸€æ¬¡å°†ç¼–å·ä¸º1, 2, 3, â€¦, å…±nç›ç¯éƒ½æ‰“å¼€äº†ï¼›ç¬¬äºŒæ¬¡å°†ç¼–å·ä¸º2, 4, 6, â€¦, å…±n / 2ç›ç¯éƒ½å…³é—­äº†ï¼›
+//ç¬¬ä¸‰æ¬¡å°†ç¼–å·ä¸º3, 6, 9, â€¦, å…±n / 3ç›ç¯è¿›è¡Œæ“ä½œï¼Œè‹¥æ˜¯ä¹‹å‰å…³é—­çŠ¶æ€åˆ™æ‰“å¼€ï¼Œè‹¥æ˜¯æ‰“å¼€çŠ¶æ€ï¼Œåˆ™å…³é—­ï¼›
+//ç¬¬å››æ¬¡å°†4, 8, 12, â€¦, å…±n / 4ç›ç¯è¿›è¡Œæ“ä½œã€‚è¿™æ ·æ“ä½œäº†næ¬¡ï¼Œé—®æœ€åäº®äº†å‡ ç›ç¯ã€‚
 /*
 int numFactors(int number) {
 	int cnt = 0;
@@ -748,12 +819,12 @@ int Lights(int n) {
 int main() {
 	int T;
 	int n;
-	cout << "²âÊÔ×éÊı£º";
+	cout << "æµ‹è¯•ç»„æ•°ï¼š";
 	cin >> T;
 	for (int i = 1; i <= T; i++) {
-		cout << "test" << i << " " << "ÕµÊı£º";
+		cout << "test" << i << " " << "ç›æ•°ï¼š";
 		cin >> n;
-		cout << "Ê£ÓàÁÁµÆÊı£º" << Lights(n) << endl;
+		cout << "å‰©ä½™äº®ç¯æ•°ï¼š" << Lights(n) << endl;
 	}
 	system("pause");
 }
@@ -761,7 +832,7 @@ int main() {
 
 
 
-//³¬³¤Î»¼Ó·¨
+//è¶…é•¿ä½åŠ æ³•
 /*
 int main() {
 	string s1, s2, results = "";
@@ -796,7 +867,7 @@ int main() {
 
 
 
-//¼òµ¥ÖØÔØ¼°ÏµÍ³º¯ÊıµÄÊ¹ÓÃ
+//ç®€å•é‡è½½åŠç³»ç»Ÿå‡½æ•°çš„ä½¿ç”¨
 /*
 int max1(int x, int y) {
 	return x > y ? x : y;
@@ -829,7 +900,7 @@ int main() {
 
 
 
-//ÅĞ¶ÏÖ±½ÇÈı½ÇĞÎ
+//åˆ¤æ–­ç›´è§’ä¸‰è§’å½¢
 /*
 bool Tran(int a, int b, int c) {
 	int a1[3] = { a,b,c };
@@ -851,7 +922,7 @@ bool Tran(int a, int b, int c) {
 void main() {
 	int a, b, c;
 
-		cout << "ÊäÈëÈı¸öÕûÊı£º";
+		cout << "è¾“å…¥ä¸‰ä¸ªæ•´æ•°ï¼š";
 		cin >> a >> b >> c;
 		if (Tran(a, b, c))
 			cout << "True" << endl;
@@ -865,7 +936,7 @@ void main() {
 
 
 
-//¶¯Ì¬¹æ»®£¨Dynamic Programming£©
+//åŠ¨æ€è§„åˆ’ï¼ˆDynamic Programmingï¼‰
 /*
 const int N = 15;
 
@@ -875,24 +946,24 @@ int m[N][N];
 int x[N];
 int n = 6, c = 12;
 
-void FindWhat(int i, int j)//µİ¹é·¨Ñ°ÕÒ½âµÄ×é³É·½Ê½
+void FindWhat(int i, int j)//é€’å½’æ³•å¯»æ‰¾è§£çš„ç»„æˆæ–¹å¼
 {
 	if (i >= 0)
 	{
-		if (m[i][j] == m[i - 1][j])//ÏàµÈËµÃ÷Ã»×°
+		if (m[i][j] == m[i - 1][j])//ç›¸ç­‰è¯´æ˜æ²¡è£…
 		{
-			x[i] = 0;//È«¾Ö±äÁ¿£¬±ê¼ÇÎ´±»Ñ¡ÖĞ
+			x[i] = 0;//å…¨å±€å˜é‡ï¼Œæ ‡è®°æœªè¢«é€‰ä¸­
 			FindWhat(i - 1, j);
 		}
 		else if (j - w[i] >= 0 && m[i][j] == m[i - 1][j - w[i]] + v[i])
 		{
-			x[i] = 1;//±ê¼ÇÒÑ±»Ñ¡ÖĞ
-			FindWhat(i - 1, j - w[i]);//»Øµ½×°°üÖ®Ç°µÄÎ»ÖÃ
+			x[i] = 1;//æ ‡è®°å·²è¢«é€‰ä¸­
+			FindWhat(i - 1, j - w[i]);//å›åˆ°è£…åŒ…ä¹‹å‰çš„ä½ç½®
 		}
 	}
 }
 
- void traceback()//·Çµİ¹é·¨Ñ°ÕÒ½âµÄ×é³É·½Ê½
+ void traceback()//éé€’å½’æ³•å¯»æ‰¾è§£çš„ç»„æˆæ–¹å¼
 {
 	for(int i=n;i>1;i--)
 	{
@@ -923,7 +994,7 @@ int main()
 		}
 	}
 
-		 for(int i=1;i<=n;i++)//´òÓ¡×´Ì¬¾ØÕó
+		 for(int i=1;i<=n;i++)//æ‰“å°çŠ¶æ€çŸ©é˜µ
 		{
 			 for(int j=1;j<=c;j++)
 			{
@@ -931,11 +1002,11 @@ int main()
 			}
 			 cout<<endl;
 		}
-		cout<<m[6][12];//´òÓ¡×îÓÅÖµ
+		cout<<m[6][12];//æ‰“å°æœ€ä¼˜å€¼
 
 
-	FindWhat(6, 12);//µ÷ÓÃµİ¹é·¨ÇóÂ·¾¶
-	//traceback();//µ÷ÓÃ·Çµİ¹é·¨ÇóÂ·¾¶
+	FindWhat(6, 12);//è°ƒç”¨é€’å½’æ³•æ±‚è·¯å¾„
+	//traceback();//è°ƒç”¨éé€’å½’æ³•æ±‚è·¯å¾„
 	for (int i = 1; i <= n; i++)
 		cout << x[i];
 	system("pause");
@@ -945,7 +1016,7 @@ int main()
 
 
 
-//ÃæÏò¶ÔÏó±à³Ì
+//é¢å‘å¯¹è±¡ç¼–ç¨‹
 
 
 
@@ -964,7 +1035,7 @@ int main() {
 
 
 
-//¸´ÖÆ¹¹Ôìº¯Êıµ÷ÓÃ¾ÙÀı
+//å¤åˆ¶æ„é€ å‡½æ•°è°ƒç”¨ä¸¾ä¾‹
 /*
 class Point{
 public:
@@ -1016,9 +1087,9 @@ int main() {
 
 
 
-//×éºÏÀà¼°¿½±´¹¹Ôìº¯Êı
+//ç»„åˆç±»åŠæ‹·è´æ„é€ å‡½æ•°
 /*
-class Point { //PointÀà¶¨Òå
+class Point { //Pointç±»å®šä¹‰
 public:
 	Point(int xx = 0, int yy = 0) :x(xx),y(yy){
 
@@ -1030,7 +1101,7 @@ private:
 	int x, y;
 };
 
-Point::Point(Point &p) { //¸´ÖÆ¹¹Ôìº¯ÊıµÄÊµÏÖ
+Point::Point(Point &p) { //å¤åˆ¶æ„é€ å‡½æ•°çš„å®ç°
 	x = p.x;
 	y = p.y;
 	cout << "Calling the copy constructor of Point" << endl;
@@ -1053,7 +1124,7 @@ Line::Line(Point xp1, Point xp2) : p1(xp1), p2(xp2) {//Constructor of composite 
 	len = sqrt(x * x + y * y);
 }
 
-Line::Line(Line &l) : p1(l.p1), p2(l.p2) {//×éºÏÀàµÄ¸´ÖÆ¹¹Ôìº¯Êı
+Line::Line(Line &l) : p1(l.p1), p2(l.p2) {//ç»„åˆç±»çš„å¤åˆ¶æ„é€ å‡½æ•°
 	cout << "Calling the copy constructor of Line" << endl;
 	len = l.len;
 }
@@ -1073,7 +1144,7 @@ int main() {
 
 
 
-//Ç°ÏòÒıÓÃÉùÃ÷1£¬ÕıÈ·
+//å‰å‘å¼•ç”¨å£°æ˜1ï¼Œæ­£ç¡®
 /*
 class B;
 class A {
@@ -1097,7 +1168,7 @@ void B::g(class A){
 
 
 
-//Ç°ÏòÒıÓÃÉùÃ÷2£¬´íÎó1
+//å‰å‘å¼•ç”¨å£°æ˜2ï¼Œé”™è¯¯1
 /*
 class B;
 
@@ -1114,11 +1185,11 @@ public:
 
 
 
-//Ç°ÏòÒıÓÃÉùÃ÷3£¬´íÎó2
+//å‰å‘å¼•ç”¨å£°æ˜3ï¼Œé”™è¯¯2
 /*
 class Fred;
 class Barney {
-	Fred x; //´íÎó¡£ÀàFredµÄÉùÃ÷ÉĞ²»ÍêÉÆ£¬ÎŞÀàµÄÍêÕû¶¨ÒåÊÇ¼û²»µ½Ï¸½ÚµÄ£¬±àÒëÆ÷ÎŞ·¨ÖªµÀÒª¸øFred¶àÉÙ×Ö½ÚµÄ¿Õ¼ä
+	Fred x; //é”™è¯¯ã€‚ç±»Fredçš„å£°æ˜å°šä¸å®Œå–„ï¼Œæ— ç±»çš„å®Œæ•´å®šä¹‰æ˜¯è§ä¸åˆ°ç»†èŠ‚çš„ï¼Œç¼–è¯‘å™¨æ— æ³•çŸ¥é“è¦ç»™Fredå¤šå°‘å­—èŠ‚çš„ç©ºé—´
 };
 
 class Fred {
@@ -1128,11 +1199,11 @@ class Fred {
 
 
 
-//Ç°ÏòÒıÓÃÉùÃ÷4£¬ÕıÈ·
+//å‰å‘å¼•ç”¨å£°æ˜4ï¼Œæ­£ç¡®
 /*
 class Fred;
 class Barney {
-	Fred *x;//¹¹½¨Ö¸ÏòFredµÄÖ¸Õë£¬ÔÚ¹¹Ôì¶ÔÏóµÄÊ±ºòÓÃnewÔËËã·ÖÅä¶¯Ì¬ÄÚ´æ¿Õ¼ä£¬·ÖÅäÒ»¸öBarney¶ÔÏó£¬½«ÆäÊ×µØÖ·¸³¸øxÕâ¸öÖ¸Õë
+	Fred *x;//æ„å»ºæŒ‡å‘Fredçš„æŒ‡é’ˆï¼Œåœ¨æ„é€ å¯¹è±¡çš„æ—¶å€™ç”¨newè¿ç®—åˆ†é…åŠ¨æ€å†…å­˜ç©ºé—´ï¼Œåˆ†é…ä¸€ä¸ªBarneyå¯¹è±¡ï¼Œå°†å…¶é¦–åœ°å€èµ‹ç»™xè¿™ä¸ªæŒ‡é’ˆ
 };
 
 class Fred {
@@ -1142,13 +1213,13 @@ class Fred {
 
 
 
-//½á¹¹ÌåÊµÀı
+//ç»“æ„ä½“å®ä¾‹
 /*
-struct Student {	//Ñ§ÉúĞÅÏ¢½á¹¹Ìå
-	int num;		//Ñ§ºÅ
-	string name;	//ĞÕÃû£¬×Ö·û´®¶ÔÏó£¬½«ÔÚµÚ6ÕÂÏêÏ¸½éÉÜ
-	char sex;		//ĞÔ±ğ
-	int age;		//ÄêÁä
+struct Student {	//å­¦ç”Ÿä¿¡æ¯ç»“æ„ä½“
+	int num;		//å­¦å·
+	string name;	//å§“åï¼Œå­—ç¬¦ä¸²å¯¹è±¡ï¼Œå°†åœ¨ç¬¬6ç« è¯¦ç»†ä»‹ç»
+	char sex;		//æ€§åˆ«
+	int age;		//å¹´é¾„
 };
 
 int main() {
@@ -1164,19 +1235,19 @@ int main() {
 
 
 
-//ÁªºÏÌå¾ÙÀı1
+//è”åˆä½“ä¸¾ä¾‹1
 /*
 class ExamInfo {
 private:
-	string name;	//¿Î³ÌÃû³Æ
-	enum { GRADE, PASS, PERCENTAGE } mode;//¼Æ·Ö·½Ê½
+	string name;	//è¯¾ç¨‹åç§°
+	enum { GRADE, PASS, PERCENTAGE } mode;//è®¡åˆ†æ–¹å¼
 	union {
-		char grade;	//µÈ¼¶ÖÆµÄ³É¼¨
-		bool pass;	//Ö»¼ÇÊÇ·ñÍ¨¹ı¿Î³ÌµÄ³É¼¨
-		int percent;	//°Ù·ÖÖÆµÄ³É¼¨
+		char grade;	//ç­‰çº§åˆ¶çš„æˆç»©
+		bool pass;	//åªè®°æ˜¯å¦é€šè¿‡è¯¾ç¨‹çš„æˆç»©
+		int percent;	//ç™¾åˆ†åˆ¶çš„æˆç»©
 	};
 public:
-	//ÈıÖÖ¹¹Ôìº¯Êı£¬·Ö±ğÓÃµÈ¼¶¡¢ÊÇ·ñÍ¨¹ıºÍ°Ù·Ö³õÊ¼»¯
+	//ä¸‰ç§æ„é€ å‡½æ•°ï¼Œåˆ†åˆ«ç”¨ç­‰çº§ã€æ˜¯å¦é€šè¿‡å’Œç™¾åˆ†åˆå§‹åŒ–
 	ExamInfo(string name, char grade)
 		: name(name), mode(GRADE), grade(grade) { }
 	ExamInfo(string name, bool pass)
@@ -1215,7 +1286,7 @@ int main() {
 */
 
 
-//ÁªºÏÌå¾ÙÀı2
+//è”åˆä½“ä¸¾ä¾‹2
 /*
 union {
 	int i;
@@ -1227,6 +1298,8 @@ int main()
 	cout << "Hello world!" << endl;
 	a.i = 0x4142;
 	//a.x[1] = 1;
+	cout<<a.c<<endl;
+	cout<<a.i<<endl;
 	cout << a.x[0] << endl;
 	cout << a.x[1] << endl;
 	cout << sizeof(a) << endl;
@@ -1236,10 +1309,10 @@ int main()
 
 
 
-//Ã¶¾ÙÀàĞÍ¾ÙÀı1(ÎŞ·¨Í¨¹ı±àÒëÁ´½Ó£¬Ã¶¾ÙÀà±ÈÃ¶¾Ù¸ü¼ÓÑÏ¸ñ)
+//æšä¸¾ç±»å‹ä¸¾ä¾‹1(æ— æ³•é€šè¿‡ç¼–è¯‘é“¾æ¥ï¼Œæšä¸¾ç±»æ¯”æšä¸¾æ›´åŠ ä¸¥æ ¼)
 /*
 enum class Side { Right, Left };
-enum class Thing { Wrong, Right };  //²»³åÍ»
+enum class Thing { Wrong, Right };  //ä¸å†²çª
 enum class Category {General, Pistol, MachineGun, Cannon};
 int main()
 {
@@ -1248,7 +1321,7 @@ int main()
 	Category test1 = Category::General;
 	Category test2 = Category::General;
 	string out = (test1 == test2) ? "yes" : "no";
-	cout << out << endl; //±àÒë´íÎó£¬ÎŞ·¨Ö±½Ó±È½Ï²»Í¬Ã¶¾ÙÀà
+	cout << out << endl; //ç¼–è¯‘é”™è¯¯ï¼Œæ— æ³•ç›´æ¥æ¯”è¾ƒä¸åŒæšä¸¾ç±»
 	system("pause");
 	return 0;
 }
@@ -1256,23 +1329,23 @@ int main()
 
 
 
-//Ã¶¾ÙÀàĞÍ¾ÙÀı2(¿ÉÍ¨¹ı±àÒëÁ´½Ó)
+//æšä¸¾ç±»å‹ä¸¾ä¾‹2(å¯é€šè¿‡ç¼–è¯‘é“¾æ¥)
 /*
 enum  Side { Right1, Left };
-enum  Thing { Wrong, Right };  //²»³åÍ»
+enum  Thing { Wrong, Right };  //ä¸å†²çª
 int main()
 {
 	Side s = Side::Right1;
 	Thing w = Thing::Wrong;
-	cout << (s == w) << endl;  //±àÒë´íÎó£¬ÎŞ·¨Ö±½Ó±È½Ï²»Í¬Ã¶¾ÙÀà
-	system("pause");
+	cout << (s == w) << endl;  //ç¼–è¯‘é”™è¯¯ï¼Œæ— æ³•ç›´æ¥æ¯”è¾ƒä¸åŒæšä¸¾ç±»
 	return 0;
 }
 */
 
 
 
-//ÃæÏò¶ÔÏóÊÔÑé1
+
+//é¢å‘å¯¹è±¡è¯•éªŒ1
 /*
 enum CPU_Rank{P1=1,P2,P3,P4,P5,P6,P7};
 class CPU {
@@ -1430,18 +1503,18 @@ int main() {
 
 
 
-//ÃæÏò¶ÔÏóÊÔÑé2  Çóa,bµÄ×î´ó¹«ÒòÊı
+//é¢å‘å¯¹è±¡è¯•éªŒ2  æ±‚a,bçš„æœ€å¤§å…¬å› æ•°
 /*
 class Integer {
 private:
 	int _num;
 public:
-	//¹¹Ôìº¯Êı
+	//æ„é€ å‡½æ•°
 	Integer() {};
 	Integer(int num) {
 		_num = num;
 	}
-	//¼ÆËãµ±Ç°Integer ºÍ bÖ®¼äµÄ×î´ó¹«Ô¼Êı
+	//è®¡ç®—å½“å‰Integer å’Œ bä¹‹é—´çš„æœ€å¤§å…¬çº¦æ•°
 	int gcd(Integer b);
 };
 
@@ -1468,13 +1541,13 @@ int main() {
 
 
 
-//±êÊ¶·ûµÄ×÷ÓÃÓòºÍ¿É¼ûĞÔ
+//æ ‡è¯†ç¬¦çš„ä½œç”¨åŸŸå’Œå¯è§æ€§
 /*
-int i;// È«¾Ö±äÁ¿£¬ÎÄ¼ş×÷ÓÃÓò
+int i;// å…¨å±€å˜é‡ï¼Œæ–‡ä»¶ä½œç”¨åŸŸ
 int main() {
 	i = 5;
 	{
-		int i;//¾Ö²¿±äÁ¿£¬¾Ö²¿×÷ÓÃÓò
+		int i;//å±€éƒ¨å˜é‡ï¼Œå±€éƒ¨ä½œç”¨åŸŸ
 		i = 7;
 		cout << "i= " << i << endl;
 	}
@@ -1486,16 +1559,16 @@ int main() {
 
 
 
-//¶¯Ì¬Éú´æÆÚºÍ¾²Ì¬Éú´æÆÚ
+//åŠ¨æ€ç”Ÿå­˜æœŸå’Œé™æ€ç”Ÿå­˜æœŸ
 /*
-int i = 1; // i ÎªÈ«¾Ö±äÁ¿£¬¾ßÓĞ¾²Ì¬Éú´æÆÚ¡£
+int i = 1; // i ä¸ºå…¨å±€å˜é‡ï¼Œå…·æœ‰é™æ€ç”Ÿå­˜æœŸã€‚
 void other() {
-	static int a = 2;//Ö»ÓĞµÚÒ»´Î½øÈëÊ±±»³õÊ¼»¯£¬µÚ¶ş´Î½øÈëÊ±²»±»³õÊ¼»¯
+	static int a = 2;//åªæœ‰ç¬¬ä¸€æ¬¡è¿›å…¥æ—¶è¢«åˆå§‹åŒ–ï¼Œç¬¬äºŒæ¬¡è¿›å…¥æ—¶ä¸è¢«åˆå§‹åŒ–
 	static int b;
-	// a,bÎª¾²Ì¬¾Ö²¿±äÁ¿£¬¾ßÓĞÈ«¾ÖÊÙÃü£¬¾Ö²¿¿É¼û¡£
-	//Ö»µÚÒ»´Î½øÈëº¯ÊıÊ±±»³õÊ¼»¯¡£
-	int c = 10; // CÎª¾Ö²¿±äÁ¿£¬¾ßÓĞ¶¯Ì¬Éú´æÆÚ£¬
-	//Ã¿´Î½øÈëº¯ÊıÊ±¶¼³õÊ¼»¯¡£
+	// a,bä¸ºé™æ€å±€éƒ¨å˜é‡ï¼Œå…·æœ‰å…¨å±€å¯¿å‘½ï¼Œå±€éƒ¨å¯è§ã€‚
+	//åªç¬¬ä¸€æ¬¡è¿›å…¥å‡½æ•°æ—¶è¢«åˆå§‹åŒ–ã€‚
+	int c = 10; // Cä¸ºå±€éƒ¨å˜é‡ï¼Œå…·æœ‰åŠ¨æ€ç”Ÿå­˜æœŸï¼Œ
+	//æ¯æ¬¡è¿›å…¥å‡½æ•°æ—¶éƒ½åˆå§‹åŒ–ã€‚
 	a += 2; i += 32; c += 5;
 	cout << "---OTHER---\n";
 	cout << " i: " << i << " a: " << a << " b: " << b << " c: " << c << endl;
@@ -1503,8 +1576,8 @@ void other() {
 }
 
 int main() {
-	static int a;//¾²Ì¬¾Ö²¿±äÁ¿£¬ÓĞÈ«¾ÖÊÙÃü£¬¾Ö²¿¿É¼û¡£
-	int b = -10; // b, cÎª¾Ö²¿±äÁ¿£¬¾ßÓĞ¶¯Ì¬Éú´æÆÚ¡£
+	static int a;//é™æ€å±€éƒ¨å˜é‡ï¼Œæœ‰å…¨å±€å¯¿å‘½ï¼Œå±€éƒ¨å¯è§ã€‚
+	int b = -10; // b, cä¸ºå±€éƒ¨å˜é‡ï¼Œå…·æœ‰åŠ¨æ€ç”Ÿå­˜æœŸã€‚
 	int c = 0;
 	cout << "---MAIN---\n";
 	cout << " i: " << i << " a: " << a << " b: " << b << " c: " << c << endl;
@@ -1521,7 +1594,7 @@ int main() {
 
 
 
-//ÀàÖĞ¶¨Òå¾²Ì¬³ÉÔ±¼°ÓÑÔªº¯Êı
+//ç±»ä¸­å®šä¹‰é™æ€æˆå‘˜åŠå‹å…ƒå‡½æ•°
 /*
 class Point {
 public:
@@ -1537,26 +1610,26 @@ public:
 	~Point() { count--; }
 	int getX() { return x; }
 	int getY() { return y; }
-	friend float dis(Point &a, Point &b);//ÓÑÔªº¯Êı¶¨Òå£¨Èç¹û¶ÔÏóºÜ´ó´«ÒıÓÃĞ§ÂÊ¸ß£©
+	friend float dis(Point &a, Point &b);//å‹å…ƒå‡½æ•°å®šä¹‰ï¼ˆå¦‚æœå¯¹è±¡å¾ˆå¤§ä¼ å¼•ç”¨æ•ˆç‡é«˜ï¼‰
 
-	static void showCount() {           //Êä³ö¾²Ì¬Êı¾İ³ÉÔ±
+	static void showCount() {           //è¾“å‡ºé™æ€æ•°æ®æˆå‘˜
 		cout << "  Object count = " << count << endl;
 	}
 private:
 	int x, y;
-	static int count;       //¾²Ì¬Êı¾İ³ÉÔ±ÉùÃ÷£¬ÓÃÓÚ¼ÇÂ¼µãµÄ¸öÊı
+	static int count;       //é™æ€æ•°æ®æˆå‘˜å£°æ˜ï¼Œç”¨äºè®°å½•ç‚¹çš„ä¸ªæ•°
 };
 
-int Point::count = 0;//¾²Ì¬Êı¾İ³ÉÔ±¶¨ÒåºÍ³õÊ¼»¯£¬Ê¹ÓÃÀàÃûÏŞ¶¨
+int Point::count = 0;//é™æ€æ•°æ®æˆå‘˜å®šä¹‰å’Œåˆå§‹åŒ–ï¼Œä½¿ç”¨ç±»åé™å®š
 
-float dis(Point &a, Point &b) {//ÓÑÔªº¯ÊıµÄÊµÏÖ
+float dis(Point &a, Point &b) {//å‹å…ƒå‡½æ•°çš„å®ç°
 	return sqrt(pow((a.x - b.x), 2) + pow((a.y - b.y), 2));
 }
 int main() {
-	Point::showCount();//Í¨¹ıÀàÃûÀ´µ÷ÓÃ¾²Ì¬º¯Êı³ÉÔ±
+	Point::showCount();//é€šè¿‡ç±»åæ¥è°ƒç”¨é™æ€å‡½æ•°æˆå‘˜
 	Point a(4, 5);
 	cout << "Point A: " << a.getX() << ", " << a.getY();
-	a.showCount(); //Í¨¹ı¶ÔÏóÃûÀ´µ÷ÓÃ¾²Ì¬º¯Êı³ÉÔ±
+	a.showCount(); //é€šè¿‡å¯¹è±¡åæ¥è°ƒç”¨é™æ€å‡½æ•°æˆå‘˜
 	Point b(a);
 	cout << "Point B: " << b.getX() << ", " << b.getY();
 	b.showCount();
@@ -1571,7 +1644,7 @@ int main() {
 
 
 
-//ÓÑÔªÀà
+//å‹å…ƒç±»
 /*
 class A {
 	friend class B;
@@ -1601,13 +1674,13 @@ void B::display() {
 
 
 
-//³£³ÉÔ±º¯Êı1
+//å¸¸æˆå‘˜å‡½æ•°1
 /*
 class R {
 public:
 	R(int r1, int r2) : r1(r1), r2(r2) { }
 	void print();
-	void print() const;//³£³ÉÔ±º¯Êı£¬¿ÉÓÃÀ´Çø·ÖÖØÔØº¯Êı¡£´Ëº¯Êı²»¸Ä±ä¶ÔÏó×´Ì¬
+	void print() const;//å¸¸æˆå‘˜å‡½æ•°ï¼Œå¯ç”¨æ¥åŒºåˆ†é‡è½½å‡½æ•°ã€‚æ­¤å‡½æ•°ä¸æ”¹å˜å¯¹è±¡çŠ¶æ€
 private:
 	int r1, r2;
 };
@@ -1622,16 +1695,16 @@ void R::print() const {
 
 int main() {
 	R a(5, 4);
-	a.print(); //µ÷ÓÃvoid print()
+	a.print(); //è°ƒç”¨void print()
 	const R b(20, 52);
-	b.print(); //ÓÉÓÚbÎª³£¶ÔÏó£¬ËùÒÔÖ»ÄÜµ÷ÓÃvoid print() const
+	b.print(); //ç”±äºbä¸ºå¸¸å¯¹è±¡ï¼Œæ‰€ä»¥åªèƒ½è°ƒç”¨void print() const
 	return 0;
 }
 */
 
 
 
-//³£Êı¾İ³ÉÔ±1
+//å¸¸æ•°æ®æˆå‘˜1
 /*
 class A {
 public:
@@ -1639,7 +1712,7 @@ public:
 	void print();	
 private:
 	const int a;
-	static const int b;  //¾²Ì¬³£Êı¾İ³ÉÔ±
+	static const int b;  //é™æ€å¸¸æ•°æ®æˆå‘˜
 };
 
 const int A::b = 10;
@@ -1653,8 +1726,8 @@ void A::print() {
 }
 
 int main() {
-	//½¨Á¢¶ÔÏóaºÍb£¬²¢ÒÔ100ºÍ0×÷Îª³õÖµ£¬·Ö±ğµ÷ÓÃ¹¹Ôìº¯Êı£¬
-	//Í¨¹ı¹¹Ôìº¯ÊıµÄ³õÊ¼»¯ÁĞ±í¸ø¶ÔÏóµÄ³£Êı¾İ³ÉÔ±¸³³õÖµ
+	//å»ºç«‹å¯¹è±¡aå’Œbï¼Œå¹¶ä»¥100å’Œ0ä½œä¸ºåˆå€¼ï¼Œåˆ†åˆ«è°ƒç”¨æ„é€ å‡½æ•°ï¼Œ
+	//é€šè¿‡æ„é€ å‡½æ•°çš„åˆå§‹åŒ–åˆ—è¡¨ç»™å¯¹è±¡çš„å¸¸æ•°æ®æˆå‘˜èµ‹åˆå€¼
 	A a1(100), a2(0);
 	a1.print();
 	a2.print();
@@ -1664,14 +1737,14 @@ int main() {
 
 
 
-//³£Êı¾İ³ÉÔ±2
+//å¸¸æ•°æ®æˆå‘˜2
 /*
 class Point {
 public:
 	Point(int x = 0, int y = 0): x(x), y(y) {}
 	int getX() { return x; }
 	int getY() { return y; }
-	friend float dist(const Point &p1, const Point &p2);//¼ÓÉÏconstºóÖ»ÄÜ´Óp12ÖĞ»ñÈ¡Êı¾İµ«²»ÄÜĞŞ¸ÄÆäÖĞµÄÊı¾İ
+	friend float dist(const Point &p1, const Point &p2);//åŠ ä¸Šconstååªèƒ½ä»p12ä¸­è·å–æ•°æ®ä½†ä¸èƒ½ä¿®æ”¹å…¶ä¸­çš„æ•°æ®
 private:
 	int x, y;
 };
@@ -1786,7 +1859,7 @@ int main() {
 }*/
 
 
-//pointÏîÄ¿·ÖÎÄ¼ş
+//pointé¡¹ç›®åˆ†æ–‡ä»¶
 /*
 int main() {
 	Point a(4, 5);
@@ -1801,7 +1874,7 @@ int main() {
 
 
 
-//Óà¶î±¦ÊÔÑé
+//ä½™é¢å®è¯•éªŒ
 /*
 class Yuebao
 {
@@ -1844,34 +1917,34 @@ double Yuebao::getBalance() {
 
 int main()
 {
-	cout << "ÇëÊäÈëÒª´æ´¢µÄÌìÊı£º" << endl;
+	cout << "è¯·è¾“å…¥è¦å­˜å‚¨çš„å¤©æ•°ï¼š" << endl;
 	int n;
 	while (cin >> n)
 	{
 		double profitRate;
 		cin >> profitRate;
-		Yuebao::setProfitRate(profitRate);//Éè¶¨Óã¶î±¦µÄÀûÂÊ
-		Yuebao y(0); //ĞÂ½¨Óã¶î±¦ÕË»§£¬Óà¶î³õÊ¼»¯Îª0
-		int operation;//½ÓÊÜÊäÈëÅĞ¶ÏÊÇ´æ»¹ÊÇÈ¡
-		double amount;//½ÓÊÜÊäÈë´æÈ¡½ğ¶î
+		Yuebao::setProfitRate(profitRate);//è®¾å®šé±¼é¢å®çš„åˆ©ç‡
+		Yuebao y(0); //æ–°å»ºé±¼é¢å®è´¦æˆ·ï¼Œä½™é¢åˆå§‹åŒ–ä¸º0
+		int operation;//æ¥å—è¾“å…¥åˆ¤æ–­æ˜¯å­˜è¿˜æ˜¯å–
+		double amount;//æ¥å—è¾“å…¥å­˜å–é‡‘é¢
 		for (int i = 0; i < n; ++i)
 		{
 			cout << "Today is the " << i << "th day." << endl;
-			y.addProfit();//¼ÓÈëÇ°Ò»ÌìÓà¶î²úÉúµÄÀûÏ¢
+			y.addProfit();//åŠ å…¥å‰ä¸€å¤©ä½™é¢äº§ç”Ÿçš„åˆ©æ¯
 			cout << "Press 0 for Deposit, 1 for Withdraw: ";
 			cin >> operation;
 			if (operation == 0){
 				cout << "How much do you want to deposit?";
 				cin >> amount;
-				y.deposit(amount);//´æÈë½ğ¶î
+				y.deposit(amount);//å­˜å…¥é‡‘é¢
 			}
 			else {
 				cout << "How much do you want to withdraw?";
 				cin >> amount;
-				y.withdraw(amount);//È¡³ö½ğ¶î
+				y.withdraw(amount);//å–å‡ºé‡‘é¢
 			}
 			cout << "Congratulations! Now you own:";
-			cout << y.getBalance() << endl;//Êä³ö×îÖÕÕË»§Óà¶î
+			cout << y.getBalance() << endl;//è¾“å‡ºæœ€ç»ˆè´¦æˆ·ä½™é¢
 		}
 
 	}
@@ -1881,7 +1954,7 @@ int main()
 
 
 
-//ÊıÀÏÊóÊÔÑé
+//æ•°è€é¼ è¯•éªŒ
 /*
 class Mouse {
 public:
@@ -1921,7 +1994,7 @@ int main()
 
 
 
-//Êı×é½ÓÊÕÍ³¼ÆÕıÈ·ÂÊ
+//æ•°ç»„æ¥æ”¶ç»Ÿè®¡æ­£ç¡®ç‡
 /*
 int main() {
 	const char key[] = { 'a','c','b','a','d' };
@@ -1951,15 +2024,15 @@ int main() {
 
 
 
-//Êı×éÑ§Ï°1
+//æ•°ç»„å­¦ä¹ 1
 /*
 int main() {
 	int a[] = { 5,4,3,2,1,0 };
 	int *b = &a[1];
 	int **c = &b;
-	cout << *c << endl;
-	cout << a+1 << endl;
-	cout << b << endl;
+	cout << **c << endl;
+	cout << *(a+1) << endl;
+	cout << *b << endl;
 	
 	return 0;
 }
@@ -1968,7 +2041,8 @@ int main() {
 
 
 
-//Êı×éÑ§Ï°2   ¶ÔÖ¸ÕëµÄÈÏÊ¶
+
+//æ•°ç»„å­¦ä¹ 2   å¯¹æŒ‡é’ˆçš„è®¤è¯†
 /*
 void rowSum1(int *a, int nRow) {
 	for (int i = 0; i < nRow; i++) {
@@ -1996,14 +2070,14 @@ void rowSum3(int (&r)[3][4]) {
 int main() {
 	int table[3][4] = { {1, 2, 3, 4}, {2, 3, 4, 5}, {3, 4, 5, 6} };
 	
-	//Êä³öÊı×éÔªËØ
+	//è¾“å‡ºæ•°ç»„å…ƒç´ 
 	cout << "way1" << endl;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 4; j++)
 			cout << table[i][j] << "   ";
 			cout << endl;
 		}	
-	rowSum1(&table[0][0], 3);     //µ÷ÓÃ×Óº¯Êı£¬¼ÆËã¸÷ĞĞºÍ, ´«µİÖ¸Õë
+	rowSum1(&table[0][0], 3);     //è°ƒç”¨å­å‡½æ•°ï¼Œè®¡ç®—å„è¡Œå’Œ, ä¼ é€’æŒ‡é’ˆ
 	for (int i = 0; i < 3; i++) {
 		cout << "Sum1 of row " << i << " is " << table[i][0] << endl;
 		table[i][0] = i+1;
@@ -2016,7 +2090,7 @@ int main() {
 			cout << table[i][j] << "   ";
 		cout << endl;
 	}	
-	rowSum2(table, 3);			//´«µİÊı×é
+	rowSum2(table, 3);			//ä¼ é€’æ•°ç»„
 	for (int i = 0; i < 3; i++) {
 		cout << "Sum2 of row " << i << " is " << table[i][0] << endl;
 		table[i][0] = i + 1;
@@ -2030,7 +2104,7 @@ int main() {
 	}
 
 	int (&r)[3][4] =table;
-	rowSum3(r);					//ÒıÓÃÊı×é
+	rowSum3(r);					//å¼•ç”¨æ•°ç»„
 	for (int i = 0; i < 3; i++) {
 		cout << "Sum3 of row " << i << " is " << table[i][0] << endl;
 		table[i][0] = i + 1;
@@ -2039,28 +2113,28 @@ int main() {
 }
 */
 
-//½ÓÉÏ  ¶ÔÖ¸ÕëµÄÈÏÊ¶
+//æ¥ä¸Š  å¯¹æŒ‡é’ˆçš„è®¤è¯†
 /*
 void rowSum(int *a, int nRow) {
 	int *p = a;
 	for (int i = 0; i < nRow; i++) {
-		p = a + 4 * i;//½«Ö¸ÕëpÃ¿´Î¶¼Ö¸ÏòÊı×éaµÄÃ¿ĞĞµÚÒ»¸öÎ»ÖÃ
+		p = a + 4 * i;//å°†æŒ‡é’ˆpæ¯æ¬¡éƒ½æŒ‡å‘æ•°ç»„açš„æ¯è¡Œç¬¬ä¸€ä¸ªä½ç½®
 		for (int j = 1; j < 4; j++)
-			*p = *p + *(a + 4 * i + j);//ÀÛ¼Ó£¬Ã¿´ÎĞŞ¸ÄpÖ¸ÏòÎ»ÖÃµÄÊıÖµ
+			*p = *p + *(a + 4 * i + j);//ç´¯åŠ ï¼Œæ¯æ¬¡ä¿®æ”¹pæŒ‡å‘ä½ç½®çš„æ•°å€¼
 
 	}
 }
 
 int main() {
 	int table[3][4] = { {1, 2, 3, 4}, {2, 3, 4, 5}, {3, 4, 5, 6} };
-	//Êä³öÊı×éÔªËØ
+	//è¾“å‡ºæ•°ç»„å…ƒç´ 
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 4; j++)
 			cout << table[i][j] << "   ";
 		cout << endl;
 	}
-	rowSum(*table, 3);     //µ÷ÓÃ×Óº¯Êı£¬¼ÆËã¸÷ĞĞºÍ
-	 //Êä³ö¼ÆËã½á¹û
+	rowSum(*table, 3);     //è°ƒç”¨å­å‡½æ•°ï¼Œè®¡ç®—å„è¡Œå’Œ
+	 //è¾“å‡ºè®¡ç®—ç»“æœ
 	for (int i = 0; i < 3; i++)
 		cout << "Sum of row " << i << " is " << table[i][0] << endl;
 	return 0;
@@ -2069,7 +2143,7 @@ int main() {
 
 
 
-//¶ÔÏóÊı×é  Ê¹ÓÃÊ±Ğèuncommon point.h
+//å¯¹è±¡æ•°ç»„  ä½¿ç”¨æ—¶éœ€uncommon point.h
 /*
 int main() {
 	cout << "Entering main..." << endl;
@@ -2083,7 +2157,7 @@ int main() {
 
 
 
-//»ùÓÚ·¶Î§µÄforÑ­»·
+//åŸºäºèŒƒå›´çš„forå¾ªç¯
 /*
 int main()
 {
@@ -2113,15 +2187,15 @@ int main()
 
 
 
-//Ö¸Ïò³£Á¿µÄÖ¸Õë
+//æŒ‡å‘å¸¸é‡çš„æŒ‡é’ˆ
 /*
 int main() {
 	int a=0;
-	const int *p1 = &a; //p1ÊÇÖ¸Ïò³£Á¿µÄÖ¸Õë
+	const int *p1 = &a; //p1æ˜¯æŒ‡å‘å¸¸é‡çš„æŒ‡é’ˆ
 	int b;
 	int c=0;
-	p1 = &b; //ÕıÈ·£¬p1±¾ÉíµÄÖµ¿ÉÒÔ¸Ä±ä
-	p1 = &c; //±àÒëÊ±³ö´í£¬²»ÄÜÍ¨¹ıp1¸Ä±äËùÖ¸µÄ¶ÔÏó
+	p1 = &b; //æ­£ç¡®ï¼Œp1æœ¬èº«çš„å€¼å¯ä»¥æ”¹å˜
+	p1 = &c; //ç¼–è¯‘æ—¶å‡ºé”™ï¼Œä¸èƒ½é€šè¿‡p1æ”¹å˜æ‰€æŒ‡çš„å¯¹è±¡
 	cout << c << endl;
 	*(p1) = (a + 10);
 	cout << a << endl;
@@ -2131,19 +2205,19 @@ int main() {
 
 
 
-//³£Á¿Ö¸Õë
+//å¸¸é‡æŒ‡é’ˆ
 /*
 int main() {
 	int a;
 	int * const p2 = &a;
-	p2 = &b; //´íÎó£¬p2ÊÇÖ¸Õë³£Á¿£¬Öµ²»ÄÜ¸Ä±ä
+	p2 = &b; //é”™è¯¯ï¼Œp2æ˜¯æŒ‡é’ˆå¸¸é‡ï¼Œå€¼ä¸èƒ½æ”¹å˜
 }
 */
 
 
 
 
-//ÒøĞĞÕË»§
+//é“¶è¡Œè´¦æˆ·
 /*
 class SavingsAccount {
 private:
@@ -2195,7 +2269,7 @@ void SavingsAccount::show() {
 
 
 
-//¾ØÕó×ªÖÃ1
+//çŸ©é˜µè½¬ç½®1
 /*
 void swap(int &a, int &b) {
 	int temp = a;
@@ -2237,7 +2311,7 @@ int main() {
 
 
 
-//¾ØÕó×ªÖÃ2
+//çŸ©é˜µè½¬ç½®2
 /*
 void swap(int &a, int &b) {
 	int temp = a;
@@ -2251,17 +2325,17 @@ int main() {
 	for (int i = 0; i < 3; i++) {
 		a[i] = new int[3];
 	}
-	cout << "ÊäÈë9¸öÕûÊı×÷Îª¾ØÕóÔªËØÖµ" << endl;
+	cout << "è¾“å…¥9ä¸ªæ•´æ•°ä½œä¸ºçŸ©é˜µå…ƒç´ å€¼" << endl;
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 3; j++)
 			cin >> a[i][j];
-	cout << "³õÊ¼»¯¾ØÕó£º" << endl;
+	cout << "åˆå§‹åŒ–çŸ©é˜µï¼š" << endl;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++)
 			cout << a[i][j] << " ";
 		cout << endl;
 	}
-	cout << "×ªÖÃºó¾ØÕó£º" << endl;
+	cout << "è½¬ç½®åçŸ©é˜µï¼š" << endl;
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < i; j++)
 			swap(a[i][j], a[j][i]);
@@ -2276,9 +2350,9 @@ int main() {
 
 
 
-//Ö¸ÕëÊı×é
+//æŒ‡é’ˆæ•°ç»„
 /*
-int main() {//ÓÉÈı¸öÒ»Î¬Êı×é£¬Ê¹ÓÃÖ¸ÕëÊı×é£¬¹¹³ÉÒ»¸ö¶şÎ¬Êı×é
+int main() {//ç”±ä¸‰ä¸ªä¸€ç»´æ•°ç»„ï¼Œä½¿ç”¨æŒ‡é’ˆæ•°ç»„ï¼Œæ„æˆä¸€ä¸ªäºŒç»´æ•°ç»„
 	int a[] = { 1,2,3 };
 	int b[] = { 4,5,6 };
 	int c[] = { 7,8,9 };
@@ -2296,7 +2370,7 @@ int main() {//ÓÉÈı¸öÒ»Î¬Êı×é£¬Ê¹ÓÃÖ¸ÕëÊı×é£¬¹¹³ÉÒ»¸ö¶şÎ¬Êı×é
 
 
 
-//Ö¸Õë×÷Îªº¯Êı²ÎÊı(Êä³ö¸¡µãÊıµÄĞ¡Êı²¿·ÖºÍÕûÊı²¿·Ö£©
+//æŒ‡é’ˆä½œä¸ºå‡½æ•°å‚æ•°(è¾“å‡ºæµ®ç‚¹æ•°çš„å°æ•°éƒ¨åˆ†å’Œæ•´æ•°éƒ¨åˆ†ï¼‰
 /*
 void seperate(float a, float *f, int *i) {
 	*i = (int) a;
@@ -2306,17 +2380,17 @@ void seperate(float a, float *f, int *i) {
 int main() {
 	float a, f;
 	int i;
-	cout << "ÊäÈë¸¡µãÊıF:" << endl;
+	cout << "è¾“å…¥æµ®ç‚¹æ•°F:" << endl;
 	cin >> a;
 	seperate(a, &f, &i);
-	cout << "ÕûÊı²¿·ÖÎª£º" << i << " " << "Ğ¡Êı²¿·ÖÎª£º" << f << endl;
+	cout << "æ•´æ•°éƒ¨åˆ†ä¸ºï¼š" << i << " " << "å°æ•°éƒ¨åˆ†ä¸ºï¼š" << f << endl;
 	return 0;
 }
 */
 
 
 
-//Ö¸ÕëÀàĞÍµÄº¯Êı
+//æŒ‡é’ˆç±»å‹çš„å‡½æ•°
 /*
 int *newintvar() {
 	int *p = new int();
@@ -2334,7 +2408,7 @@ int main() {
 
 
 
-//¶ÔÏóÖ¸Õë
+//å¯¹è±¡æŒ‡é’ˆ
 /*
 int main() {
 	Point a(5, 10);
@@ -2346,7 +2420,7 @@ int main() {
 
 
 
-//¶¯Ì¬ÄÚ´æ·ÖÅä
+//åŠ¨æ€å†…å­˜åˆ†é…
 /*
 class Point {
 private:
@@ -2360,14 +2434,14 @@ public:
 };
 
 int main() {
-	//int a = 10; ÏÂÃæ´úÂë±¨´í£¬É¾³ıÒ»¸ö·Çnew·ÖÅäµÄÄÚ´æ¿Õ¼äÖ¸ÕëÊÇ²»ÔÊĞíµÄ
+	//int a = 10; ä¸‹é¢ä»£ç æŠ¥é”™ï¼Œåˆ é™¤ä¸€ä¸ªénewåˆ†é…çš„å†…å­˜ç©ºé—´æŒ‡é’ˆæ˜¯ä¸å…è®¸çš„
 	//int *p = &a;
 	//delete p;
 	//cout << a << endl;
 
 	cout << "Step one:" << endl;
-	Point *p = new Point;//µ÷ÓÃÄ¬ÈÏ¹¹Ôìº¯Êı
-	delete p;//É¾³ı¶ÔÏó£¬×Ô¶¯µ÷ÓÃÎö¹¹º¯Êı
+	Point *p = new Point;//è°ƒç”¨é»˜è®¤æ„é€ å‡½æ•°
+	delete p;//åˆ é™¤å¯¹è±¡ï¼Œè‡ªåŠ¨è°ƒç”¨ææ„å‡½æ•°
 	cout << "Step two:" << endl;
 	p = new Point(1, 2);
 	Point b(*p);
@@ -2382,21 +2456,21 @@ int main() {
 
 
 
-//ÉêÇëºÍÊÍ·Å¶¯Ì¬Êı×é1
+//ç”³è¯·å’Œé‡Šæ”¾åŠ¨æ€æ•°ç»„1
 /*
 int main() {
 	Point *p = new Point[2];
 	p[0].move(5, 10);
 	p[1].move(15, 20);
 	cout << "Deleting..." << endl;
-	delete[] p;//deleteĞèÒª¼ÓÉÏ[],·ñÔòÖ»ÊÍ·ÅÊı×éµÚÒ»¸öÔªËØ
+	delete[] p;//deleteéœ€è¦åŠ ä¸Š[],å¦åˆ™åªé‡Šæ”¾æ•°ç»„ç¬¬ä¸€ä¸ªå…ƒç´ 
 	return 0;
 }
 */
 
 
 
-//¶¯Ì¬´´½¨¶àÎ¬Êı×é
+//åŠ¨æ€åˆ›å»ºå¤šç»´æ•°ç»„
 /*
 int main() {
 	int(*cp)[9][8] = new int[7][9][8];
@@ -2405,7 +2479,7 @@ int main() {
 		for (int j = 0; j < 9; j++) {
 			for (int k = 0; k < 8; k++) {
 				cp[i][j][k] = (i * 100 + j * 10 + k);
-				//*(*(*(cp + i) + j) + k) = (i * 100 + j * 10 + k);//Á½ÖÖĞ´·¨¾ùÕıÈ·
+				//*(*(*(cp + i) + j) + k) = (i * 100 + j * 10 + k);//ä¸¤ç§å†™æ³•å‡æ­£ç¡®
 				cout << cp[i][j][k] << " ";
 			}
 			cout << endl;
@@ -2419,14 +2493,14 @@ int main() {
 
 
 
-//·â×°¶¯Ì¬Êı×éÀà
+//å°è£…åŠ¨æ€æ•°ç»„ç±»
 /*
 class ArrayOfPoints {
 public:
 	ArrayOfPoints(int size) :size(size) {
 		points = new Point[size];
 	}
-	ArrayOfPoints(const ArrayOfPoints &v) {//Éî²ã¸´ÖÆ
+	ArrayOfPoints(const ArrayOfPoints &v) {//æ·±å±‚å¤åˆ¶
 		size = v.size;
 		points = new Point[size];
 		for (int i = 0; i < size; i++) {
@@ -2437,8 +2511,8 @@ public:
 		cout << "Deleting..." << endl;
 		delete[] points;
 	}
-	Point& element(int index) {//ÎÒÃÇ·ÃÎÊÒ»¸öÊı×éÔªËØ¶¼Ï£ÍûËüÊÇ×óÖµ£¬ĞèÒªÕæÕıÈ¥·ÃÎÊpointÎªÁã¶ÔÓ¦Õâ¸öÔªËØµÄÄÚ²¿Êı¾İ£¬¶ø²»ÊÇÒ»¸ö¸±±¾
-		if(index >= 0 && index < size);//Èç¹û²»¼Ó&´ú±í·µ»ØÖµ£¬ÄÇÃ´Ö»·µ»ØÁËÒ»¸ö¸±±¾£¬¸±±¾ÎŞ·¨²Ù×÷Ô­À´Êı×éÖĞµÄÔªËØ
+	Point& element(int index) {//æˆ‘ä»¬è®¿é—®ä¸€ä¸ªæ•°ç»„å…ƒç´ éƒ½å¸Œæœ›å®ƒæ˜¯å·¦å€¼ï¼Œéœ€è¦çœŸæ­£å»è®¿é—®pointä¸ºé›¶å¯¹åº”è¿™ä¸ªå…ƒç´ çš„å†…éƒ¨æ•°æ®ï¼Œè€Œä¸æ˜¯ä¸€ä¸ªå‰¯æœ¬
+		if(index >= 0 && index < size);//å¦‚æœä¸åŠ &ä»£è¡¨è¿”å›å€¼ï¼Œé‚£ä¹ˆåªè¿”å›äº†ä¸€ä¸ªå‰¯æœ¬ï¼Œå‰¯æœ¬æ— æ³•æ“ä½œåŸæ¥æ•°ç»„ä¸­çš„å…ƒç´ 
 			return points[index];
 	}
 private:
@@ -2459,7 +2533,7 @@ private:
 
 
 
-//vectorÓ¦ÓÃ¾ÙÀı
+//vectoråº”ç”¨ä¸¾ä¾‹
 /*
 double average(const vector<double> &arr);
 int main() {
@@ -2486,20 +2560,20 @@ double average(vector<double> &arr) {
 
 
 
-//»ùÓÚ·¶Î§µÄforÑ­»·ÅäºÏauto¾ÙÀı
+//åŸºäºèŒƒå›´çš„forå¾ªç¯é…åˆautoä¸¾ä¾‹
 /*
 int main() {
 	vector<int> v = { 1,2,3 };
 	for (auto i = v.begin(); i != v.end(); ++i) {
 		cout << *i << endl;
 	}
-	for (auto e : v)//eÃ¿´Î»á´ÓvÖĞÈ¡³öÒ»¸ö¶ÔÏó£¬²»¹ÜvÖĞ¶ÔÏóÊÇÊ²Ã´ÀàĞÍ£¬Ö±½Ó±ä³ÉautoÀàĞÍ
+	for (auto e : v)//eæ¯æ¬¡ä¼šä»vä¸­å–å‡ºä¸€ä¸ªå¯¹è±¡ï¼Œä¸ç®¡vä¸­å¯¹è±¡æ˜¯ä»€ä¹ˆç±»å‹ï¼Œç›´æ¥å˜æˆautoç±»å‹
 		cout << e << endl;
 }
 */
 
 
-//¶ÔÏóµÄÇ³²ã¸´ÖÆ£¨ĞèÊ¹ÓÃ·â×°¶¯Ì¬Êı×éÀà£©
+//å¯¹è±¡çš„æµ…å±‚å¤åˆ¶ï¼ˆéœ€ä½¿ç”¨å°è£…åŠ¨æ€æ•°ç»„ç±»ï¼‰
 /*
 int main() {
 	int count;
@@ -2508,7 +2582,7 @@ int main() {
 	ArrayOfPoints pointsArray1(count);
 	pointsArray1.element(0).move(5, 10);
 	pointsArray1.element(1).move(15, 20);
-	ArrayOfPoints pointsArray2(pointsArray1);//´´½¨¸±±¾,2ÖĞÓ¦ºÍ1ÖĞÏàÍ¬
+	ArrayOfPoints pointsArray2(pointsArray1);//åˆ›å»ºå‰¯æœ¬,2ä¸­åº”å’Œ1ä¸­ç›¸åŒ
 	cout << "Copy of pointsArray1:" << endl;
 	cout << "Point_0 of array2:" << pointsArray2.element(0).getX() << ","
 		<< pointsArray2.element(0).getY() << endl;
@@ -2524,60 +2598,60 @@ int main() {
 	cout << "Point_1 of array2:" << pointsArray2.element(1).getX() << ","
 		<< pointsArray2.element(1).getY() << endl;
 
-	return 0;//Á½¸öÖ¸ÕëÍ¬Ê±Ö¸ÏòÍ¬Ò»¸öÄÚ´æµ¥Ôª£¬µÚÒ»¸öÎö¹¹·¢Éúºó¸ÃÄÚ´æµ¥ÔªÊÍ·Å£¬ÄÇÃ´µÚ¶ş¸öÎö¹¹Ê±¾Í»á³ö´í£¬¼´Ç³²ã¸´ÖÆÎŞ·¨Âú×ãĞèÇó£¬Ìá³öÉî²ã¸´ÖÆ
+	return 0;//ä¸¤ä¸ªæŒ‡é’ˆåŒæ—¶æŒ‡å‘åŒä¸€ä¸ªå†…å­˜å•å…ƒï¼Œç¬¬ä¸€ä¸ªææ„å‘ç”Ÿåè¯¥å†…å­˜å•å…ƒé‡Šæ”¾ï¼Œé‚£ä¹ˆç¬¬äºŒä¸ªææ„æ—¶å°±ä¼šå‡ºé”™ï¼Œå³æµ…å±‚å¤åˆ¶æ— æ³•æ»¡è¶³éœ€æ±‚ï¼Œæå‡ºæ·±å±‚å¤åˆ¶
 }
 */
 
 
 
-//ÒÆ¶¯¹¹Ôìº¯Êı
+//ç§»åŠ¨æ„é€ å‡½æ•°
 /*
 class IntNum {
 public:
-	IntNum(int x = 0) : xptr(new int(x)) { //¹¹Ôìº¯Êı
+	IntNum(int x = 0) : xptr(new int(x)) { //æ„é€ å‡½æ•°
 		cout << "Calling constructor..." << endl;
 	}
 
-	IntNum(const IntNum &n) : xptr(new int(*n.xptr)) {//¸´ÖÆ¹¹Ôìº¯Êı£¬Éî²ã¸´ÖÆ£¨¹¹Ôìint¶ÔÏóÆä²ÎÊıÖµÎªxptrÖ¸ÕëËùÖ¸ÏòµÄ¶ÔÏóÖµ£©
+	IntNum(const IntNum &n) : xptr(new int(*n.xptr)) {//å¤åˆ¶æ„é€ å‡½æ•°ï¼Œæ·±å±‚å¤åˆ¶ï¼ˆæ„é€ intå¯¹è±¡å…¶å‚æ•°å€¼ä¸ºxptræŒ‡é’ˆæ‰€æŒ‡å‘çš„å¯¹è±¡å€¼ï¼‰
 		cout << "Calling copy constructor..." << endl;
 	};
 
-	//&&´ú±íÓÒÖµ£¨¼´½«ÏûÍöµÄÖµ£©ÒıÓÃ£¬º¯Êı·µ»ØµÄÁÙÊ±±äÁ¿ÊÇÓÒÖµ
-	IntNum(IntNum &&n) :xptr(n.xptr) {//ÒÆ¶¯¹¹Ôìº¯Êı(ÓÃÒÑ´æÔÚµÄÖ¸Õë³õÊ¼»¯xptrÖ¸ÏòµÄÎ»ÖÃ£¬Î£ÏÕµÄÇ³²ã¸´ÖÆ)
-		n.xptr = nullptr;//½«Ö¸ÕëÖ¸Ïò¿ÕÖ¸Õë£¬ÔÚÎö¹¹µÄÊ±ºò²»»á³ö´í
+	//&&ä»£è¡¨å³å€¼ï¼ˆå³å°†æ¶ˆäº¡çš„å€¼ï¼‰å¼•ç”¨ï¼Œå‡½æ•°è¿”å›çš„ä¸´æ—¶å˜é‡æ˜¯å³å€¼
+	IntNum(IntNum &&n) :xptr(n.xptr) {//ç§»åŠ¨æ„é€ å‡½æ•°(ç”¨å·²å­˜åœ¨çš„æŒ‡é’ˆåˆå§‹åŒ–xptræŒ‡å‘çš„ä½ç½®ï¼Œå±é™©çš„æµ…å±‚å¤åˆ¶)
+		n.xptr = nullptr;//å°†æŒ‡é’ˆæŒ‡å‘ç©ºæŒ‡é’ˆï¼Œåœ¨ææ„çš„æ—¶å€™ä¸ä¼šå‡ºé”™
 		cout << "Calling move constructor..." << endl;
 	}
 
 	~IntNum() {
-		delete xptr;//É¾³ıÄÚ´æ¿Õ¼ä
+		delete xptr;//åˆ é™¤å†…å­˜ç©ºé—´
 		cout << "Destructing..." << endl;
 	}
 
-	int getInt() { return *xptr; }//·µ»ØÖ¸ÕëËùÖ¸ÏòµÄÖµ
+	int getInt() { return *xptr; }//è¿”å›æŒ‡é’ˆæ‰€æŒ‡å‘çš„å€¼
 private:
 	int *xptr;
 };
 
-IntNum getNum() {//½«¾Ö²¿¶ÔÏó·µ»Ø
+IntNum getNum() {//å°†å±€éƒ¨å¯¹è±¡è¿”å›
 	IntNum a;
-	return a;//Ö¸ÕëÒÑ¾­±»ÖÃ¿ÕÁË£¬ËùÒÔ²»ÔÙÎö¹¹£¬¼ò»¯ÁË¹ı³Ì
+	return a;//æŒ‡é’ˆå·²ç»è¢«ç½®ç©ºäº†ï¼Œæ‰€ä»¥ä¸å†ææ„ï¼Œç®€åŒ–äº†è¿‡ç¨‹
 }
 
 int main() {
 	int a;
-	cout << getNum().getInt() << endl;//ÓÃ·µ»ØµÄ¶ÔÏó£¬È¡ÆäÊıÖµ
+	cout << getNum().getInt() << endl;//ç”¨è¿”å›çš„å¯¹è±¡ï¼Œå–å…¶æ•°å€¼
 	return 0;
 }
 */
 
 
 
-//stringÀà
+//stringç±»
 /*
 int main() {
 	for (int i = 0; i < 2; i++) {
 		string city, state;
-		getline(cin, city, ',');//ÒÔ¡°£¬¡±Îª·Ö¸ô·û
+		getline(cin, city, ',');//ä»¥â€œï¼Œâ€ä¸ºåˆ†éš”ç¬¦
 		getline(cin, state);
 		cout << "City:" << city << "State : " << state << endl;
 	}
@@ -2586,25 +2660,25 @@ int main() {
 */
 
 
-//EmployeeÀà
+//Employeeç±»
 /*
 int main() {
-	Date date(2008, 11, 1);	//ÆğÊ¼ÈÕÆÚ
-	//½¨Á¢¼¸¸öÕË»§
+	Date date(2008, 11, 1);	//èµ·å§‹æ—¥æœŸ
+	//å»ºç«‹å‡ ä¸ªè´¦æˆ·
 	SavingsAccount accounts[] = {
 		SavingsAccount(date, "S3755217", 0.015),
 		SavingsAccount(date, "02342342", 0.015)
 	};
 
-	const int n = sizeof(accounts) / sizeof(SavingsAccount); //ÕË»§×ÜÊı
-	//11ÔÂ·İµÄ¼¸±ÊÕËÄ¿
+	const int n = sizeof(accounts) / sizeof(SavingsAccount); //è´¦æˆ·æ€»æ•°
+	//11æœˆä»½çš„å‡ ç¬”è´¦ç›®
 	accounts[0].deposit(Date(2008, 11, 5), 5000, "salary");
 	accounts[1].deposit(Date(2008, 11, 25), 10000, "sell stock 0323");
-	//12ÔÂ·İµÄ¼¸±ÊÕËÄ¿
+	//12æœˆä»½çš„å‡ ç¬”è´¦ç›®
 	accounts[0].deposit(Date(2008, 12, 5), 5500, "salary");
 	accounts[1].withdraw(Date(2008, 12, 20), 4000, "buy a laptop");
 
-	//½áËãËùÓĞÕË»§²¢Êä³ö¸÷¸öÕË»§ĞÅÏ¢
+	//ç»“ç®—æ‰€æœ‰è´¦æˆ·å¹¶è¾“å‡ºå„ä¸ªè´¦æˆ·ä¿¡æ¯
 	cout << endl;
 	for (int i = 0; i < n; i++) {
 		accounts[i].settle(Date(2009, 1, 1));
@@ -2618,11 +2692,11 @@ int main() {
 
 
 
-//×Ó×Ö·û´®»ØÎÄÊıÄ¿
+//å­å­—ç¬¦ä¸²å›æ–‡æ•°ç›®
 /*
 int SubPalindrome(string str) {
 	int len = str.size();
-	vector<vector<int> > dp(len, vector<int>(len));//´´½¨len*lenµÄ¶şÎ¬Êı×é
+	vector<vector<int> > dp(len, vector<int>(len));//åˆ›å»ºlen*lençš„äºŒç»´æ•°ç»„
 	for (int j = 0; j < len; j++) {
 		dp[j][j] = 1;
 		for (int i = j - 1; i >= 0; i--) {
@@ -2652,7 +2726,7 @@ bool main() {
 
 
 
-//¸ø¶¨Ò»¸öÕûÊıÊı×éa[0,...,n-1]£¬ÇóÊı×éÖĞµÚkĞ¡Êı
+//ç»™å®šä¸€ä¸ªæ•´æ•°æ•°ç»„a[0,...,n-1]ï¼Œæ±‚æ•°ç»„ä¸­ç¬¬kå°æ•°
 /*
 void sort(int *a,int num) {
 	int p;
@@ -2669,16 +2743,16 @@ void sort(int *a,int num) {
 
 int main() {
 	int num,position;
-	cout << "±¾×éÊı¾İµÄ¸öÊı£º";
+	cout << "æœ¬ç»„æ•°æ®çš„ä¸ªæ•°ï¼š";
 	cin >> num;
-	cout << "Ñ°ÕÒµÚ¼¸Ğ¡£¿";
+	cout << "å¯»æ‰¾ç¬¬å‡ å°ï¼Ÿ";
 	cin >> position;
 	int *a=new int[num];
-	cout << "ÇëÊäÈëÕâ" << num << "¸öÊı£º";
+	cout << "è¯·è¾“å…¥è¿™" << num << "ä¸ªæ•°ï¼š";
 	for (int i = 0; i < num; i++)
 		cin >> a[i];
 	sort(a,num);
-	cout << "¸ÃÊıÎª£º " << a[position-1] << endl;
+	cout << "è¯¥æ•°ä¸ºï¼š " << a[position-1] << endl;
 	delete[] a;
 	return 0;
 }
@@ -2686,7 +2760,7 @@ int main() {
 
 
 
-//¸ø¶¨Ò»¸öÊı×éa[0,...,n-1],ÇóÆä×î´ó×ÓÊı×é(³¤¶È>=1)ºÍ
+//ç»™å®šä¸€ä¸ªæ•°ç»„a[0,...,n-1],æ±‚å…¶æœ€å¤§å­æ•°ç»„(é•¿åº¦>=1)å’Œ
 /*
 int SumArr(int *arr, int i, int j) {
 	int sum = 0;
@@ -2696,12 +2770,12 @@ int SumArr(int *arr, int i, int j) {
 	return sum;
 }
 int main() {
-	cout << "¸ÃÊı×é³¤¶È£º";
+	cout << "è¯¥æ•°ç»„é•¿åº¦ï¼š";
 	int length;
 	cin >> length;
 	int MaxSum=0;
 	int *arr = new int[length];
-	cout << "ÇëÊäÈë¸ÃÊı×é£º";
+	cout << "è¯·è¾“å…¥è¯¥æ•°ç»„ï¼š";
 	for (int k = 0; k < length; k++)
 		cin >> arr[k];
 	for (int i = 0; i < length; i++) {
@@ -2710,7 +2784,7 @@ int main() {
 				MaxSum = SumArr(arr, j, j + i);
 		}
 	}
-	cout << "×î´ó×ÓÊı×éºÍÎª£º " << MaxSum << endl;
+	cout << "æœ€å¤§å­æ•°ç»„å’Œä¸ºï¼š " << MaxSum << endl;
 	delete[] arr;
 	return 0;
 
@@ -2719,11 +2793,11 @@ int main() {
 
 
 
-//Ñî»ÔÈı½Ç
+//æ¨è¾‰ä¸‰è§’
 /*
 int main() {
 	int n;
-	cout << "ÊäÈëÑî»ÔÈı½Ç½×Êı£º";
+	cout << "è¾“å…¥æ¨è¾‰ä¸‰è§’é˜¶æ•°ï¼š";
 	cin >> n;
 	vector<vector<int>> arr(n, vector<int>(n));
 
@@ -2749,7 +2823,7 @@ int main() {
 
 
 
-//×Ö·û´®×ªÊı×Ö(Êı×Ö×ª×Ö·û´®)
+//å­—ç¬¦ä¸²è½¬æ•°å­—(æ•°å­—è½¬å­—ç¬¦ä¸²)
 /*
 #include<sstream>
 int main() {
@@ -2760,26 +2834,26 @@ int main() {
 	ss << a;
 	ss >> num1;
 	cout << num1 << endl;
-	num2 = atof(a.c_str());//c_str()»ñÈ¡×Ö·û´®Ö¸Õë
+	num2 = atof(a.c_str());//c_str()è·å–å­—ç¬¦ä¸²æŒ‡é’ˆ
 	cout << num2 << endl;
-	//C++11Ìá¹©ÁËÊı×Ö×ªstringº¯Êıto_string
-	//c±ê×¼¿âÌá¹©ÁË×Ö·û´®×ªÊı£¨atoi, atof, atol, atoll£©
+	//C++11æä¾›äº†æ•°å­—è½¬stringå‡½æ•°to_string
+	//cæ ‡å‡†åº“æä¾›äº†å­—ç¬¦ä¸²è½¬æ•°ï¼ˆatoi, atof, atol, atollï¼‰
 
 }
 */
 
 
 
-//¸ø¶¨Ò»¸öÓÉ×Ö·û´®±íÊ¾µÄÊı×Ö£¬´ÓÖĞÒÆ³ık¸ö×Ö·û£¬Ê¹µÃÒÆ³ıÖ®ºóµÄ×Ö·û´®×é³ÉµÄÊı×Ö¾¡¿ÉÄÜĞ¡
+//ç»™å®šä¸€ä¸ªç”±å­—ç¬¦ä¸²è¡¨ç¤ºçš„æ•°å­—ï¼Œä»ä¸­ç§»é™¤kä¸ªå­—ç¬¦ï¼Œä½¿å¾—ç§»é™¤ä¹‹åçš„å­—ç¬¦ä¸²ç»„æˆçš„æ•°å­—å°½å¯èƒ½å°
 
 
 
-//¹«ÓĞ¼Ì³ĞÊµÀı1£¨ĞèÈ¥µôpoint.hÍ·ÎÄ¼ş£©
+//å…¬æœ‰ç»§æ‰¿å®ä¾‹1ï¼ˆéœ€å»æ‰point.hå¤´æ–‡ä»¶ï¼‰
 /*
 class Point {
-	//»ùÀàPointÀàµÄ¶¨Òå
+	//åŸºç±»Pointç±»çš„å®šä¹‰
 public:
-	//¹«ÓĞº¯Êı³ÉÔ±
+	//å…¬æœ‰å‡½æ•°æˆå‘˜
 	void initPoint(float x = 0, float y = 0) {
 		this->x = x;
 		this->y = y;
@@ -2791,33 +2865,33 @@ public:
 	float getX() const { return x; }
 	float getY() const { return y; }
 private:
-	//Ë½ÓĞÊı¾İ³ÉÔ±
+	//ç§æœ‰æ•°æ®æˆå‘˜
 	float x, y;
 };
 
 class Rectangle1 : public Point {
-	//ÅÉÉúÀà¶¨Òå²¿·Ö
+	//æ´¾ç”Ÿç±»å®šä¹‰éƒ¨åˆ†
 public:
-	//ĞÂÔö¹«ÓĞº¯Êı³ÉÔ±
+	//æ–°å¢å…¬æœ‰å‡½æ•°æˆå‘˜
 	void initRectangle(float x, float y, float w, float h) {
-		initPoint(x, y);              //µ÷ÓÃ»ùÀà¹«ÓĞ³ÉÔ±º¯Êı
+		initPoint(x, y);              //è°ƒç”¨åŸºç±»å…¬æœ‰æˆå‘˜å‡½æ•°
 		this->w = w;
 		this->h = h;
 	}
 	float getH() const { return h; }
 	float getW() const { return w; }
 private:
-	//ĞÂÔöË½ÓĞÊı¾İ³ÉÔ±
+	//æ–°å¢ç§æœ‰æ•°æ®æˆå‘˜
 	float w, h;
 };
 
 int main() {
 
-	Rectangle1 rect; //¶¨ÒåRectangleÀàµÄ¶ÔÏó
+	Rectangle1 rect; //å®šä¹‰Rectangleç±»çš„å¯¹è±¡
 	rect.initRectangle(2, 3, 20, 10);
-	rect.move(3, 2); //ÒÆ¶¯¾ØĞÎÎ»ÖÃ
+	rect.move(3, 2); //ç§»åŠ¨çŸ©å½¢ä½ç½®
 	cout << "The data of rect(x,y,w,h): " << endl;
-	//Êä³ö¾ØĞÎµÄÌØÕ÷²ÎÊı
+	//è¾“å‡ºçŸ©å½¢çš„ç‰¹å¾å‚æ•°
 	cout << rect.getX() << ", "
 		<< rect.getY() << ", "
 		<< rect.getW() << ", "
@@ -2829,10 +2903,10 @@ int main() {
 
 
 
-//Ë½ÓĞ¼Ì³ĞÊµÀı1
+//ç§æœ‰ç»§æ‰¿å®ä¾‹1
 /*
-class Point {   //»ùÀàPointÀàµÄ¶¨Òå
-public: //¹«ÓĞº¯Êı³ÉÔ±
+class Point {   //åŸºç±»Pointç±»çš„å®šä¹‰
+public: //å…¬æœ‰å‡½æ•°æˆå‘˜
 	void initPoint(float x = 0, float y = 0)
 	{
 		this->x = x; this->y = y;
@@ -2843,32 +2917,32 @@ public: //¹«ÓĞº¯Êı³ÉÔ±
 	}
 	float getX() const { return x; }
 	float getY() const { return y; }
-private:    //Ë½ÓĞÊı¾İ³ÉÔ±
+private:    //ç§æœ‰æ•°æ®æˆå‘˜
 	float x, y;
 };
 
-class Rectangle1 : private Point {    //ÅÉÉúÀà¶¨Òå²¿·Ö
-public: //ĞÂÔö¹«ÓĞº¯Êı³ÉÔ±
+class Rectangle1 : private Point {    //æ´¾ç”Ÿç±»å®šä¹‰éƒ¨åˆ†
+public: //æ–°å¢å…¬æœ‰å‡½æ•°æˆå‘˜
 	void initRectangle(float x, float y, float w, float h) {
-		initPoint(x, y); //µ÷ÓÃ»ùÀà¹«ÓĞ³ÉÔ±º¯Êı
+		initPoint(x, y); //è°ƒç”¨åŸºç±»å…¬æœ‰æˆå‘˜å‡½æ•°
 		this->w = w;
 		this->h = h;
 	}
-	void move(float offX, float offY) { Point::move(offX, offY); }//pointµÄmove³ÉÔ±º¯ÊıÔÚÀàÍâÎŞ·¨Ö±½Óµ÷ÓÃ£¬µ«ÔÚÀàÌåÖĞ¿ÉÒÔ±»µ÷ÓÃ£¬µ÷ÓÃ´Ó»ùÀà¼Ì³Ğ¹ıÀ´µÄ³ÉÔ±º¯Êı
+	void move(float offX, float offY) { Point::move(offX, offY); }//pointçš„moveæˆå‘˜å‡½æ•°åœ¨ç±»å¤–æ— æ³•ç›´æ¥è°ƒç”¨ï¼Œä½†åœ¨ç±»ä½“ä¸­å¯ä»¥è¢«è°ƒç”¨ï¼Œè°ƒç”¨ä»åŸºç±»ç»§æ‰¿è¿‡æ¥çš„æˆå‘˜å‡½æ•°
 	float getX() const { return Point::getX(); }
 	float getY() const { return Point::getY(); }
 	float getH() const { return h; }
 	float getW() const { return w; }
-private:    //ĞÂÔöË½ÓĞÊı¾İ³ÉÔ±
+private:    //æ–°å¢ç§æœ‰æ•°æ®æˆå‘˜
 	float w, h;
 };
 
 int main() {
-	Rectangle1 rect; //¶¨ÒåRectangleÀàµÄ¶ÔÏó
-	rect.initRectangle(2, 3, 20, 10);   //ÉèÖÃ¾ØĞÎµÄÊı¾İ
-	rect.move(3, 2); //ÒÆ¶¯¾ØĞÎÎ»ÖÃ£¬pointÀàÖĞ³ÉÔ±º¯Êımove±äÎªË½ÓĞ£¬²»ÄÜÖ±½Ó·ÃÎÊ
+	Rectangle1 rect; //å®šä¹‰Rectangleç±»çš„å¯¹è±¡
+	rect.initRectangle(2, 3, 20, 10);   //è®¾ç½®çŸ©å½¢çš„æ•°æ®
+	rect.move(3, 2); //ç§»åŠ¨çŸ©å½¢ä½ç½®ï¼Œpointç±»ä¸­æˆå‘˜å‡½æ•°moveå˜ä¸ºç§æœ‰ï¼Œä¸èƒ½ç›´æ¥è®¿é—®
 	cout << "The data of rect(x,y,w,h): " << endl;
-	cout << rect.getX() << ", "  //Êä³ö¾ØĞÎµÄÌØÕ÷²ÎÊı
+	cout << rect.getX() << ", "  //è¾“å‡ºçŸ©å½¢çš„ç‰¹å¾å‚æ•°
 		<< rect.getY() << ", "
 		<< rect.getW() << ", "
 		<< rect.getH() << endl;
@@ -2878,7 +2952,7 @@ int main() {
 
 
 
-//±£»¤¼Ì³ĞÊµÀı1
+//ä¿æŠ¤ç»§æ‰¿å®ä¾‹1
 /*
 class A {
 protected:
@@ -2887,7 +2961,7 @@ protected:
 
 int main() {
 	A a;
-	a.x = 5;//´íÎó
+	a.x = 5;//é”™è¯¯
 }
 
 class B : public A {
@@ -2895,13 +2969,13 @@ public:
 	void function();
 };
 void B::function() {
-	x = 5;   //ÕıÈ·
+	x = 5;   //æ­£ç¡®
 }
 */
 
 
 
-//¶à¼Ì³ĞÊµÀı1
+//å¤šç»§æ‰¿å®ä¾‹1
 /*
 class A {
 public:
@@ -2923,8 +2997,8 @@ class C : public A, private B {
 public:
 	void setC(int, int, int);
 	void showC() const { cout << c << endl; };
-	void showB() const { B::showB(); }//È¥µôºóÏÂÎÄ×¢ÊÍ´¦±¨´í
-	void setB(int m) { B::setB(m); }//È¥µôºóÏÂÎÄ×¢ÊÍ´¦±¨´í
+	void showB() const { B::showB(); }//å»æ‰åä¸‹æ–‡æ³¨é‡Šå¤„æŠ¥é”™
+	void setB(int m) { B::setB(m); }//å»æ‰åä¸‹æ–‡æ³¨é‡Šå¤„æŠ¥é”™
 private:
 	int c;
 };
@@ -2938,14 +3012,14 @@ void B::setB(int x) {
 }
 
 void C::setC(int x, int y, int z) {
-	//ÅÉÉúÀà³ÉÔ±Ö±½Ó·ÃÎÊ»ùÀàµÄ
-	//¹«ÓĞ³ÉÔ±
+	//æ´¾ç”Ÿç±»æˆå‘˜ç›´æ¥è®¿é—®åŸºç±»çš„
+	//å…¬æœ‰æˆå‘˜
 	setA(x);
 	setB(y);
 	c = z;
 }
 
-//ÆäËûº¯ÊıÊµÏÖÂÔ
+//å…¶ä»–å‡½æ•°å®ç°ç•¥
 
 int main() {
 	C obj;
@@ -2953,47 +3027,47 @@ int main() {
 	obj.showA();
 	obj.setC(6, 7, 9);
 	obj.showC();
-	obj.setB(6);//´íÎó
-	obj.showB();// ´íÎó
+	obj.setB(6);//é”™è¯¯
+	obj.showB();// é”™è¯¯
 	return 0;
 }
 */
 
 
 
-//ÀàĞÍ×ª»»ÊµÀı1
+//ç±»å‹è½¬æ¢å®ä¾‹1
 /*
-class Base1 { //»ùÀàBase1¶¨Òå
+class Base1 { //åŸºç±»Base1å®šä¹‰
 public:
-	virtual void display() const {//virtual¸æËß±àÒëÆ÷£¬·²ÊÇÓöµ½displayº¯ÊıµÄµ÷ÓÃ¶¼²»ÒªÔÚ±àÒëµÄÊ±ºò×ö¾ö¶¨£¬
-		cout << "Base1::display()" << endl;//¸æËß±àÒëÆ÷²»Òª×ö¾²Ì¬°ó¶¨£¬ÒªÔÚÔËĞĞ½×¶Î×ö¶¯Ì¬°ó¶¨
+	virtual void display() const {//virtualå‘Šè¯‰ç¼–è¯‘å™¨ï¼Œå‡¡æ˜¯é‡åˆ°displayå‡½æ•°çš„è°ƒç”¨éƒ½ä¸è¦åœ¨ç¼–è¯‘çš„æ—¶å€™åšå†³å®šï¼Œ
+		cout << "Base1::display()" << endl;//å‘Šè¯‰ç¼–è¯‘å™¨ä¸è¦åšé™æ€ç»‘å®šï¼Œè¦åœ¨è¿è¡Œé˜¶æ®µåšåŠ¨æ€ç»‘å®š
 	}
 };
 
-class Base2 : public Base1 { //¹«ÓĞÅÉÉúÀàBase2¶¨Òå
+class Base2 : public Base1 { //å…¬æœ‰æ´¾ç”Ÿç±»Base2å®šä¹‰
 public:
 	virtual void display() const;
 };
 void Base2::display() const{ cout << "Base2::display()" << endl; }
 
-class Derived : public Base2 { //¹«ÓĞÅÉÉúÀàDerived¶¨Òå
+class Derived : public Base2 { //å…¬æœ‰æ´¾ç”Ÿç±»Derivedå®šä¹‰
 public:
 	virtual void display() const {
 		cout << "Derived::display()" << endl;
 	}
 };
 
-void fun(Base1 *ptr) {  //²ÎÊıÎªÖ¸Ïò»ùÀà¶ÔÏóµÄÖ¸Õë
-	ptr->display();     //"¶ÔÏóÖ¸Õë->³ÉÔ±Ãû"
+void fun(Base1 *ptr) {  //å‚æ•°ä¸ºæŒ‡å‘åŸºç±»å¯¹è±¡çš„æŒ‡é’ˆ
+	ptr->display();     //"å¯¹è±¡æŒ‡é’ˆ->æˆå‘˜å"
 }
 
-int main() {    //Ö÷º¯Êı
-	Base1 base1;    //ÉùÃ÷Base1Àà¶ÔÏó
-	Base2 base2;    //ÉùÃ÷Base2Àà¶ÔÏó
-	Derived derived;    //ÉùÃ÷DerivedÀà¶ÔÏó
-	fun(&base1);    //ÓÃBase1¶ÔÏóµÄÖ¸Õëµ÷ÓÃfunº¯Êı
-	fun(&base2);    //ÓÃBase2¶ÔÏóµÄÖ¸Õëµ÷ÓÃfunº¯Êı
-	fun(&derived); //ÓÃDerived¶ÔÏóµÄÖ¸Õëµ÷ÓÃfunº¯Êı
+int main() {    //ä¸»å‡½æ•°
+	Base1 base1;    //å£°æ˜Base1ç±»å¯¹è±¡
+	Base2 base2;    //å£°æ˜Base2ç±»å¯¹è±¡
+	Derived derived;    //å£°æ˜Derivedç±»å¯¹è±¡
+	fun(&base1);    //ç”¨Base1å¯¹è±¡çš„æŒ‡é’ˆè°ƒç”¨funå‡½æ•°
+	fun(&base2);    //ç”¨Base2å¯¹è±¡çš„æŒ‡é’ˆè°ƒç”¨funå‡½æ•°
+	fun(&derived); //ç”¨Derivedå¯¹è±¡çš„æŒ‡é’ˆè°ƒç”¨funå‡½æ•°
 
 	return 0;
 }
@@ -3001,7 +3075,7 @@ int main() {    //Ö÷º¯Êı
 
 
 
-//µ¥¼Ì³Ğ¹¹Ôìº¯ÊıÊµÀı
+//å•ç»§æ‰¿æ„é€ å‡½æ•°å®ä¾‹
 /*
 class B {
 public:
@@ -3068,9 +3142,9 @@ int main() {
 
 
 
-//¶à¼Ì³Ğ+×éºÏµÄ¹¹Ôì
+//å¤šç»§æ‰¿+ç»„åˆçš„æ„é€ 
 /*
-class Base1 {//»ùÀàBase1£¬¹¹Ôìº¯ÊıÓĞ²ÎÊı
+class Base1 {//åŸºç±»Base1ï¼Œæ„é€ å‡½æ•°æœ‰å‚æ•°
 public:
 	Base1(int i)
 	{
@@ -3080,7 +3154,7 @@ public:
 		cout << "Destructing Base1" << endl;
 	}
 };
-class Base2 {//»ùÀàBase2£¬¹¹Ôìº¯ÊıÓĞ²ÎÊı
+class Base2 {//åŸºç±»Base2ï¼Œæ„é€ å‡½æ•°æœ‰å‚æ•°
 public:
 	Base2(int j)
 	{
@@ -3090,7 +3164,7 @@ public:
 		cout << "Destructing Base2" << endl;
 	}
 };
-class Base3 {//»ùÀàBase3£¬¹¹Ôìº¯ÊıÎŞ²ÎÊı
+class Base3 {//åŸºç±»Base3ï¼Œæ„é€ å‡½æ•°æ— å‚æ•°
 public:
 	Base3()
 	{
@@ -3101,10 +3175,10 @@ public:
 	}
 };
 
-class Derived : public Base2, public Base1, public Base3 {//¸ù¾İ¼Ì³ĞË³Ğò³õÊ¼»¯»ùÀà
+class Derived : public Base2, public Base1, public Base3 {//æ ¹æ®ç»§æ‰¿é¡ºåºåˆå§‹åŒ–åŸºç±»
 public:
 	Derived(int a, int b, int c, int d) : Base1(a), member2(d), member1(c), Base2(b)
-		//´Ë´¦µÄ´ÎĞòÓë¹¹Ôìº¯ÊıµÄÖ´ĞĞ´ÎĞòÎŞ¹Ø
+		//æ­¤å¤„çš„æ¬¡åºä¸æ„é€ å‡½æ•°çš„æ‰§è¡Œæ¬¡åºæ— å…³
 	{
 		cout << "Constructing Derived" << endl;
 	}
@@ -3112,8 +3186,7 @@ public:
 		cout << "Destructing Derived" << endl;
 	}
 private:
-	Base1 member1;//³ÉÔ±ÔÚ¹¹ÔìÊ±°´ÕÕ´úÂëË³Ğò
-
+	Base1 member1;//æˆå‘˜åœ¨æ„é€ æ—¶æŒ‰ç…§ä»£ç é¡ºåº
 	Base3 member3;
 	Base2 member2;
 };
@@ -3126,7 +3199,7 @@ int main() {
 
 
 
-//¶à¼Ì³ĞÍ¬ÃûÒş²Ø1     
+//å¤šç»§æ‰¿åŒåéšè—1     
 /*
 class Base1 {
 public:
@@ -3150,28 +3223,24 @@ int main() {
 	Derived d;
 	Derived *p = &d;
 
-	//·ÃÎÊDerivedÀà³ÉÔ±
+	//è®¿é—®Derivedç±»æˆå‘˜
 	d.var = 1;
 	d.fun();
 
-	//·ÃÎÊBase1»ùÀà³ÉÔ±
+	//è®¿é—®Base1åŸºç±»æˆå‘˜
 	d.Base1::var = 2;
 	d.Base1::fun();
 
-	//·ÃÎÊBase2»ùÀà³ÉÔ±
+	//è®¿é—®Base2åŸºç±»æˆå‘˜
 	p->Base2::var = 3;
-	p->Base2::fun();
-
-
-
-	
+	p->Base2::fun();	
 	return 0;
 }
 */
 
 
 
-//¶à»ùÀà¼Ì³Ğ¶şÒåĞÔÀí½â
+//å¤šåŸºç±»ç»§æ‰¿äºŒä¹‰æ€§ç†è§£
 /*
 class A {
 public:
@@ -3190,19 +3259,19 @@ public:
 	void h() { cout << "Member of C" << endl; };
 };
 
-class Base0 {   //¶¨Òå»ùÀàBase0
+class Base0 {   //å®šä¹‰åŸºç±»Base0
 public:
 	int var0;
 	void fun0() { cout << "Member of Base0" << endl; }
 };
 
-class Base1 : public Base0 { //¶¨ÒåÅÉÉúÀàBase1
-public: //ĞÂÔöÍâ²¿½Ó¿Ú
+class Base1 : public Base0 { //å®šä¹‰æ´¾ç”Ÿç±»Base1
+public: //æ–°å¢å¤–éƒ¨æ¥å£
 	int var1;
 };
 
-class Base2 : public Base0 { //¶¨ÒåÅÉÉúÀàBase2
-public: //ĞÂÔöÍâ²¿½Ó¿Ú
+class Base2 : public Base0 { //å®šä¹‰æ´¾ç”Ÿç±»Base2
+public: //æ–°å¢å¤–éƒ¨æ¥å£
 	int var2;
 };
 
@@ -3215,8 +3284,8 @@ public:
 	}
 };
 
-int main() {    //³ÌĞòÖ÷º¯Êı
-	//Èç¹û¶¨ÒåC c,Ôòc.f()ÓĞ¶şÒåĞÔ
+int main() {    //ç¨‹åºä¸»å‡½æ•°
+	//å¦‚æœå®šä¹‰C c,åˆ™c.f()æœ‰äºŒä¹‰æ€§
 	Derived d;
 	d.Base1::var0 = 2;
 	d.Base1::fun0();
@@ -3233,7 +3302,7 @@ int main() {    //³ÌĞòÖ÷º¯Êı
 */
 
 
-//Ğé»ùÀà1
+//è™šåŸºç±»1
 /*
 class Base0 {
 public:
@@ -3252,7 +3321,7 @@ public:
 
 
 class Derived : public Base1, public Base2 {
-	//¶¨ÒåÅÉÉúÀàDerived
+	//å®šä¹‰æ´¾ç”Ÿç±»Derived
 public:
 	int var;
 	void fun() {
@@ -3262,8 +3331,8 @@ public:
 
 int main() {
 	Derived d;
-	d.var0 = 2; //Ö±½Ó·ÃÎÊĞé»ùÀàµÄÊı¾İ³ÉÔ±
-	d.fun0();     //Ö±½Ó·ÃÎÊĞé»ùÀàµÄº¯Êı³ÉÔ±
+	d.var0 = 2; //ç›´æ¥è®¿é—®è™šåŸºç±»çš„æ•°æ®æˆå‘˜
+	d.fun0();     //ç›´æ¥è®¿é—®è™šåŸºç±»çš„å‡½æ•°æˆå‘˜
 	cout << d.var0 << endl;
 	return 0;
 }
@@ -3271,7 +3340,7 @@ int main() {
 
 
 
-//Ğé»ùÀà2£¨¹¹Ôìº¯Êı£©
+//è™šåŸºç±»2ï¼ˆæ„é€ å‡½æ•°ï¼‰
 /*
 class Base0 {
 public:
@@ -3305,41 +3374,41 @@ public:
 	}
 };
 
-int main() {    //³ÌĞòÖ÷º¯Êı
+int main() {    //ç¨‹åºä¸»å‡½æ•°
 	Derived d(1);
 	cout << d.var0 << endl;
 
-	d.var0 = 2; //Ö±½Ó·ÃÎÊĞé»ùÀàµÄÊı¾İ³ÉÔ±
+	d.var0 = 2; //ç›´æ¥è®¿é—®è™šåŸºç±»çš„æ•°æ®æˆå‘˜
 	cout << d.var0 << endl;
-	d.fun0();   //Ö±½Ó·ÃÎÊĞé»ùÀàµÄº¯Êı³ÉÔ±
+	d.fun0();   //ç›´æ¥è®¿é—®è™šåŸºç±»çš„å‡½æ•°æˆå‘˜
 	return 0;
 }
 */
 
 
 
-//ĞÅÓÃ¿¨
+//ä¿¡ç”¨å¡
 /*
 int main() {
-	Date date(2008, 11, 1);	//ÆğÊ¼ÈÕÆÚ
-	//½¨Á¢¼¸¸öÕË»§
+	Date date(2008, 11, 1);	//èµ·å§‹æ—¥æœŸ
+	//å»ºç«‹å‡ ä¸ªè´¦æˆ·
 	SavingsAccount sa1(date, "S3755217", 0.015);
 	SavingsAccount sa2(date, "02342342", 0.015);
 	CreditAccount ca(date, "C5392394", 10000, 0.0005, 50);
-	//11ÔÂ·İµÄ¼¸±ÊÕËÄ¿
+	//11æœˆä»½çš„å‡ ç¬”è´¦ç›®
 	sa1.deposit(Date(2008, 11, 5), 5000, "salary");
 	ca.withdraw(Date(2008, 11, 15), 2000, "buy a cell");
 	sa2.deposit(Date(2008, 11, 25), 10000, "sell stock 0323");
-	//½áËãĞÅÓÃ¿¨
+	//ç»“ç®—ä¿¡ç”¨å¡
 	ca.settle(Date(2008, 12, 1));
-	//12ÔÂ·İµÄ¼¸±ÊÕËÄ¿
+	//12æœˆä»½çš„å‡ ç¬”è´¦ç›®
 	ca.deposit(Date(2008, 12, 1), 2016, "repay the credit");
 	sa1.deposit(Date(2008, 12, 5), 5500, "salary");
-	//½áËãËùÓĞÕË»§
+	//ç»“ç®—æ‰€æœ‰è´¦æˆ·
 	sa1.settle(Date(2009, 1, 1));
 	sa2.settle(Date(2009, 1, 1));
 	ca.settle(Date(2009, 1, 1));
-	//Êä³ö¸÷¸öÕË»§ĞÅÏ¢
+	//è¾“å‡ºå„ä¸ªè´¦æˆ·ä¿¡æ¯
 	cout << endl;
 	sa1.show(); cout << endl;
 	sa2.show(); cout << endl;
@@ -3351,7 +3420,7 @@ int main() {
 
 
 
-//¶à¼Ì³Ğ2
+//å¤šç»§æ‰¿2
 /*
 class Account
 {
@@ -3380,10 +3449,10 @@ void CreditAccount::PrintInfo() {
 	cout << credit << endl;
 }
 
-//ÇëÊµÏÖAccount¹¹Ôìº¯ÊıAccount(char *name)
-//ÇëÊµÏÖAccountµÄPrintUserName()º¯Êı
-//ÇëÊµÏÖCreditAccountÀàµÄ¹¹Ôìº¯ÊıCreditAccount(char* name, long number)
-//ÇëÊµÏÖCreditAccountÀàµÄPrintInfo()º¯Êı
+//è¯·å®ç°Accountæ„é€ å‡½æ•°Account(char *name)
+//è¯·å®ç°Accountçš„PrintUserName()å‡½æ•°
+//è¯·å®ç°CreditAccountç±»çš„æ„é€ å‡½æ•°CreditAccount(char* name, long number)
+//è¯·å®ç°CreditAccountç±»çš„PrintInfo()å‡½æ•°
 
 int main()
 {
@@ -3395,7 +3464,7 @@ int main()
 
 
 
-//¶à¼Ì³Ğ3
+//å¤šç»§æ‰¿3
 /*
 class Base1
 {
@@ -3420,7 +3489,7 @@ public:
 	~Base3();
 };
 
-class Derived :public Base2, public Base1, public Base3//¼Ì³ĞÉÏÃæ3¸öÀà
+class Derived :public Base2, public Base1, public Base3//ç»§æ‰¿ä¸Šé¢3ä¸ªç±»
 {
 public:
 	Derived(int x1, int x2, int x3, int x4);
@@ -3484,7 +3553,7 @@ Derived::Derived(int x1, int x2, int x3, int x4):Base2(x3),Base1(x2),Base3(x4){
 Derived::~Derived(){
 	cout << "Derived destructor called" << endl;
 }
-//ÒÀÕÕBase1ÀàÖĞµÄ´úÂëÊµÏÖÆäËüÀàµÄ¹¹Ôìº¯ÊıºÍÎö¹¹º¯Êı
+//ä¾ç…§Base1ç±»ä¸­çš„ä»£ç å®ç°å…¶å®ƒç±»çš„æ„é€ å‡½æ•°å’Œææ„å‡½æ•°
 
 
 int main()
@@ -3498,7 +3567,7 @@ int main()
 
 
 
-//½á¹¹Ìå2£¨ÊµÏÖ¼Ó·¨£©
+//ç»“æ„ä½“2ï¼ˆå®ç°åŠ æ³•ï¼‰
 /*
 struct Base1
 {
@@ -3528,7 +3597,7 @@ Base2::Base2(int x) {
 
 Derived::Derived(Base1& a, Base2& b):Base1(a.x),Base2(b.x),x(a.x+b.x){}
 
-//ÇëÊµÏÖBase1£¬Base2, DerivedµÄ¹¹Ôìº¯Êı
+//è¯·å®ç°Base1ï¼ŒBase2, Derivedçš„æ„é€ å‡½æ•°
 
 int main()
 {
@@ -3544,7 +3613,7 @@ int main()
 
 
 
-//¶à¼Ì³Ğ4
+//å¤šç»§æ‰¿4
 /*
 class BaseClass {
 public:
@@ -3576,7 +3645,7 @@ int main() {
 
 
 
-//¶à¼Ì³Ğ5
+//å¤šç»§æ‰¿5
 /*
 class vehicle {
 public:
@@ -3638,17 +3707,17 @@ int main() {
 
 
 
-//Ë«Ä¿ÔËËã·ûÖØÔØ
+//åŒç›®è¿ç®—ç¬¦é‡è½½
 /*
 class Complex {
 public:
 	Complex(double r = 0.0, double i = 0.0) : real(r), imag(i) { }
-	//ÔËËã·û+ÖØÔØ³ÉÔ±º¯Êı
+	//è¿ç®—ç¬¦+é‡è½½æˆå‘˜å‡½æ•°
 	Complex operator + (Complex & c2) const;
 	Complex operator - (Complex & c2) const;
 	Complex operator * (Complex & c2) const;
 	Complex operator / (Complex & c2) const;
-	//ÔËËã·û-ÖØÔØ³ÉÔ±º¯Êı
+	//è¿ç®—ç¬¦-é‡è½½æˆå‘˜å‡½æ•°
 
 	void display() const;
 private:
@@ -3657,12 +3726,12 @@ private:
 };
 
 Complex Complex::operator + ( Complex &c2) const {
-	//´´½¨Ò»¸öÁÙÊ±ÎŞÃû¶ÔÏó×÷Îª·µ»ØÖµ
+	//åˆ›å»ºä¸€ä¸ªä¸´æ—¶æ— åå¯¹è±¡ä½œä¸ºè¿”å›å€¼
 	return Complex(real + c2.real, imag + c2.imag);
 }
 
 Complex Complex::operator - ( Complex &c2) const {
-	//´´½¨Ò»¸öÁÙÊ±ÎŞÃû¶ÔÏó×÷Îª·µ»ØÖµ
+	//åˆ›å»ºä¸€ä¸ªä¸´æ—¶æ— åå¯¹è±¡ä½œä¸ºè¿”å›å€¼
 	return Complex(real - c2.real, imag - c2.imag);
 }
 
@@ -3698,15 +3767,15 @@ int main() {
 
 
 
-//µ¥Ä¿ÔËËã·ûÖØÔØ(Ç°ºóÖØÔØ)
+//å•ç›®è¿ç®—ç¬¦é‡è½½(å‰åé‡è½½)
 /*
-class Clock {//Ê±ÖÓÀà¶¨Òå
+class Clock {//æ—¶é’Ÿç±»å®šä¹‰
 public:
 	Clock(int hour = 0, int minute = 0, int second = 0);
 	void showTime() const;
-	//Ç°ÖÃµ¥Ä¿ÔËËã·ûÖØÔØ
+	//å‰ç½®å•ç›®è¿ç®—ç¬¦é‡è½½
 	Clock & operator ++ ();
-	//ºóÖÃµ¥Ä¿ÔËËã·ûÖØÔØ
+	//åç½®å•ç›®è¿ç®—ç¬¦é‡è½½
 	Clock operator ++ (int);
 private:
 	int hour, minute, second;
@@ -3722,7 +3791,7 @@ Clock::Clock(int hour, int minute, int second) {
 	else
 		cout << "Time error!" << endl;
 }
-void Clock::showTime() const {  //ÏÔÊ¾Ê±¼ä
+void Clock::showTime() const {  //æ˜¾ç¤ºæ—¶é—´
 	cout << hour << ": " << minute << ": " << second << endl;
 }
 
@@ -3739,12 +3808,12 @@ Clock & Clock::operator ++ () {
 }
 
 Clock Clock::operator ++ (int) {
-	//×¢ÒâĞÎ²Î±íÖĞµÄÕûĞÍ²ÎÊı
+	//æ³¨æ„å½¢å‚è¡¨ä¸­çš„æ•´å‹å‚æ•°
 	Clock old = *this;
-	++(*this);  //µ÷ÓÃÇ°ÖÃ¡°++¡±ÔËËã·û
+	++(*this);  //è°ƒç”¨å‰ç½®â€œ++â€è¿ç®—ç¬¦
 	return old;
 
-	//ÁíÒ»ÖÖ·½·¨
+	//å¦ä¸€ç§æ–¹æ³•
 	//Clock new_ = ++(*this);
 	//return new_;
 }
@@ -3755,6 +3824,7 @@ int main() {
 	myClock.showTime();
 	cout << "Show myClock++:    ";
 	(myClock++).showTime();
+	myClock.showTime();
 	cout << "Show ++myClock:    ";
 	(++myClock).showTime();
 	return 0;
@@ -3763,7 +3833,7 @@ int main() {
 
 
 
-//ÖØÔØcomplexµÄ¼Ó¼õ·¨ºÍ<<ÔËËã·ûÎª·Ç³ÉÔ±º¯Êı
+//é‡è½½complexçš„åŠ å‡æ³•å’Œ<<è¿ç®—ç¬¦ä¸ºéæˆå‘˜å‡½æ•°
 /*
 class Complex {
 public:
@@ -3828,7 +3898,7 @@ int main() {
 */
 
 
-//Êı¾İ½á¹¹£¨Self-Learning£©
+//æ•°æ®ç»“æ„ï¼ˆSelf-Learningï¼‰
 
 
 
@@ -3877,7 +3947,7 @@ int main() {
 
 
 
-//unsigned int ×ª×Ö·û´®Ö¸Õë
+//unsigned int è½¬å­—ç¬¦ä¸²æŒ‡é’ˆ
 /*
 int itoa_bin(unsigned int data, char *str)
 {
@@ -3917,7 +3987,7 @@ int itoa_bin(unsigned int data, char *str)
 */
 
 
-//EE658µü´ú
+//EE658è¿­ä»£
 /*
 int main() {
 	cout << "S0:";
@@ -3964,7 +4034,7 @@ int main() {
 
 
 
-//Ğéº¯ÊıÑ§Ï°1
+//è™šå‡½æ•°å­¦ä¹ 1
 /*
 class Base1 {
 public:
@@ -3992,8 +4062,8 @@ public:
 
 class Base1 {
 public:
-	virtual void display() const;  //virtual ÔÚÔËĞĞ½×¶Î×ö¶¯Ì¬°ó¶¨
-		//ÓÉÓÚ×ö¶¯Ì¬°ó¶¨£¬ËùÒÔ²»ÄÜÔÚ±àÒë½×¶Î¾Í¶Ôdisplayº¯Êı½øĞĞ±àÒë£¬ÓÚÊÇdisplay±ØĞëĞ´ÔÚÀàÍâ
+	virtual void display() const;  //virtual åœ¨è¿è¡Œé˜¶æ®µåšåŠ¨æ€ç»‘å®š
+		//ç”±äºåšåŠ¨æ€ç»‘å®šï¼Œæ‰€ä»¥ä¸èƒ½åœ¨ç¼–è¯‘é˜¶æ®µå°±å¯¹displayå‡½æ•°è¿›è¡Œç¼–è¯‘ï¼Œäºæ˜¯displayå¿…é¡»å†™åœ¨ç±»å¤–
 };
 void Base1::display() const{
 	cout << "Base1::display()" << endl;
@@ -4015,6 +4085,7 @@ void Derived::display() const {
 	cout << "Derived::display()" << endl;
 }
 
+
 void fun(Base1 *ptr) {
 	ptr->display();
 }
@@ -4030,7 +4101,7 @@ int main() {
 }
 */
 
-//Ğéº¯ÊıÑ§Ï°2
+//è™šå‡½æ•°å­¦ä¹ 2
 /*
 ///////////////////////////////////////////////////////////////////
 class A{
@@ -4057,24 +4128,24 @@ public:
 	int j = 10;
 };
 
-int main(){//fuu()ÎªĞéº¯Êı
-	A a;									//»ùÀà
-	B b;									//ÅÉÉúÀà
-	A *p = &a;								//½«»ùÀàÖ¸ÕëÖ¸Ïò»ùÀà
-	cout << "p->foo()---"; p->foo();		//pÖ¸Ïò»ùÀà¶ÔÏó£¬»ùÀàÖ¸ÕëÎŞ·¨´úÌæÅÉÉúÀàÖ¸Õë£¬ËùÒÔÖ±½Óµ÷ÓÃ»ùÀà³ÉÔ±º¯Êıfoo()
-	cout << "p->fuu()---"; p->fuu();		//Í¬ÉÏ
-	cout << "-------ÏòÉÏ×ªĞÍ-----------" << endl;
+int main(){//fuu()ä¸ºè™šå‡½æ•°
+	A a;									//åŸºç±»
+	B b;									//æ´¾ç”Ÿç±»
+	A *p = &a;								//å°†åŸºç±»æŒ‡é’ˆæŒ‡å‘åŸºç±»
+	cout << "p->foo()---"; p->foo();		//pæŒ‡å‘åŸºç±»å¯¹è±¡ï¼ŒåŸºç±»æŒ‡é’ˆæ— æ³•ä»£æ›¿æ´¾ç”Ÿç±»æŒ‡é’ˆï¼Œæ‰€ä»¥ç›´æ¥è°ƒç”¨åŸºç±»æˆå‘˜å‡½æ•°foo()
+	cout << "p->fuu()---"; p->fuu();		//åŒä¸Š
+	cout << "-------å‘ä¸Šè½¬å‹-----------" << endl;
 
-	p = &b;									//½«»ùÀàÖ¸ÕëÖ¸ÏòÅÉÉúÀà¶ÔÏó	
-	cout << "p->foo()---"; p->foo();		//ÅÉÉúÀàÖ¸Ïò»ùÀà³ÉÔ±º¯Êı£¬ÅÉÉúÀàÖĞ¶¨ÒåµÄÍ¬Ãû³ÉÔ±º¯Êı²»Æğ×÷ÓÃ¡£foo²»ÊÇĞéº¯Êı£¬»áÖ±½Óµ÷ÓÃ×î³õ¶¨Òå(»ùÀà)µÄÎ»ÖÃ
-	cout << "p->fuu()---"; p->fuu();		//ÓÉÓÚfuuÊÇĞéº¯Êı£¬Ö¸Õë»áÖ¸ÏòÅÉÉúÀàÖĞ¶¨ÒåµÄ³ÉÔ±Ğéº¯Êı
+	p = &b;									//å°†åŸºç±»æŒ‡é’ˆæŒ‡å‘æ´¾ç”Ÿç±»å¯¹è±¡	
+	cout << "p->foo()---"; p->foo();		//æ´¾ç”Ÿç±»æŒ‡å‘åŸºç±»æˆå‘˜å‡½æ•°ï¼Œæ´¾ç”Ÿç±»ä¸­å®šä¹‰çš„åŒåæˆå‘˜å‡½æ•°ä¸èµ·ä½œç”¨ã€‚fooä¸æ˜¯è™šå‡½æ•°ï¼Œä¼šç›´æ¥è°ƒç”¨æœ€åˆå®šä¹‰(åŸºç±»)çš„ä½ç½®
+	cout << "p->fuu()---"; p->fuu();		//ç”±äºfuuæ˜¯è™šå‡½æ•°ï¼ŒæŒ‡é’ˆä¼šæŒ‡å‘æ´¾ç”Ÿç±»ä¸­å®šä¹‰çš„æˆå‘˜è™šå‡½æ•°
 	
-	cout << "--------ÏòÏÂ×ªĞÍ----------" << endl;
-	//B *pt = &a;							//´íÎó£¬ÅÉÉúÀàÖ¸Õë²»ÄÜÖ¸Ïò»ùÀà£¬±ØĞë½øÏîÇ¿ÖÆ×ª»»
-	B *ptr = (B *)&a;						//ÓÃÒ»¸öÅÉÉúÀàÖ¸ÕëÖ¸ÏòÒ»¸öÓÉÖ¸Ïò»ùÀà¶ÔÏóµÄÖ¸ÕëÇ¿ÖÆ×ª»»ÎªÖ¸ÏòÅÉÉúÀàÖ¸ÕëµÄÖ¸Õë¡£
-											//´ËÓÃ·¨¿ÉÒÔÀí½âÎªÒ»¸öÅÉÉúÀàµÄÄ£×ÓÖ¸ÏòÁË»ùÀàµÄÄÚ´æ¿Õ¼ä¡£µ÷ÓÃÄ£×ÓÊ±ÎªÅÉÉúÀà£¬·ÃÎÊ¿Õ¼äÖĞÊı¾İÓÖÖ¸ÏòÁË»ùÀà¡£É÷ÓÃ£¡£¡£¡£¡
-											//ÌØ±ğÈİÒ×Ôì³ÉÄÚ´æ·ÃÎÊÉÏµÄ´íÎó£¬ÌÈÈôÅÉÉúÀàÖĞ¶¨ÒåÁËÒ»¸öĞÂ³ÉÔ±,¶ş»ùÀàÖĞÓÖÃ»ÓĞ£¬Ôò»á·ÃÎÊÒ»¶ÎÎ»ÖÃµÄ¿Õ¼ä£»
-											//Èç¹ûÕâ¶Î¿Õ¼äÊÇ²Ù×÷ÏµÍ³Õ¼ÓÃµÄ£¬³ÌĞò¾Í»á³ö´í
+	cout << "--------å‘ä¸‹è½¬å‹----------" << endl;
+	//B *pt = &a;							//é”™è¯¯ï¼Œæ´¾ç”Ÿç±»æŒ‡é’ˆä¸èƒ½æŒ‡å‘åŸºç±»ï¼Œå¿…é¡»è¿›é¡¹å¼ºåˆ¶è½¬æ¢
+	B *ptr = (B *)&a;						//ç”¨ä¸€ä¸ªæ´¾ç”Ÿç±»æŒ‡é’ˆæŒ‡å‘ä¸€ä¸ªç”±æŒ‡å‘åŸºç±»å¯¹è±¡çš„æŒ‡é’ˆå¼ºåˆ¶è½¬æ¢ä¸ºæŒ‡å‘æ´¾ç”Ÿç±»æŒ‡é’ˆçš„æŒ‡é’ˆã€‚
+											//æ­¤ç”¨æ³•å¯ä»¥ç†è§£ä¸ºä¸€ä¸ªæ´¾ç”Ÿç±»çš„æ¨¡å­æŒ‡å‘äº†åŸºç±»çš„å†…å­˜ç©ºé—´ã€‚è°ƒç”¨æ¨¡å­æ—¶ä¸ºæ´¾ç”Ÿç±»ï¼Œè®¿é—®ç©ºé—´ä¸­æ•°æ®åˆæŒ‡å‘äº†åŸºç±»ã€‚æ…ç”¨ï¼ï¼ï¼ï¼
+											//ç‰¹åˆ«å®¹æ˜“é€ æˆå†…å­˜è®¿é—®ä¸Šçš„é”™è¯¯ï¼Œå€˜è‹¥æ´¾ç”Ÿç±»ä¸­å®šä¹‰äº†ä¸€ä¸ªæ–°æˆå‘˜,äºŒåŸºç±»ä¸­åˆæ²¡æœ‰ï¼Œåˆ™ä¼šè®¿é—®ä¸€æ®µä½ç½®çš„ç©ºé—´ï¼›
+											//å¦‚æœè¿™æ®µç©ºé—´æ˜¯æ“ä½œç³»ç»Ÿå ç”¨çš„ï¼Œç¨‹åºå°±ä¼šå‡ºé”™
 	cout << "ptr->foo()----"; ptr->foo();	//???3
 	cout << "ptr->fuu()----"; ptr->fuu();	//???2
 	cout << "j: " << ptr->j << endl;
@@ -4089,7 +4160,7 @@ int main(){//fuu()ÎªĞéº¯Êı
 }
 */
 
-//Ğéº¯ÊıÎö¹¹
+//è™šå‡½æ•°ææ„
 /*
 class Base {
 public:
@@ -4117,13 +4188,13 @@ void fun(Base *b) {
 }
 int main() {
 	Base *b = new Derived();
-	fun(b);//ÅÉÉúÀàÎö¹¹ºó»á×Ô¶¯µ÷ÓÃ»ùÀàµÄÎö¹¹º¯Êı
+	fun(b);//æ´¾ç”Ÿç±»ææ„åä¼šè‡ªåŠ¨è°ƒç”¨åŸºç±»çš„ææ„å‡½æ•°
 	return 0;
 }
 */
 
 
-//³éÏóÀà
+//æŠ½è±¡ç±»
 /*
 class Base1 {
 public:
@@ -4151,6 +4222,7 @@ void fun(Base1 *ptr) {
 	ptr->display();
 }
 int main() {
+	//Base1 base1; //error: abstract classs cannot use to define object
 	Base2 base2;
 	Derived derived;
 	fun(&base2);
@@ -4215,7 +4287,7 @@ class Derived :public Base3 {
 };
 */
 
-//ÔËËã·ûÖØÔØ2
+//è¿ç®—ç¬¦é‡è½½2
 /*
 class Point {
 	int _x, _y;
@@ -4264,7 +4336,7 @@ int main() {
 
 
 
-//Ğéº¯ÊıµÄ¶¯Ì¬°ó¶¨2
+//è™šå‡½æ•°çš„åŠ¨æ€ç»‘å®š2
 /*
 class Vehicle {
 public:
@@ -4326,11 +4398,11 @@ int main() {
 
 
 
-//~~~~~~~~~~~Ä£°å~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~æ¨¡æ¿~~~~~~~~~~~~~~~//
 
 
 
-//Ä£°å×Ô¶¯ÖØÔØ1
+//æ¨¡æ¿è‡ªåŠ¨é‡è½½1
 /*
 template<typename T>
 T abs(T x) {
@@ -4347,7 +4419,7 @@ int main() {
 
 
 
-//Ä£°åÖØÔØ2
+//æ¨¡æ¿é‡è½½2
 /*
 template <class T>
 void outputArray(const T *array, int count) {
@@ -4373,7 +4445,7 @@ int main() {
 
 
 
-//ÀàÄ£°å
+//ç±»æ¨¡æ¿
 /*
 struct Student {
 	int id;
@@ -4392,7 +4464,7 @@ public:
 };
 
 template <class T>
-Store<T>::Store():haveValue(false){}//¹¹Ôìº¯Êı³õÊ¼»¯
+Store<T>::Store():haveValue(false){}//æ„é€ å‡½æ•°åˆå§‹åŒ–
 
 template <class T>
 T &Store<T>::getElem() {
@@ -4428,7 +4500,7 @@ int main() {
 */
 
 
-//Êı×éÀàÄ£°å
+//æ•°ç»„ç±»æ¨¡æ¿
 /*
 #ifndef ARRAY_H
 #define ARRAY_H
@@ -4442,7 +4514,7 @@ public:
 	Array(const Array<T> &a);
 	~Array();
 
-	Array<T> &operator=(const Array<T> &rhs);//ÖØÔØ¡°=¡±
+	Array<T> &operator=(const Array<T> &rhs);//é‡è½½â€œ=â€
 	T & operator [] (int i);
 	const T & operator[](int i)const;
 	operator T*();
@@ -4451,26 +4523,26 @@ public:
 	void resize(int sz);
 };
 
-template<class T> Array<T>::Array(int sz) {//¹¹Ôìº¯Êı
+template<class T> Array<T>::Array(int sz) {//æ„é€ å‡½æ•°
 	assert(sz >= 0);
 	size = sz;
 	list = new T[size];
 }
 
-template<class T> Array<T>::~Array() {//Îö¹¹º¯Êı
+template<class T> Array<T>::~Array() {//ææ„å‡½æ•°
 	delete[] list;
 }
 
-template<class T> Array<T>::Array(const Array<T> &a) {//¸´ÖÆ¹¹Ôìº¯Êı
+template<class T> Array<T>::Array(const Array<T> &a) {//å¤åˆ¶æ„é€ å‡½æ•°
 	size = a.size;
 	list = new T[size];
 	for (int i = 0; i < size; i++)
 		list[i] = a.list[i];
 }
 
-template<class T> Array<T> &Array<T>::operator=(const Array<T> &rhs) {//ÖØÔØ¡°=¡±ÔËËã·û£¬½«¶ÔÏórhs¸³Öµ¸ø±¾¶ÔÏó¡£ÊµÏÖ¶ÔÏóÖ®¼äµÄÕûÌå¸³Öµ
-	if (&rhs != this) { //Ê×ÏÈÅÅ³ı×ÔÉí¸³Öµ
-		if (size != rhs.size) {//ÅĞ¶Ï´óĞ¡ÊÇ·ñÒ»ÖÂ£¬Èç¹û²»Ò»ÖÂÊ×ÏÈÉ¾³ıÖ¸Õë¿Õ¼äÔÙ´´½¨ĞÂµÄ¿Õ¼ä²¢¸³Öµ£¬Èç¹ûÒ»ÖÂÔòÖ±½Ó¸³Öµ
+template<class T> Array<T> &Array<T>::operator=(const Array<T> &rhs) {//é‡è½½â€œ=â€è¿ç®—ç¬¦ï¼Œå°†å¯¹è±¡rhsèµ‹å€¼ç»™æœ¬å¯¹è±¡ã€‚å®ç°å¯¹è±¡ä¹‹é—´çš„æ•´ä½“èµ‹å€¼
+	if (&rhs != this) { //é¦–å…ˆæ’é™¤è‡ªèº«èµ‹å€¼
+		if (size != rhs.size) {//åˆ¤æ–­å¤§å°æ˜¯å¦ä¸€è‡´ï¼Œå¦‚æœä¸ä¸€è‡´é¦–å…ˆåˆ é™¤æŒ‡é’ˆç©ºé—´å†åˆ›å»ºæ–°çš„ç©ºé—´å¹¶èµ‹å€¼ï¼Œå¦‚æœä¸€è‡´åˆ™ç›´æ¥èµ‹å€¼
 			delete[] list;
 			size = rhs.size;
 			list = new T[size];
@@ -4478,22 +4550,22 @@ template<class T> Array<T> &Array<T>::operator=(const Array<T> &rhs) {//ÖØÔØ¡°=¡
 		for (int i = 0; i < size; i++)
 			list[i] = rhs.list[i];
 	}
-	return *this;//·µ»Øµ±Ç°¶ÔÏóµÄÒıÓÃ
+	return *this;//è¿”å›å½“å‰å¯¹è±¡çš„å¼•ç”¨
 }
 
-template<class T> T &Array<T>::operator[] (int n) {//ÖØÔØÏÂ±êÔËËã·û
+template<class T> T &Array<T>::operator[] (int n) {//é‡è½½ä¸‹æ ‡è¿ç®—ç¬¦
 	assert(n >= 0 && n < size);
 	return list[n];
 }
 
-template<class T> const T &Array<T>::operator[] (int n) const {//³£ÒıÓÃ£¬Ö»ÄÜ¶ÁÈ¡ÏÂ±ê¶ÔÓ¦µÄÔªËØµ«ÊÇ²»ÄÜ¸Ä±ä
+template<class T> const T &Array<T>::operator[] (int n) const {//å¸¸å¼•ç”¨ï¼Œåªèƒ½è¯»å–ä¸‹æ ‡å¯¹åº”çš„å…ƒç´ ä½†æ˜¯ä¸èƒ½æ”¹å˜
 
 		assert(n >= 0 && n < size);
 		return list[n];
 
 }
 
-template<class T> Array<T>::operator T *() {//ÖØÔØÖ¸Õë×ª»»º¯Êı
+template<class T> Array<T>::operator T *() {//é‡è½½æŒ‡é’ˆè½¬æ¢å‡½æ•°
 	return list;
 }
 
@@ -4501,7 +4573,7 @@ template<class T> Array<T>::operator const T*()const {
 	return list;
 }
 
-template<class T> int Array<T>::getSize() const {//»ñÈ¡µ±Ç°Êı×é´óĞ¡
+template<class T> int Array<T>::getSize() const {//è·å–å½“å‰æ•°ç»„å¤§å°
 	return size;
 }
 
@@ -4519,7 +4591,7 @@ template<class T> void Array<T>::resize(int sz) {
 }
 #endif
 
-int main() {//ÇóÖÊÊı£¬´æÈëArray½á¹¹ÖĞ
+int main() {//æ±‚è´¨æ•°ï¼Œå­˜å…¥Arrayç»“æ„ä¸­
 	Array<int> a(10);
 	int n, count = 0;
 	cout << "Enter a value >=2 as upper limit for prime numbers:";
@@ -4549,7 +4621,7 @@ int main() {//ÇóÖÊÊı£¬´æÈëArray½á¹¹ÖĞ
 
 
 
-//Á´±íÀà
+//é“¾è¡¨ç±»
 /*
 template <class T>
 class Node {
@@ -4596,8 +4668,8 @@ Node<T> *Node<T>::nextNode(){
 
 
 
-//Õ»ÀàÄ£°å   ²¢ÊµÏÖ¼ÆËãÆ÷¹¦ÄÜ 5 -3 + 6 * ^ 2
-/*
+//æ ˆç±»æ¨¡æ¿   å¹¶å®ç°è®¡ç®—å™¨åŠŸèƒ½ 5 -3 + 6 * ^ 2
+/*/
 template <class T,int SIZE=50>
 class Stack {
 private:
@@ -4661,7 +4733,7 @@ public:
 	void clear();
 };
 
-inline double stringToDouble(const string &str) {//×Ö·û´®×ªÊµÊı
+inline double stringToDouble(const string &str) {//å­—ç¬¦ä¸²è½¬å®æ•°
 	istringstream stream(str);
 	double result;
 	stream >> result;
@@ -4694,13 +4766,13 @@ void Calculator::compute(char op) {
 		case '+':
 			s.push(operand1 + operand2);
 			break;
-		case'-':
+		case '-':
 			s.push(operand1 - operand2);
 			break;
-		case'*':
+		case '*':
 			s.push(operand1 * operand2);
 			break;
-		case'/':
+		case '/':
 			if (operand1 == 0) {
 				cerr << "Divided by 0" << endl;
 				s.clear();
@@ -4709,7 +4781,7 @@ void Calculator::compute(char op) {
 				s.push(operand2 / operand1);
 			break;
 
-		case'^':
+		case '^':
 			s.push(pow(operand2, operand1));
 			break;
 		default:
@@ -4723,16 +4795,16 @@ void Calculator::compute(char op) {
 
 }
 
-void Calculator::run() {//¶ÁÈëºó×º±í´ïÊ½£¬²¢´¦Àí
+void Calculator::run() {//è¯»å…¥åç¼€è¡¨è¾¾å¼ï¼Œå¹¶å¤„ç†
 	string str;
 	while (cin >> str, str != "q") {
 		switch (str[0]) {
 		case 'c':s.clear(); break;
-		case'-':str.size() > 1 ? enter(stringToDouble(str)) : compute(str[0]); break;
-		case'+':
-		case'*':
-		case'/':
-		case'^':
+		case '-':str.size() > 1 ? enter(stringToDouble(str)) : compute(str[0]); break;
+		case '+':
+		case '*':
+		case '/':
+		case '^':
 			compute(str[0]); break;
 		default:
 			enter(stringToDouble(str)); break;
@@ -4753,7 +4825,7 @@ int main() {
 */
 
 
-//¶ÓÁĞÀàÄ£°å
+//é˜Ÿåˆ—ç±»æ¨¡æ¿
 /*
 template<class T,int SIZE=50>
 class Queue {
@@ -4820,7 +4892,7 @@ void Queue<T, SIZE>::clear() {
 */
 
 
-//²åÈëÅÅĞò·¨Ä£°å
+//æ’å…¥æ’åºæ³•æ¨¡æ¿
 /*
 template<class T>
 void insertionSort(T a[], int n) {
@@ -4838,7 +4910,7 @@ void insertionSort(T a[], int n) {
 }
 int main() {
 	float a[] = { 1.1,2.5,6.9,7.1,6.13,56.32,14.18,7.71,5.10,10.11,9.16,1.32,0.314,8.56,5.12 };
-	bubbleSort(a, sizeof(a)/sizeof(float));
+	insertionSort(a, sizeof(a)/sizeof(float));
 	for (int i = 0; i < sizeof(a) / sizeof(float); i++) {
 		cout << a[i] << " ";
 	}
@@ -4848,7 +4920,7 @@ int main() {
 
 
 
-//Ñ¡ÔñÅÅĞò·¨Ä£°å
+//é€‰æ‹©æ’åºæ³•æ¨¡æ¿
 /*
 template <class T>
 void mySwap(T &x,T &y) {
@@ -4879,7 +4951,7 @@ int main() {
 
 
 
-//½»»»ÅÅĞò·¨Ä£°å£¨Ã°ÅİÅÅĞò£©
+//äº¤æ¢æ’åºæ³•æ¨¡æ¿ï¼ˆå†’æ³¡æ’åºï¼‰
 /*
 template<class T>
 void mySwap(T &x, T &y) {
@@ -4890,7 +4962,7 @@ void mySwap(T &x, T &y) {
 template<class T>
 void bubbleSort(T a[], int n) {
 	int i = n - 1;
-	while (i > 0) {//ÓĞ½»»»¼ÌĞø£¬Ã»ÓĞ½»»»ÍË³öwhileÑ­»·
+	while (i > 0) {//æœ‰äº¤æ¢ç»§ç»­ï¼Œæ²¡æœ‰äº¤æ¢é€€å‡ºwhileå¾ªç¯
 		int lastExchangeIndex = 0;
 		for (int j = 0; j < i; j++) {
 			if (a[j + 1] < a[j]) {
@@ -4913,7 +4985,7 @@ int main() {
 
 
 
-//¶ş·Ö·¨²éÕÒËã·¨Ä£°å(Êı×éÄÚÊı¾İĞèÒª°´ÕÕË³ĞòÅÅºÃ)
+//äºŒåˆ†æ³•æŸ¥æ‰¾ç®—æ³•æ¨¡æ¿(æ•°ç»„å†…æ•°æ®éœ€è¦æŒ‰ç…§é¡ºåºæ’å¥½)
 /*
 template <class T>
 int binSearch(const T list[], int n, const T &key) {
@@ -4933,7 +5005,7 @@ int binSearch(const T list[], int n, const T &key) {
 */
 
 
-//Ê¹ÓÃSTL±ê×¼¿âÊµÏÖÊı¾İµÄÇó·´
+//ä½¿ç”¨STLæ ‡å‡†åº“å®ç°æ•°æ®çš„æ±‚å
 /*
 int main() {
 	const int N = 5;
@@ -4949,16 +5021,16 @@ int main() {
 
 
 
-//´Ó±ê×¼ÊäÈë¶ÁÈë¼¸¸öÊµÊı£¬·Ö±ğ½«ËûÃÇµÄÆ½·½Êä³ö
+//ä»æ ‡å‡†è¾“å…¥è¯»å…¥å‡ ä¸ªå®æ•°ï¼Œåˆ†åˆ«å°†ä»–ä»¬çš„å¹³æ–¹è¾“å‡º
 /*
 double square(double x) {
 	return x * x;
 }
 
 int main() {
-	transform(istream_iterator<double>(cin), istream_iterator<double>(), ostream_iterator<double>(cout, "\t"), square);//Ò»´Î´Ó¼üÅÌ
-	//¶ÁÈëÊı¾İ£¬Ö±µ½ÊäÈëÁ÷½áÊøµÄÎ»ÖÃ¡£ÔÚwindowsÖĞÒÔctrl+z½áÊø£¬ÔÚlinuxÖĞÒÔCtrl+d×÷Îª½áÊø
-	//Ã¿Ò»¸öÊıµ÷ÓÃsquareÇóÆ½·½£¬½«½á¹ûÊäÈëµ½Êä³öÁ÷µü´úÆ÷ÖĞ£¨cout±ê×¼Êä³öÁ÷£¬²¢ÒÔtap×÷Îª·Ö¸ô·û£©
+	transform(istream_iterator<double>(cin), istream_iterator<double>(), ostream_iterator<double>(cout, "\t"), square);//ä¸€æ¬¡ä»é”®ç›˜
+	//è¯»å…¥æ•°æ®ï¼Œç›´åˆ°è¾“å…¥æµç»“æŸçš„ä½ç½®ã€‚åœ¨windowsä¸­ä»¥ctrl+zç»“æŸï¼Œåœ¨linuxä¸­ä»¥Ctrl+dä½œä¸ºç»“æŸ
+	//æ¯ä¸€ä¸ªæ•°è°ƒç”¨squareæ±‚å¹³æ–¹ï¼Œå°†ç»“æœè¾“å…¥åˆ°è¾“å‡ºæµè¿­ä»£å™¨ä¸­ï¼ˆcoutæ ‡å‡†è¾“å‡ºæµï¼Œå¹¶ä»¥tapä½œä¸ºåˆ†éš”ç¬¦ï¼‰
 	cout << endl;
 	return 0;
 }
@@ -4966,16 +5038,16 @@ int main() {
 
 
 
-//µü´úÆ÷ÔËÓÃ1
+//è¿­ä»£å™¨è¿ç”¨1
 /*
 template<class T,class InputIterator,class OutputItrator>
 void mySort(InputIterator first, InputIterator last, OutputItrator result) {
-	vector<T> s;//Í¨¹ıÊäÈëµü´úÆ÷½«ÊäÈëÊı¾İ´æÈëÏòÁ¿ÈİÆ÷sÖĞ
+	vector<T> s;//é€šè¿‡è¾“å…¥è¿­ä»£å™¨å°†è¾“å…¥æ•°æ®å­˜å…¥å‘é‡å®¹å™¨sä¸­
 	for (; first != last; ++first)
 		s.push_back(*first);
 
-	sort(s.begin(), s.end());//¶Ôs½øĞĞÅÅĞò£¬sortº¯ÊıµÄ²ÎÊı±ØĞëÊÇËæ»ú·ÃÎÊµü´úÆ÷
-	copy(s.begin(), s.end(), result);//½«sĞòÁĞÍ¨¹ıÊä³öµü´úÆ÷Êä³ö
+	sort(s.begin(), s.end());//å¯¹sè¿›è¡Œæ’åºï¼Œsortå‡½æ•°çš„å‚æ•°å¿…é¡»æ˜¯éšæœºè®¿é—®è¿­ä»£å™¨
+	copy(s.begin(), s.end(), result);//å°†såºåˆ—é€šè¿‡è¾“å‡ºè¿­ä»£å™¨è¾“å‡º
 }
 int main() {
 	double a[5] = { 1.2,2.4,0.8,3.3,3.2 };
@@ -4989,7 +5061,7 @@ int main() {
 
 
 
-//Ë³ĞòÈİÆ÷µÄ»ù±¾²Ù×÷
+//é¡ºåºå®¹å™¨çš„åŸºæœ¬æ“ä½œ
 /*
 template<class T>
 void printContainer(const char* msg, const T& s) {
@@ -5010,7 +5082,7 @@ int main() {
 	list<int> l(s.rbegin(), s.rend());
 	printContainer("list at first", l);
 
-	//°ÑlÏàÁÚÔªËØ½»»»Î»ÖÃ
+	//æŠŠlç›¸é‚»å…ƒç´ äº¤æ¢ä½ç½®
 	list<int>::iterator iter = l.begin();
 	while (iter != l.end()) {
 		int v = *iter;
@@ -5019,7 +5091,7 @@ int main() {
 	}
 	printContainer("list at last", l);
 
-	s.assign(l.begin(), l.end());//ÓÃl¸øs¸³Öµ
+	s.assign(l.begin(), l.end());//ç”¨lç»™sèµ‹å€¼
 	printContainer("deque at last", s);
 
 	vector<int> v(s.begin(), s.end());
@@ -5029,11 +5101,11 @@ int main() {
 */
 
 
-//´Ó´óµ½Ğ¡Ë³ĞòÊä³öÆæÊı£¬ÔÙ´ÓĞ¡µ½´óË³ĞòÊä³öÅ¼Êı
+//ä»å¤§åˆ°å°é¡ºåºè¾“å‡ºå¥‡æ•°ï¼Œå†ä»å°åˆ°å¤§é¡ºåºè¾“å‡ºå¶æ•°
 /*
 int main() {
-	istream_iterator<int> i1(cin), i2;//½¨Á¢Ò»¶ÔÊäÈëµü´úÆ÷£¬i1Ö¸ÏòµÚÒ»¸öÊäÈë£¬i2×îºóÒ»¸öÊäÈë
-	vector<int> s1(i1, i2);//Í¨¹ıi1£¬i2½¨Á¢intĞÍvector
+	istream_iterator<int> i1(cin), i2;//å»ºç«‹ä¸€å¯¹è¾“å…¥è¿­ä»£å™¨ï¼Œi1æŒ‡å‘ç¬¬ä¸€ä¸ªè¾“å…¥ï¼Œi2æœ€åä¸€ä¸ªè¾“å…¥
+	vector<int> s1(i1, i2);//é€šè¿‡i1ï¼Œi2å»ºç«‹intå‹vector
 	sort(s1.begin(), s1.end());
 	deque<int> s2;
 	for (vector<int>::iterator iter = s1.begin(); iter != s1.end(); ++iter) {
@@ -5050,28 +5122,28 @@ int main() {
 
 
 
-//ÁĞ±íÈİÆ÷µÄsplice²Ù×÷
+//åˆ—è¡¨å®¹å™¨çš„spliceæ“ä½œ
 /*
 int main() {
 	string names1[] = { "Alice", "Helen", "Lucy", "Susan" };
 	string names2[] = { "Bob", "David", "Levin", "Mike" };
-	//ÓÃnames1Êı×éµÄÄÚÈİ¹¹ÔìÁĞ±ís1
+	//ç”¨names1æ•°ç»„çš„å†…å®¹æ„é€ åˆ—è¡¨s1
 	list<string> s1(names1, names1 + 4);
-	//ÓÃnames2Êı×éµÄÄÚÈİ¹¹ÔìÁĞ±ís2
+	//ç”¨names2æ•°ç»„çš„å†…å®¹æ„é€ åˆ—è¡¨s2
 	list<string> s2(names2, names2 + 4);
 
-	//½«s1µÄµÚÒ»¸öÔªËØ·Åµ½s2µÄ×îºó
+	//å°†s1çš„ç¬¬ä¸€ä¸ªå…ƒç´ æ”¾åˆ°s2çš„æœ€å
 	s2.splice(s2.end(), s1, s1.begin());
-	list<string>::iterator iter1 = s1.begin(); //iter1Ö¸Ïòs1Ê×
-	advance(iter1, 2); //iter1Ç°½ø2¸öÔªËØ£¬Ëü½«Ö¸Ïòs1µÚ3¸öÔªËØ
-	list<string>::iterator iter2 = s2.begin();  //iter2Ö¸Ïòs2Ê×
-	++iter2; //iter2Ç°½ø1¸öÔªËØ£¬Ëü½«Ö¸Ïòs2µÚ2¸öÔªËØ
-	list<string>::iterator iter3 = iter2; //ÓÃiter2³õÊ¼»¯iter3
-	advance(iter3, 2); //iter3Ç°½ø2¸öÔªËØ£¬Ëü½«Ö¸Ïòs2µÚ4¸öÔªËØ
-	//½«[iter2, iter3)·¶Î§ÄÚµÄ½áµã½Óµ½s1ÖĞiter1Ö¸ÏòµÄ½áµãÇ°
+	list<string>::iterator iter1 = s1.begin(); //iter1æŒ‡å‘s1é¦–
+	advance(iter1, 2); //iter1å‰è¿›2ä¸ªå…ƒç´ ï¼Œå®ƒå°†æŒ‡å‘s1ç¬¬3ä¸ªå…ƒç´ 
+	list<string>::iterator iter2 = s2.begin();  //iter2æŒ‡å‘s2é¦–
+	++iter2; //iter2å‰è¿›1ä¸ªå…ƒç´ ï¼Œå®ƒå°†æŒ‡å‘s2ç¬¬2ä¸ªå…ƒç´ 
+	list<string>::iterator iter3 = iter2; //ç”¨iter2åˆå§‹åŒ–iter3
+	advance(iter3, 2); //iter3å‰è¿›2ä¸ªå…ƒç´ ï¼Œå®ƒå°†æŒ‡å‘s2ç¬¬4ä¸ªå…ƒç´ 
+	//å°†[iter2, iter3)èŒƒå›´å†…çš„ç»“ç‚¹æ¥åˆ°s1ä¸­iter1æŒ‡å‘çš„ç»“ç‚¹å‰
 	s1.splice(iter1, s2, iter2, iter3);
 
-	//·Ö±ğ½«s1ºÍs2Êä³ö
+	//åˆ†åˆ«å°†s1å’Œs2è¾“å‡º
 	copy(s1.begin(), s1.end(), ostream_iterator<string>(cout, " "));
 	cout << endl;
 	copy(s2.begin(), s2.end(), ostream_iterator<string>(cout, " "));
@@ -5082,16 +5154,16 @@ int main() {
 
 
 
-//ÀûÓÃÕ»·´ÏòÊä³öµ¥´Ê
+//åˆ©ç”¨æ ˆåå‘è¾“å‡ºå•è¯
 /*
 int main() {
 	stack<char> s;
 	string str;
-	cin >> str; //´Ó¼üÅÌÊäÈëÒ»¸ö×Ö·û´®
-	//½«×Ö·û´®µÄÃ¿¸öÔªËØË³ĞòÑ¹ÈëÕ»ÖĞ
+	cin >> str; //ä»é”®ç›˜è¾“å…¥ä¸€ä¸ªå­—ç¬¦ä¸²
+	//å°†å­—ç¬¦ä¸²çš„æ¯ä¸ªå…ƒç´ é¡ºåºå‹å…¥æ ˆä¸­
 	for (string::iterator iter = str.begin(); iter != str.end(); ++iter)
 		s.push(*iter);
-	//½«Õ»ÖĞµÄÔªËØË³Ğòµ¯³ö²¢Êä³ö
+	//å°†æ ˆä¸­çš„å…ƒç´ é¡ºåºå¼¹å‡ºå¹¶è¾“å‡º
 	while (!s.empty()) {
 		cout << s.top();
 		s.pop();
@@ -5102,7 +5174,7 @@ int main() {
 */
 
 
-//Ä£ÄâÏ¸°û·ÖÁÑ
+//æ¨¡æ‹Ÿç»†èƒåˆ†è£‚
 /*
 const int SPLIT_TIME_MIN = 500;
 const int SPLIT_TIME_MAX = 2000;
@@ -5151,13 +5223,13 @@ int main() {
 
 
 
-//ÊäÈëÒ»´®ÊµÊı£¬½«ÖØ¸´µÄÈ¥µô£¬È¡×î´óºÍ×îĞ¡ÕßµÄÖĞÖµ£¬·Ö±ğÊä³öĞ¡ÓÚµÈÓÚ´ËÖĞÖµºÍ´óÓÚµÈÓÚ´ËÖĞÖµµÄÊµÊı£¨0×÷ÎªÊäÈë½áÊø±êÖ¾£©
+//è¾“å…¥ä¸€ä¸²å®æ•°ï¼Œå°†é‡å¤çš„å»æ‰ï¼Œå–æœ€å¤§å’Œæœ€å°è€…çš„ä¸­å€¼ï¼Œåˆ†åˆ«è¾“å‡ºå°äºç­‰äºæ­¤ä¸­å€¼å’Œå¤§äºç­‰äºæ­¤ä¸­å€¼çš„å®æ•°ï¼ˆ0ä½œä¸ºè¾“å…¥ç»“æŸæ ‡å¿—ï¼‰
 /*
 int main() {
 	set<double> s;
 	while (true) {
 		double v;
-		cin >> v;//´Ó¼üÅÌ²»¶Ï¶ÁÈëÊı¾İ
+		cin >> v;//ä»é”®ç›˜ä¸æ–­è¯»å…¥æ•°æ®
 		if (v == 0) break;
 		pair<set<double>::iterator, bool > r = s.insert(v);
 		if (!r.second)
@@ -5203,16 +5275,16 @@ int main() {
 
 
 
-//mapµÄ¼òµ¥Ê¹ÓÃ
+//mapçš„ç®€å•ä½¿ç”¨
 /*
 int main()
 {
-	map<string, int> m;//string ÎªµÚÒ»¸ö¼ü£¬intÎª¼üÖµÀàĞÍ£¬mÔòÎª¼üÖµ
+	map<string, int> m;//string ä¸ºç¬¬ä¸€ä¸ªé”®ï¼Œintä¸ºé”®å€¼ç±»å‹ï¼Œmåˆ™ä¸ºé”®å€¼
 	m["abc"] = 5;
 	m["cdf"] = 6;
 	m["b"] = 1;
-	m.insert(make_pair("ba", 6));//insert²åÈë
-	m["a"] = 5;//Ê¹ÓÃÏÂ±ê²åÈë
+	m.insert(make_pair("ba", 6));//insertæ’å…¥
+	m["a"] = 5;//ä½¿ç”¨ä¸‹æ ‡æ’å…¥
 	for (auto it = m.begin(); it != m.end(); it++)
 		cout << it->first << " " << it->second << endl;
 	return 0;
@@ -5221,52 +5293,52 @@ int main()
 
 
 
-//ÓĞÎåÃÅ¿Î³Ì£¬Ã¿ÃÅ¶¼ÓĞÏàÓ¦Ñ§·Ö£¬´ÓÖĞÑ¡ÔñÈıÃÅ£¬Êä³öÑ§·Ö×ÜºÍ
+//æœ‰äº”é—¨è¯¾ç¨‹ï¼Œæ¯é—¨éƒ½æœ‰ç›¸åº”å­¦åˆ†ï¼Œä»ä¸­é€‰æ‹©ä¸‰é—¨ï¼Œè¾“å‡ºå­¦åˆ†æ€»å’Œ
 /*
 int main() {
 	map<string, int> courses;
-	//½«¿Î³ÌĞÅÏ¢²åÈëcoursesÓ³ÉäÖĞ
+	//å°†è¯¾ç¨‹ä¿¡æ¯æ’å…¥coursesæ˜ å°„ä¸­
 	courses.insert(make_pair("CSAPP", 3));
 	courses.insert(make_pair("C++", 2));
 	courses.insert(make_pair("CSARCH", 4));
 	courses.insert(make_pair("COMPILER", 4));
 	courses.insert(make_pair("OS", 5));
 	cout << courses["C++"] << endl;	
-	int n = 3;      //Ê£ÏÂµÄ¿ÉÑ¡´ÎÊı
-	int sum = 0;    //Ñ§·Ö×ÜºÍ
+	int n = 3;      //å‰©ä¸‹çš„å¯é€‰æ¬¡æ•°
+	int sum = 0;    //å­¦åˆ†æ€»å’Œ
 	while (n > 0) {
 		string name;
-		cin >> name;    //ÊäÈë¿Î³ÌÃû³Æ
-		map<string, int>::iterator iter = courses.find(name);//²éÕÒ¿Î³Ì
-		if (iter == courses.end()) {    //ÅĞ¶ÏÊÇ·ñÕÒµ½
+		cin >> name;    //è¾“å…¥è¯¾ç¨‹åç§°
+		map<string, int>::iterator iter = courses.find(name);//æŸ¥æ‰¾è¯¾ç¨‹
+		if (iter == courses.end()) {    //åˆ¤æ–­æ˜¯å¦æ‰¾åˆ°
 			cout << name << " is not available" << endl;
 		}
 		else {
-			sum += iter->second;    //ÀÛ¼ÓÑ§·Ö
-			courses.erase(iter);    //½«¸ÕÑ¡¹ıµÄ¿Î³Ì´ÓÓ³ÉäÖĞÉ¾³ı
+			sum += iter->second;    //ç´¯åŠ å­¦åˆ†
+			courses.erase(iter);    //å°†åˆšé€‰è¿‡çš„è¯¾ç¨‹ä»æ˜ å°„ä¸­åˆ é™¤
 			n--;
 		}
 	}
-	cout << "Total credit: " << sum << endl;    //Êä³ö×ÜÑ§·Ö
+	cout << "Total credit: " << sum << endl;    //è¾“å‡ºæ€»å­¦åˆ†
 	return 0;
 }
 */
 
 
 
-//Í³¼ÆÒ»¾ä»°ÖĞÃ¿¸ö×ÖÄ¸³öÏÖµÄ´ÎÊı(Ó³Éä)
+//ç»Ÿè®¡ä¸€å¥è¯ä¸­æ¯ä¸ªå­—æ¯å‡ºç°çš„æ¬¡æ•°(æ˜ å°„)
 /*
 int main() {
-	map<char, int> s;   //ÓÃÀ´´æ´¢×ÖÄ¸³öÏÖ´ÎÊıµÄÓ³Éä
-	char c;     //´æ´¢ÊäÈë×Ö·û
+	map<char, int> s;   //ç”¨æ¥å­˜å‚¨å­—æ¯å‡ºç°æ¬¡æ•°çš„æ˜ å°„
+	char c;     //å­˜å‚¨è¾“å…¥å­—ç¬¦
 	do {
-		cin >> c; //ÊäÈëÏÂÒ»¸ö×Ö·û
-		if (isalpha(c)) { //ÅĞ¶ÏÊÇ·ñÊÇ×ÖÄ¸
-			c = tolower(c); //½«×ÖÄ¸×ª»»ÎªĞ¡Ğ´
-			s[c]++;      //½«¸Ã×ÖÄ¸µÄ³öÏÖÆµÂÊ¼Ó1
+		cin >> c; //è¾“å…¥ä¸‹ä¸€ä¸ªå­—ç¬¦
+		if (isalpha(c)) { //åˆ¤æ–­æ˜¯å¦æ˜¯å­—æ¯
+			c = tolower(c); //å°†å­—æ¯è½¬æ¢ä¸ºå°å†™
+			s[c]++;      //å°†è¯¥å­—æ¯çš„å‡ºç°é¢‘ç‡åŠ 1
 		}
-	} while (c != '.'); //Åöµ½¡°.¡±Ôò½áÊøÊäÈë
-	//Êä³öÃ¿¸ö×ÖÄ¸³öÏÖ´ÎÊı
+	} while (c != '.'); //ç¢°åˆ°â€œ.â€åˆ™ç»“æŸè¾“å…¥
+	//è¾“å‡ºæ¯ä¸ªå­—æ¯å‡ºç°æ¬¡æ•°
 	for (map<char, int>::iterator iter = s.begin(); iter != s.end(); ++iter)
 		cout << iter->first << " " << iter->second << "  " << endl;
 	cout << endl;
@@ -5275,13 +5347,13 @@ int main() {
 */
 
 
-//ÉÏ¿ÎÊ±¼ä²éÑ¯(¶àÖØ¼¯ºÏÓë¶àÖØÓ³Éä)
+//ä¸Šè¯¾æ—¶é—´æŸ¥è¯¢(å¤šé‡é›†åˆä¸å¤šé‡æ˜ å°„)
 /*
 int main() {
 	multimap<string, string> courses;
 	typedef multimap<string, string>::iterator CourseIter;
 
-	//½«¿Î³ÌÉÏ¿ÎÊ±¼ä²åÈëcoursesÓ³ÉäÖĞ
+	//å°†è¯¾ç¨‹ä¸Šè¯¾æ—¶é—´æ’å…¥coursesæ˜ å°„ä¸­
 	courses.insert(make_pair("C++", "2-6"));
 	courses.insert(make_pair("COMPILER", "3-1"));
 	courses.insert(make_pair("COMPILER", "5-2"));
@@ -5290,7 +5362,7 @@ int main() {
 	courses.insert(make_pair("OS", "5-5"));
 	courses.insert(make_pair("COMPILER", "4-7"));
 	courses.insert(make_pair("COMPILER", "5-6"));
-	//ÊäÈëÒ»¸ö¿Î³ÌÃû£¬Ö±µ½ÕÒµ½¸Ã¿Î³ÌÎªÖ¹£¬¼ÇÏÂÃ¿ÖÜÉÏ¿Î´ÎÊı
+	//è¾“å…¥ä¸€ä¸ªè¯¾ç¨‹åï¼Œç›´åˆ°æ‰¾åˆ°è¯¥è¯¾ç¨‹ä¸ºæ­¢ï¼Œè®°ä¸‹æ¯å‘¨ä¸Šè¯¾æ¬¡æ•°
 	string name;
 	int count;
 	do {
@@ -5299,7 +5371,7 @@ int main() {
 		if (count == 0)
 			cout << "Cannot find this course!" << endl;
 	} while (count == 0);
-	//Êä³öÃ¿ÖÜÉÏ¿Î´ÎÊıºÍÉÏ¿ÎÊ±¼ä
+	//è¾“å‡ºæ¯å‘¨ä¸Šè¯¾æ¬¡æ•°å’Œä¸Šè¯¾æ—¶é—´
 	cout << count << " lesson(s) per week: ";
 	pair<CourseIter, CourseIter> range = courses.equal_range(name);
 
@@ -5313,7 +5385,7 @@ int main() {
 
 
 
-//º¯Êı¶ÔÏó
+//å‡½æ•°å¯¹è±¡
 /*
 int mult(int x, int y) {
 	return x * y;
@@ -5323,7 +5395,7 @@ int main() {
 	int a[] = { 1,2,3,4,5 };
 	const int N = sizeof(a) / sizeof(int);
 	cout << "The result by multipling all elements in a is "
-		<< accumulate(a, a + N, 1, mult) //multº¯ÊıÃû×÷Îª¶ÔÏó´«Êä½øÈ¥£¬1 ÎªÀÛ³ËµÄ³õÊ¼Öµ
+		<< accumulate(a, a + N, 1, mult) //multå‡½æ•°åä½œä¸ºå¯¹è±¡ä¼ è¾“è¿›å»ï¼Œ1 ä¸ºç´¯ä¹˜çš„åˆå§‹å€¼
 		<< endl;
 	return 0;
 }
@@ -5331,7 +5403,7 @@ int main() {
 
 
 
-//Ààº¯Êı¶ÔÏó
+//ç±»å‡½æ•°å¯¹è±¡
 /*
 class MultClass {
 public:
@@ -5350,7 +5422,7 @@ int main() {
 
 
 
-//ÀûÓÃSTL±ê×¼º¯Êı¶ÔÏómultipiesÊµÏÖ¶ÔÔªËØµÄÁ¬³Ë²Ù×÷
+//åˆ©ç”¨STLæ ‡å‡†å‡½æ•°å¯¹è±¡multipieså®ç°å¯¹å…ƒç´ çš„è¿ä¹˜æ“ä½œ
 /*
 int main() {
 	int a[] = { 1,2,3,4,5 };
@@ -5364,7 +5436,7 @@ int main() {
 
 
 
-//ÀûÓÃSTLÖĞµÄ¶şÔªÎ½´Êº¯Êı¶ÔÏóÊµÏÖÊı×é´óµ½Ğ¡ÅÅĞò
+//åˆ©ç”¨STLä¸­çš„äºŒå…ƒè°“è¯å‡½æ•°å¯¹è±¡å®ç°æ•°ç»„å¤§åˆ°å°æ’åº
 /*
 int main() {
 	int intArr[] = { 30,90,10,40,70,50,20,80 };
@@ -5390,13 +5462,13 @@ int main() {
 */
 
 
-//º¯ÊıÊÊÅäÆ÷£¬ÕÒÊı×éÖĞµÚÒ»¸ö´óÓÚ40µÄÔªËØ
+//å‡½æ•°é€‚é…å™¨ï¼Œæ‰¾æ•°ç»„ä¸­ç¬¬ä¸€ä¸ªå¤§äº40çš„å…ƒç´ 
 /*
 int main() {
 	int intArr[] = { 30,90,10,40,70,50,20,80 };
 	const int N = sizeof(intArr) / sizeof(int);
 	vector<int> a(intArr, intArr + N);
-	vector<int>::iterator p = find_if(a.begin(), a.end(), bind2nd(greater<int>(), 40));//×îºóÒ»¸ö²ÎÊıÊÇÒ»¸öÒ»ÔªÎ½´Ê£¬ËùÒÔÓÃbind2ndÀ´°ó¶¨
+	vector<int>::iterator p = find_if(a.begin(), a.end(), bind2nd(greater<int>(), 40));//æœ€åä¸€ä¸ªå‚æ•°æ˜¯ä¸€ä¸ªä¸€å…ƒè°“è¯ï¼Œæ‰€ä»¥ç”¨bind2ndæ¥ç»‘å®š
 	if (p == a.end())
 		cout << "no element greater than 40" << endl;
 	else
@@ -5406,12 +5478,12 @@ int main() {
 //find_if
 //template<class A,class B>
 //A find_if(A a, A b, C c);
-//²éÕÒÊı×é[first,last)Çø¼äÖĞµÚÒ»¸öc(x)ÎªÕæµÄÔªËØ
+//æŸ¥æ‰¾æ•°ç»„[first,last)åŒºé—´ä¸­ç¬¬ä¸€ä¸ªc(x)ä¸ºçœŸçš„å…ƒç´ 
 */
 
 
 
-//ptr_fun, not1, not2²úÉúº¯ÊıÊÊÅäÆ÷ÊµÀı
+//ptr_fun, not1, not2äº§ç”Ÿå‡½æ•°é€‚é…å™¨å®ä¾‹
 /*
 bool g(int x, int y) {
 	return x > y;
@@ -5445,7 +5517,7 @@ int main() {
 
 
 
-//³ÉÔ±º¯ÊıÊÊÅäÆ÷ÊµÀı
+//æˆå‘˜å‡½æ•°é€‚é…å™¨å®ä¾‹
 /*
 struct Car {
 	int id;
@@ -5457,19 +5529,19 @@ struct Car {
 	}
 };
 int main() {
-	vector<Car *>pcars;//´æ·ÅÖ¸Õë
-	vector<Car> cars;//´æ·Å¶ÔÏó
+	vector<Car *>pcars;//å­˜æ”¾æŒ‡é’ˆ
+	vector<Car> cars;//å­˜æ”¾å¯¹è±¡
 	for (int i = 0; i < 5; i++)
 		pcars.push_back(new Car(i));
 	for (int i = 5; i < 10; i++)
 		cars.push_back(Car(i));
 	cout << "elements in pcars: " << endl;
-	for_each(pcars.begin(), pcars.end(), std::mem_fun(&Car::display));//´ÓµÚÒ»¸ö²ÎÊıµ½µÚ¶ş¸ö²ÎÊıÕâ¸öÇø¼äÄÚ£¬Ê¹ÓÃµÚÈı¸ö²ÎÊıµÄ¹¦ÄÜÈ¥±éÀú¸ÃÇø¼äÄÚµÄÔªËØ
-	cout << endl;                                     //mem_fun°ÑÆÕÍ¨µÄ³ÉÔ±º¯ÊıÊÊÅä³ÉÆÕÍ¨º¯Êı¶ÔÏó£¬mem_funÊÊÅä³öÀ´µÄº¯Êı£¬ËûµÄ²ÎÊıĞèÒªµÄÊÇ¶ÔÏóÖ¸Õë
+	for_each(pcars.begin(), pcars.end(), std::mem_fun(&Car::display));//ä»ç¬¬ä¸€ä¸ªå‚æ•°åˆ°ç¬¬äºŒä¸ªå‚æ•°è¿™ä¸ªåŒºé—´å†…ï¼Œä½¿ç”¨ç¬¬ä¸‰ä¸ªå‚æ•°çš„åŠŸèƒ½å»éå†è¯¥åŒºé—´å†…çš„å…ƒç´ 
+	cout << endl;                                     //mem_funæŠŠæ™®é€šçš„æˆå‘˜å‡½æ•°é€‚é…æˆæ™®é€šå‡½æ•°å¯¹è±¡ï¼Œmem_funé€‚é…å‡ºæ¥çš„å‡½æ•°ï¼Œä»–çš„å‚æ•°éœ€è¦çš„æ˜¯å¯¹è±¡æŒ‡é’ˆ
 
 	cout << "elements in cars: " << endl;
 	for_each(cars.begin(), cars.end(), std::mem_fun_ref(&Car::display));
-	cout << endl;                           //mem_fun_refÕâ¸öÊÊÅäÆ÷ÊÊÅä³öÀ´µÄº¯Êı£¬ËüµÄ²ÎÊıÒªÇóÊÇ¶ÔÏóµÄÒıÓÃ
+	cout << endl;                           //mem_fun_refè¿™ä¸ªé€‚é…å™¨é€‚é…å‡ºæ¥çš„å‡½æ•°ï¼Œå®ƒçš„å‚æ•°è¦æ±‚æ˜¯å¯¹è±¡çš„å¼•ç”¨
 
 	for (size_t i = 0; i < pcars.size(); ++i)
 		delete pcars[i];
@@ -5479,7 +5551,7 @@ int main() {
 */
 
 
-//Ê¹ÓÃSTLÊµÏÖÊäÈë×Ö·û´®µÄ·´ÏòÊä³ö
+//ä½¿ç”¨STLå®ç°è¾“å…¥å­—ç¬¦ä¸²çš„åå‘è¾“å‡º
 /*
 int main() {
 	queue<char> a;
@@ -5501,20 +5573,20 @@ int main() {
 
 
 
-//ÉùÃ÷ÕûĞÎÊı×é£¬²éÕÒÊı¾İ£¬Ó¦ÓÃÅÅĞòËã·¨sortÅäºÏ±ê×¼º¯Êı¶ÔÏógreater<T>¶ÔÊı¾İ½øĞĞÉıĞòºÍ½µĞòÅÅÁĞ
-//STLµÄÑ§Ï°µ½´Ë½áÊø£¬¼ÌĞøÑ§Ï°ĞèÒª²éÑ¯STL¹Ù·½ÎÄµµÍøÕ¾
+//å£°æ˜æ•´å½¢æ•°ç»„ï¼ŒæŸ¥æ‰¾æ•°æ®ï¼Œåº”ç”¨æ’åºç®—æ³•sorté…åˆæ ‡å‡†å‡½æ•°å¯¹è±¡greater<T>å¯¹æ•°æ®è¿›è¡Œå‡åºå’Œé™åºæ’åˆ—
+//STLçš„å­¦ä¹ åˆ°æ­¤ç»“æŸï¼Œç»§ç»­å­¦ä¹ éœ€è¦æŸ¥è¯¢STLå®˜æ–¹æ–‡æ¡£ç½‘ç«™
 /*
 int main() {
 	int a[8] = { 3,2,5,6,4,1,9,8 };
-	cout << "ÔªËØ9µÄË÷ÒıÊÇ£º" << find(a, a + 9, 9) - a << endl;
-	cout << "ÉıĞòÅÅĞò£º" << endl;
-	sort(a, a + 8);//Á½²ÎÊıÄ¬ÈÏÉıĞòÅÅĞò
+	cout << "å…ƒç´ 9çš„ç´¢å¼•æ˜¯ï¼š" << find(a, a + 9, 9) - a << endl;
+	cout << "å‡åºæ’åºï¼š" << endl;
+	sort(a, a + 8);//ä¸¤å‚æ•°é»˜è®¤å‡åºæ’åº
 	for (int i = 0; i < sizeof(a) / sizeof(int); i++) {
 		cout << a[i] << " ";
 	}
 	cout << endl;
 
-	cout << "½µĞòÅÅÁĞ£»" << endl;
+	cout << "é™åºæ’åˆ—ï¼›" << endl;
 	sort(a, a + 8, greater<int>());
 	for (int i = 0; i < sizeof(a) / sizeof(int); i++) {
 		cout << a[i] << " ";
@@ -5523,11 +5595,49 @@ int main() {
 	return 0;
 }
 */
+/*
+int main() {
+	ofstream out("tmp_ryan.txt");
+	int a[] = {5,6,7,8,9,5,4,1,2,3,8,7,15,15,989,154,57889,15,35,68,48,78,46,215,154,68,23,58,98,78,74,51,21,35,36};
+	int size_a = sizeof(a)/sizeof(int);
+	vector<int> b(a,a+size_a);
+	sort(b.begin(),b.end(),less());
+	copy(b.begin(),b.end(),ostream_iterator<int>(out, " "));
+	out<<endl;
+	sort(b.begin(),b.end(),greater());
+	copy(b.begin(),b.end(),ostream_iterator<int>(out, " "));
+	return 0;
+}
+*/
+/*
+int main() {
+	srand((unsigned)time(0));
+	ofstream out("tmp_ryan.txt");
+	
+	for (int i =0;i<1000000;i++) {
+		int tmp = (rand()%10000000)+1;
+		out<<tmp<<endl;
+	}
+	out.close();
+
+	ifstream in("tmp_ryan.txt");
+	istream_iterator<int> b(in);
+	istream_iterator<int> eos;
+	vector<int> a;
+	copy(b, eos, back_inserter(a));
+	in.close();
+	sort(a.begin(),a.end(),less());
+
+	ofstream out_sort("tmp_ryan_sort.txt");
+	copy(a.begin(),a.end(),ostream_iterator<int>(out_sort,"\n"));
+	out_sort.close();
+	return 0;
+}
+*/
 
 
 
-
-//Ê¹ÓÃwidth¿ØÖÆÊä³ö¿í¶È
+//ä½¿ç”¨widthæ§åˆ¶è¾“å‡ºå®½åº¦
 /*
 int main() {
 	/////////////////////
@@ -5547,7 +5657,7 @@ int main() {
 	cout << endl;
 	/////////////////////////
 	for (int i = 0; i < 4; i++)
-		cout << setiosflags(ios_base::left)//×ó¶ÔÆë,ÉèÖÃºó¶ÔËùÓĞÊä³ö¶¼ÓĞĞ§£¬ËùÒÔÊ¹ÓÃresetiosflagsÖØÖÃ
+		cout << setiosflags(ios_base::left)//å·¦å¯¹é½,è®¾ç½®åå¯¹æ‰€æœ‰è¾“å‡ºéƒ½æœ‰æ•ˆï¼Œæ‰€ä»¥ä½¿ç”¨resetiosflagsé‡ç½®
 		<< setw(6) << names[i]
 		<< resetiosflags(ios_base::left)
 		//<<setiosflags(ios_base::right)
@@ -5565,7 +5675,7 @@ int main() {
 
 
 
-//¿ØÖÆÊä³ö¾«¶È
+//æ§åˆ¶è¾“å‡ºç²¾åº¦
 /*
 int main() {
 	double values[] = { 1.23, 35.36, 653.7, 4358.24 };
@@ -5575,15 +5685,15 @@ int main() {
 	for (int i = 0; i < 4; i++)
 		cout << setiosflags(ios_base::left)
 		<< setw(6) << names[i]
-		<< resetiosflags(ios_base::left)//Çå³ı×ó¶ÔÆëÉèÖÃ
-		<< setw(10) << setprecision(2) << values[i] << endl;//setprecisionÖĞ²ÎÊıº¬Òå»á¸Ä±ä¡£Èç¹ûÃ»ÓĞiOS::fixed»òscientificÖ¸µÄ¾Í²»ÊÇÓĞĞ§Êı×ÖÊÇÒ»Î»£¬¶øÊÇËµĞ¡ÊıµãºóÓĞÒ»Î»Ğ¡Êı
+		<< resetiosflags(ios_base::left)//æ¸…é™¤å·¦å¯¹é½è®¾ç½®
+		<< setw(10) << setprecision(2) << values[i] << endl;//setprecisionä¸­å‚æ•°å«ä¹‰ä¼šæ”¹å˜ã€‚å¦‚æœæ²¡æœ‰iOS::fixedæˆ–scientificæŒ‡çš„å°±ä¸æ˜¯æœ‰æ•ˆæ•°å­—æ˜¯ä¸€ä½ï¼Œè€Œæ˜¯è¯´å°æ•°ç‚¹åæœ‰ä¸€ä½å°æ•°
 	return 0;
 }
 */
 
 
 
-//Ïò¶ş½øÖÆÎÄ¼şÊä³ö
+//å‘äºŒè¿›åˆ¶æ–‡ä»¶è¾“å‡º
 /*
 struct Date {
 	int mon, day, year;
@@ -5591,7 +5701,7 @@ struct Date {
 int main() {
 	Date dt = { 6,10,92 };
 	ofstream file("date.txt", ios_base::binary);
-	file.write(reinterpret_cast<char *>(&dt), sizeof(dt));//writeĞèÒªÆğÊ¼Ğ´µØÖ·£¬ºÍÊı¾İ¿é´óĞ¡
+	file.write(reinterpret_cast<char *>(&dt), sizeof(dt));//writeéœ€è¦èµ·å§‹å†™åœ°å€ï¼Œå’Œæ•°æ®å—å¤§å°
 	file.close();
 	return 0;
 }
@@ -5599,13 +5709,13 @@ int main() {
 
 
 
-//½«ÊıÖµ×ª»»Îª×Ö·û´®
+//å°†æ•°å€¼è½¬æ¢ä¸ºå­—ç¬¦ä¸²
 /*
 template <class T>
 inline string toString(const T &v) {
-	ostringstream os;   //´´½¨×Ö·û´®Êä³öÁ÷
-	os << v;        //½«±äÁ¿vµÄÖµĞ´Èë×Ö·û´®Á÷
-	return os.str();    //·µ»ØÊä³öÁ÷Éú³ÉµÄ×Ö·û´®
+	ostringstream os;   //åˆ›å»ºå­—ç¬¦ä¸²è¾“å‡ºæµ
+	os << v;        //å°†å˜é‡vçš„å€¼å†™å…¥å­—ç¬¦ä¸²æµ
+	return os.str();    //è¿”å›è¾“å‡ºæµç”Ÿæˆçš„å­—ç¬¦ä¸²
 }
 
 int main() {
@@ -5618,14 +5728,14 @@ int main() {
 */
 
 
-//ÓÃistringstream½«×Ö·û´®×ª»»ÎªÊıÖµ
+//ç”¨istringstreamå°†å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•°å€¼
 /*
 template <class T>
 inline T fromString(const string &str) {
-	istringstream is(str);  //´´½¨×Ö·û´®ÊäÈëÁ÷
+	istringstream is(str);  //åˆ›å»ºå­—ç¬¦ä¸²è¾“å…¥æµ
 	T v;
-	is >> v;    //´Ó×Ö·û´®ÊäÈëÁ÷ÖĞ¶ÁÈ¡±äÁ¿v
-	return v;   //·µ»Ø±äÁ¿v
+	is >> v;    //ä»å­—ç¬¦ä¸²è¾“å…¥æµä¸­è¯»å–å˜é‡v
+	return v;   //è¿”å›å˜é‡v
 }
 
 int main() {
@@ -5636,6 +5746,7 @@ int main() {
 	return 0;
 }
 */
+
 
 /*
 int main() {
@@ -5649,7 +5760,7 @@ int main() {
 
 
 
-//getº¯ÊıÓ¦ÓÃ¾ÙÀı
+//getå‡½æ•°åº”ç”¨ä¸¾ä¾‹
 /*
 int main() {
 	char ch;
@@ -5661,12 +5772,12 @@ int main() {
 
 
 
-//ÎªÊäÈëÁ÷Ö¸¶¨Ò»¸öÖÕÖ¹×Ö·û
+//ä¸ºè¾“å…¥æµæŒ‡å®šä¸€ä¸ªç»ˆæ­¢å­—ç¬¦
 /*
 int main() {
 	string line;
 	cout << "Type a line terminated by 't' " << endl;
-	getline(cin, line, 't');//µÚÒ»¸ö²ÎÊıÎªÎÄ±¾ÎÄ¼şÊäÈëÁ÷¶ÔÏó£»µÚ¶ş¸ö²ÎÊıÎªstring¶ÔÏó£¬ÊäÈë×Ö·û´®Ó¦¸Ã·Åµ½ÄÄÀï£»µÚÈı¸ö²ÎÊıÎªÖ¸¶¨·Ö¸ô·û£¬Ä¬ÈÏÎª»»ĞĞ
+	getline(cin, line, 't');//ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºæ–‡æœ¬æ–‡ä»¶è¾“å…¥æµå¯¹è±¡ï¼›ç¬¬äºŒä¸ªå‚æ•°ä¸ºstringå¯¹è±¡ï¼Œè¾“å…¥å­—ç¬¦ä¸²åº”è¯¥æ”¾åˆ°å“ªé‡Œï¼›ç¬¬ä¸‰ä¸ªå‚æ•°ä¸ºæŒ‡å®šåˆ†éš”ç¬¦ï¼Œé»˜è®¤ä¸ºæ¢è¡Œ
 	cout << line << endl;
 	return 0;
 }
@@ -5674,7 +5785,7 @@ int main() {
 
 
 
-//´ÓÎÄ¼ş¶ÁÒ»¸ö¶ş½øÖÆ¼ÇÂ¼µ½½á¹¹ÌåÖĞ
+//ä»æ–‡ä»¶è¯»ä¸€ä¸ªäºŒè¿›åˆ¶è®°å½•åˆ°ç»“æ„ä½“ä¸­
 /*
 struct SalaryInfo {
 	unsigned id;
@@ -5683,7 +5794,7 @@ struct SalaryInfo {
 int main() {
 	SalaryInfo employee1 = { 600001, 8000 };
 	ofstream os("payroll", ios_base::out | ios_base::binary);
-	os.write(reinterpret_cast<char *>(&employee1), sizeof(employee1));//write µÚÒ»¸ö²ÎÊıĞèÒªÒ»¸ö×Ö·ûÖ¸Õë
+	os.write(reinterpret_cast<char *>(&employee1), sizeof(employee1));//write ç¬¬ä¸€ä¸ªå‚æ•°éœ€è¦ä¸€ä¸ªå­—ç¬¦æŒ‡é’ˆ
 	os.close();
 	
 	ifstream is("payroll", ios_base::in | ios_base::binary);
@@ -5701,7 +5812,7 @@ int main() {
 */
 
 
-//ÓÃseekgº¯ÊıÉèÖÃÎ»ÖÃÖ¸Õë
+//ç”¨seekgå‡½æ•°è®¾ç½®ä½ç½®æŒ‡é’ˆ
 /*
 int main() {
 	int values[] = { 3,7,0,5,4 };
@@ -5725,13 +5836,13 @@ int main() {
 
 
 
-//¶ÁÒ»¸öÎÄ¼ş²¢ÏÔÊ¾³öÆäÖĞ0ÔªËØµÄÎ»ÖÃ
+//è¯»ä¸€ä¸ªæ–‡ä»¶å¹¶æ˜¾ç¤ºå‡ºå…¶ä¸­0å…ƒç´ çš„ä½ç½®
 /*
 int main() {
 	ifstream file("temp.txt", ios_base::in | ios_base::binary);
 	if (file) {
-		while (file) {//¶Áµ½ÎÄ¼şÎ²fileÎª0
-			streampos here = file.tellg();//È¡µÄµ±Ç°¶ÁÖ¸ÕëµÄÎ»ÖÃ
+		while (file) {//è¯»åˆ°æ–‡ä»¶å°¾fileä¸º0
+			streampos here = file.tellg();//å–çš„å½“å‰è¯»æŒ‡é’ˆçš„ä½ç½®
 			int v;
 			file.read(reinterpret_cast<char *>(&v), sizeof(int));
 			if (file && v == 7)
@@ -5752,7 +5863,7 @@ int main() {
 
 
 
-//ÊäÈëÊä³öÁ÷¸ñÊ½¿ØÖÆ
+//è¾“å…¥è¾“å‡ºæµæ ¼å¼æ§åˆ¶
 /*
 #define D(a) T<<#a<<endl; a
 ofstream T("output.out");
@@ -5777,7 +5888,7 @@ int main() {
 
 
 
-//ÓÃ¶ş½øÖÆ·½Ê½´ò¿ªÖ¸¶¨µÄÒ»¸öÎÄ¼ş£¬ÔÚÃ¿Ò»ĞĞÇ°¼ÓĞĞºÅ
+//ç”¨äºŒè¿›åˆ¶æ–¹å¼æ‰“å¼€æŒ‡å®šçš„ä¸€ä¸ªæ–‡ä»¶ï¼Œåœ¨æ¯ä¸€è¡Œå‰åŠ è¡Œå·
 /*
 int main(int argc, char* argv[]) {
 	ifstream in;
@@ -5789,7 +5900,7 @@ int main(int argc, char* argv[]) {
 	const int bsz = 1024;
 	char buf[bsz];
 	int line = 0;
-	while (in.getline(buf, bsz)) {//²ÎÊıÒ»´ú±í»º³å£¬²ÎÊı¶ş´ú±í»º³åÇø´óĞ¡»ògetlineÒ»´ÎËùÄÜµÃµ½µÄ×î´ó×Ö·û³¤¶È
+	while (in.getline(buf, bsz)) {//å‚æ•°ä¸€ä»£è¡¨ç¼“å†²ï¼Œå‚æ•°äºŒä»£è¡¨ç¼“å†²åŒºå¤§å°æˆ–getlineä¸€æ¬¡æ‰€èƒ½å¾—åˆ°çš„æœ€å¤§å­—ç¬¦é•¿åº¦
 		cout << ++line << ":" << buf << endl;
 	}
 	return 0;
@@ -5798,17 +5909,17 @@ int main(int argc, char* argv[]) {
 
 
 
-//Òì³£´¦Àí»úÖÆ
+//å¼‚å¸¸å¤„ç†æœºåˆ¶
 /*
 int divide(int x, int y) {
 	if (y == 0)
-		throw x;//Å×³öÒÔºó£¬ºóÃæµÄ¼ÆËã¾Í²»»á¼ÌĞø½øĞĞÁË£¬½øĞĞ²¶»ñ
+		throw x;//æŠ›å‡ºä»¥åï¼Œåé¢çš„è®¡ç®—å°±ä¸ä¼šç»§ç»­è¿›è¡Œäº†ï¼Œè¿›è¡Œæ•è·
 	return x / y;
 }
 
 
 int main(){
-	try {//Èç¹ûÒì³£Ã»ÓĞ³öÏÖ£¬Ôò¸úÔÚtryºóÃæµÄcatch²»»á±»Ö´ĞĞ
+	try {//å¦‚æœå¼‚å¸¸æ²¡æœ‰å‡ºç°ï¼Œåˆ™è·Ÿåœ¨tryåé¢çš„catchä¸ä¼šè¢«æ‰§è¡Œ
 		cout << "5 / 2 = " << divide(5, 2) << endl;
 		cout << "8 / 0 = " << divide(8, 0) << endl;
 		cout << "7 / 1 = " << divide(7, 1) << endl;
@@ -5823,7 +5934,7 @@ int main(){
 
 
 
-//Òì³£´¦ÀíµÄ¹¹ÔìÓëÎö¹¹
+//å¼‚å¸¸å¤„ç†çš„æ„é€ ä¸ææ„
 /*
 class MyException {
 public:
@@ -5866,32 +5977,32 @@ int main() {
 */
 
 
-//¼ÆËãÈı½ÇĞÎÃæ»ı£¬²¢¼ÓÈëÒì³£´¦Àí»úÖÆ
+//è®¡ç®—ä¸‰è§’å½¢é¢ç§¯ï¼Œå¹¶åŠ å…¥å¼‚å¸¸å¤„ç†æœºåˆ¶
 /*
 double area(double a, double b, double c)  throw (invalid_argument)
 {
-	//ÅĞ¶ÏÈı½ÇĞÎ±ß³¤ÊÇ·ñÎªÕı
+	//åˆ¤æ–­ä¸‰è§’å½¢è¾¹é•¿æ˜¯å¦ä¸ºæ­£
 	if (a <= 0 || b <= 0 || c <= 0)
 		throw invalid_argument("the side length should be positive");
-	//ÅĞ¶ÏÈı±ß³¤ÊÇ·ñÂú×ãÈı½Ç²»µÈÊ½
+	//åˆ¤æ–­ä¸‰è¾¹é•¿æ˜¯å¦æ»¡è¶³ä¸‰è§’ä¸ç­‰å¼
 	if (a + b <= c || b + c <= a || c + a <= b)
 		throw invalid_argument("the side length should fit the triangle inequation");
-	//ÓÉHeron¹«Ê½¼ÆËãÈı½ÇĞÎÃæ»ı
+	//ç”±Heronå…¬å¼è®¡ç®—ä¸‰è§’å½¢é¢ç§¯
 	double s = (a + b + c) / 2;
 	return sqrt(s * (s - a) * (s - b) * (s - c));
 }
 int main() {
-	double a, b, c; //Èı½ÇĞÎÈı±ß³¤
+	double a, b, c; //ä¸‰è§’å½¢ä¸‰è¾¹é•¿
 	cout << "Please input the side lengths of a triangle: ";
 	cin >> a >> b >> c;
 	cout << a << endl;
 	cout << b << endl;
 	cout << c << endl;
 	try {
-		double s = area(a, b, c);   //³¢ÊÔ¼ÆËãÈı½ÇĞÎÃæ»ı,ÒòÎªÓĞ¿ÉÄÜÅ×³öÒì³££¬ËùÒÔÒª·ÅÔÚtry¿éÄÚ
+		double s = area(a, b, c);   //å°è¯•è®¡ç®—ä¸‰è§’å½¢é¢ç§¯,å› ä¸ºæœ‰å¯èƒ½æŠ›å‡ºå¼‚å¸¸ï¼Œæ‰€ä»¥è¦æ”¾åœ¨tryå—å†…
 		cout << "Area: " << s << endl;
 	}
-	catch (exception &e) {//exceptionÊÇinvalid_argument µÄ»ùÀà£¬ËùÒÔ¿ÉÒÔ·µ»Ø
+	catch (exception &e) {//exceptionæ˜¯invalid_argument çš„åŸºç±»ï¼Œæ‰€ä»¥å¯ä»¥è¿”å›
 		cout << "Error: " << e.what() << endl;
 	}
 	return 0;
@@ -5900,7 +6011,7 @@ int main() {
 
 
 
-//ÉùÃ÷Ò»¸öÒì³£ÀàCException¡£ÔÚÖ÷³ÌĞòÖĞ´¦ÀíÒì³£¡£
+//å£°æ˜ä¸€ä¸ªå¼‚å¸¸ç±»CExceptionã€‚åœ¨ä¸»ç¨‹åºä¸­å¤„ç†å¼‚å¸¸ã€‚
 /*
 class CException {
 public:
@@ -6182,18 +6293,18 @@ long long int Randommt::gen_mar() {
 }
 
 bool Randommt::val_mar() {
-	if(marchtest[0].type==r0 || marchtest[0].type == r1)//µÚÒ»¸ö²»ÎªĞ´,¼Ç´í
+	if(marchtest[0].type==r0 || marchtest[0].type == r1)//ç¬¬ä¸€ä¸ªä¸ä¸ºå†™,è®°é”™
 		return false;
 
 
 
 	for (long long int i = 1; i < marchtest.size()/2+1; i++) {
-		if (marchtest[i*2].type == r0 || marchtest[i*2].type == r1) {//¶ÁµÄ×î½üÒ»´ÎµÄĞ´²»Í¬£¬¼Ç´í   //±¾´ÎÎª¶Á
+		if (marchtest[i*2].type == r0 || marchtest[i*2].type == r1) {//è¯»çš„æœ€è¿‘ä¸€æ¬¡çš„å†™ä¸åŒï¼Œè®°é”™   //æœ¬æ¬¡ä¸ºè¯»
 			long long int tmp = i-1;
 			for (tmp; tmp >= 0; tmp--) {
-				if (marchtest[tmp * 2].type == w0 || marchtest[tmp * 2].type == w1) {//Ñ°ÕÒ×î½üµÄĞ´,ÕÒµ½ÁË
+				if (marchtest[tmp * 2].type == w0 || marchtest[tmp * 2].type == w1) {//å¯»æ‰¾æœ€è¿‘çš„å†™,æ‰¾åˆ°äº†
 					if ((marchtest[i * 2].type == r0 && marchtest[tmp * 2].type == w0) ||
-						(marchtest[i * 2].type == r1 && marchtest[tmp * 2].type == w1))//¶ÁĞ´Êı×ÖÏàÍ¬
+						(marchtest[i * 2].type == r1 && marchtest[tmp * 2].type == w1))//è¯»å†™æ•°å­—ç›¸åŒ
 						break;
 					else
 						return false;
@@ -6201,8 +6312,8 @@ bool Randommt::val_mar() {
 			}
 		}
 
-		if (marchtest[i * 2].up_down != marchtest[(i - 1) * 2].up_down) {//µ±Ç°ºÍÇ°Ò»¸öÉÏÏÂÀàĞÍ²»Í¬
-			if (marchtest[i * 2 - 1].emp_com != 1)//ÖĞ¼äÓĞ ¡°,¡±Ôò ¼ÌĞøÏÂÒ»¸ö£¬·ñÔòÎª´í
+		if (marchtest[i * 2].up_down != marchtest[(i - 1) * 2].up_down) {//å½“å‰å’Œå‰ä¸€ä¸ªä¸Šä¸‹ç±»å‹ä¸åŒ
+			if (marchtest[i * 2 - 1].emp_com != 1)//ä¸­é—´æœ‰ â€œ,â€åˆ™ ç»§ç»­ä¸‹ä¸€ä¸ªï¼Œå¦åˆ™ä¸ºé”™
 				return false;
 		}
 	}
@@ -6214,7 +6325,7 @@ bool Randommt::val_mar() {
 
 void Randommt::sort_mar() {
 	vector<block> tmp;
-	for (long long int i = 0; i < marchtest.size(); i++) {//È¥³ı¿ÕµÄcom¸ñ
+	for (long long int i = 0; i < marchtest.size(); i++) {//å»é™¤ç©ºçš„comæ ¼
 		if (marchtest[i].type == non && marchtest[i].emp_com == emp)
 			continue;
 		else
@@ -6225,9 +6336,9 @@ void Randommt::sort_mar() {
 
 template <class T>
 inline string toString(const T &v) {
-	ostringstream os;   //´´½¨×Ö·û´®Êä³öÁ÷
-	os << v;        //½«±äÁ¿vµÄÖµĞ´Èë×Ö·û´®Á÷
-	return os.str();    //·µ»ØÊä³öÁ÷Éú³ÉµÄ×Ö·û´®
+	ostringstream os;   //åˆ›å»ºå­—ç¬¦ä¸²è¾“å‡ºæµ
+	os << v;        //å°†å˜é‡vçš„å€¼å†™å…¥å­—ç¬¦ä¸²æµ
+	return os.str();    //è¿”å›è¾“å‡ºæµç”Ÿæˆçš„å­—ç¬¦ä¸²
 }
 
 int main() {
@@ -6777,9 +6888,9 @@ string path = "D:\\Code\\VS\\Project2\\Project2\\digits\\testDigits\\";
 
 template <class T>
 inline string toString(const T &v) {
-	ostringstream os;   //´´½¨×Ö·û´®Êä³öÁ÷
-	os << v;        //½«±äÁ¿vµÄÖµĞ´Èë×Ö·û´®Á÷
-	return os.str();    //·µ»ØÊä³öÁ÷Éú³ÉµÄ×Ö·û´®
+	ostringstream os;   //åˆ›å»ºå­—ç¬¦ä¸²è¾“å‡ºæµ
+	os << v;        //å°†å˜é‡vçš„å€¼å†™å…¥å­—ç¬¦ä¸²æµ
+	return os.str();    //è¿”å›è¾“å‡ºæµç”Ÿæˆçš„å­—ç¬¦ä¸²
 }
 
 inline int fromString(const string &str) {
@@ -7816,6 +7927,7 @@ int main() {
 
 
 //find aggrassor and victim
+/*
 #define mem_size 4 
 string path1 = "2_4.txt";//marchtest file name
 string path2 = "temp.txt";//subtype FC file name
@@ -7965,7 +8077,7 @@ int main() {
 
 
 }
-
+*/
 
 
 
@@ -7994,7 +8106,7 @@ int main() {
 */
 
 
-//¶ÁÈ¡ÎÄ¼ş£¬Í³¼ÆÏàÍ¬×Ö·û´®µÄ³öÏÖÆµÂÊ
+//è¯»å–æ–‡ä»¶ï¼Œç»Ÿè®¡ç›¸åŒå­—ç¬¦ä¸²çš„å‡ºç°é¢‘ç‡
 /*
 int main() {
 	
@@ -8023,7 +8135,7 @@ int main() {
 
 
 
-//°Ë»ÊºóÎÊÌâ
+//å…«çš‡åé—®é¢˜
 /*
 ofstream outfile("queen.txt");
 bool check(int(&queen)[8], int lev, int place) {
@@ -8049,8 +8161,7 @@ bool check(int(&queen)[8], int lev, int place) {
 	
 }
 void print_place(int(&queen)[8]) {
-	static int solutions = 1;
-	
+	static int solutions = 1;	
 	outfile << "Solution " << solutions << ":";
 	for (int i = 0; i < 8;i++) {
 		outfile << " (" << queen[i] << "," << i << ")";
@@ -8063,6 +8174,7 @@ void print_place(int(&queen)[8]) {
 	}
 	solutions++;
 }
+
 void place_queen(int (&queen)[8], int lev) {
 	if (lev == 7) {
 		for (int j = 0; j < 8; j++) {
