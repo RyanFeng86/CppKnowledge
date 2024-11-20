@@ -9,9 +9,12 @@
 #include <thread>
 #include <cstring>
 #include <cmath>
+#include <iomanip>
+#include <bitset>
 #include <limits.h>
 #include <assert.h>//引入assert()函数
 #include <math.h>
+#include <unistd.h>
 //#include <ctime>
 
 //STL标准库
@@ -109,7 +112,7 @@ int main() {
 //把src针最上面的一个盘子移动到dest指针上
 int i;
 void move(char src, char dest) {
-	cout << src << "-->" << dest << endl;
+	cout << src << "-->" << dest << " ";
 	i++;
 }
 //把n个盘子从src针移动到dest针，以medium针作为中介
@@ -345,7 +348,26 @@ int main(void)
 }
 */
 
+/*
+void badminton(){
+	cout<<"badminton"<<endl;
+}
 
+void basketball(){
+	cout<<"basketball"<<endl;
+}
+
+void printball(void (*name)()){
+	cout<<"ball type you want:"<<endl;
+	name();
+}
+
+int main() {
+	printball(&badminton);
+	printball(&basketball);
+	return 0;
+}
+*/
 
 //回调函数学习2
 /*
@@ -468,7 +490,7 @@ void thread1() {
 	for (int i = 0; i < 10; ++i)
 	{
 		cout << "thread1:" << i << endl;
-		Sleep(30);
+		usleep(30);
 	}
 }
 
@@ -476,7 +498,7 @@ void thread2() {
 	for (int i = 0; i < 10; ++i)
 	{
 		cout << "thread2:" << i << endl;
-		Sleep(15);
+		usleep(15);
 	}
 }
 
@@ -507,7 +529,7 @@ void a(int i) {
 	}
 	return;
 }
-void main() {
+int main() {
 	int i = 0;
 	for (int j = 0; j < 10; j++) {
 		printf("%d\n",i++);
@@ -516,7 +538,7 @@ void main() {
 		a(i);
 	});
 	t1.detach();
-	system("Pause");
+	return 0;
 }
 */
 
@@ -1641,8 +1663,6 @@ int main() {
 	return 0;
 }
 */
-
-
 
 //友元类
 /*
@@ -3361,7 +3381,7 @@ public:
 	int var2;
 };
 
-class Derived : public Base1, public Base2 {
+class Derived : public Base2, public Base1 {
 public:
 	Derived(int var) : Base1(var), Base0(var), Base2(var)
 	{
@@ -4230,7 +4250,6 @@ int main() {
 	return 0;
 }
 */
-
 
 
 
@@ -8200,6 +8219,306 @@ int main() {
 	int queen[8] = {};
 	place_queen(queen, 0);
 	
+	return 0;
+}
+*/
+
+
+//Josephus problem recursion solution
+/*
+void remove(list<int> &a, int start){
+	if(a.size()<3){
+		for(auto i : a){
+			cout<<"left: "<< i << endl;
+		}
+		return;
+	} else{
+		if(start+2<a.size()){
+			auto it=a.begin();
+			advance(it,start+2);
+			cout<<"remove: "<< *it<<endl;
+			a.erase(it);
+			remove(a,start+2);
+		} else {
+			int tmp=(start+2)%a.size();
+			auto it=a.begin();
+			advance(it,tmp);
+			cout<<"remove: "<< *it<<endl;
+			a.erase(it);
+			remove(a,tmp);
+		}
+	}
+}
+
+int main() {
+	//p=static_cast<*int>(value);
+	list<int> a;
+	for(int i=1;i<=41;i++){
+		a.push_back(i);
+	}
+	remove(a,0);	
+	return 0;
+}
+*/
+
+
+// using stack convert binary to decimal to Oct to Hex
+/*
+int main(){
+	string binary;
+	A:
+	cout<<"put in the binary number:"<<endl;
+	cin>>binary;
+	stack<int> for_decimal_binary_stack;
+	stack<int> for_Oct_binary_stack;
+	stack<int> for_hex_binary_stack;
+	for(int i = 0;i<binary.size();i++){
+		if(i == 0 && binary[i]=='0'){
+			cout<<"The first numer should not be 0. Please put in again."<<endl;
+			goto A;
+		}
+		if(binary[i]=='0'){
+			for_decimal_binary_stack.push(0);
+			for_Oct_binary_stack.push(0);
+			for_hex_binary_stack.push(0);
+		} else if (binary[i]=='1'){
+			for_decimal_binary_stack.push(1);
+			for_Oct_binary_stack.push(1);
+			for_hex_binary_stack.push(1);
+		} else {
+			cout<<"The binary number is not correct please put in again."<<endl;
+			goto A;
+		}		
+	}
+	int decimal=0;
+	int index=0;
+	while(!for_decimal_binary_stack.empty()){
+		int tmp=for_decimal_binary_stack.top();
+		decimal+=tmp*(pow(2,index));
+		for_decimal_binary_stack.pop();
+		index++;
+	}
+	stack<int> oct;
+	stack<int> hex;
+	index = 0;
+	while(!for_Oct_binary_stack.empty()){
+		if(for_Oct_binary_stack.size()>=3){
+			int tmp=0;
+			for(int i =0;i<3;i++){
+				tmp+=(for_Oct_binary_stack.top())*pow(2,i);
+				for_Oct_binary_stack.pop();
+			}
+			oct.push(tmp);
+		} else{
+			index = 0;
+			int tmp = 0;
+			while(!for_Oct_binary_stack.empty()){
+				tmp+=(for_Oct_binary_stack.top())*pow(2,index);
+				for_Oct_binary_stack.pop();
+				index++;
+			}
+			oct.push(tmp);
+		}		
+	}
+
+	while(!for_hex_binary_stack.empty()){
+		if(for_hex_binary_stack.size()>=4){
+			int tmp=0;
+			for(int i =0;i<4;i++){
+				tmp+=(for_hex_binary_stack.top())*pow(2,i);
+				for_hex_binary_stack.pop();
+			}
+			hex.push(tmp);
+		} else{
+			index = 0;
+			int tmp = 0;
+			while(!for_hex_binary_stack.empty()){
+				tmp+=(for_hex_binary_stack.top())*pow(2,index);
+				for_hex_binary_stack.pop();
+				index++;
+			}
+			hex.push(tmp);
+		}		
+	}
+	cout<<"decimal is:"<<decimal<<endl;
+	cout<<"Oct is:";
+	while(!oct.empty()){
+		cout<<oct.top();
+		oct.pop();
+	}
+	cout<<endl;
+
+	cout<<"Hex is:";
+	while(!hex.empty()){
+		switch (hex.top()){
+			case 10:
+				cout<<"A";
+				break;
+			case 11:
+				cout<<"B";
+				break;
+			case 12:
+				cout<<"C";
+				break;
+			case 13:
+				cout<<"D";
+				break;
+			case 14:
+				cout<<"E";
+				break;
+			case 15:
+				cout<<"F";
+				break;
+			default:
+				cout<<hex.top();
+		}
+		hex.pop();
+	}
+	cout<<endl;
+
+	return 0;
+}
+*/
+
+
+//create binary tree
+/*
+struct BTNode{
+	char data;
+	BTNode *lc;
+	BTNode *rc;
+
+	BTNode(char value){
+		data = value;
+		lc=nullptr;
+		rc=nullptr;
+	}
+};
+
+BTNode* create_BT() { 
+	char input_data;
+	cout<<"put in the data(0 means empty):";
+	cin>>input_data;
+	//input_data=getchar();
+	if(input_data == '0'){
+		return nullptr;
+	} 
+
+	BTNode *T=new BTNode(input_data);
+	cout<<"put in "<<input_data<<"'s left child value:";
+	T->lc=create_BT();
+	cout<<"put in "<<input_data<<"'s right child value:";
+	T->rc=create_BT();
+	return T;
+	
+}
+
+void visit(char data, int level){
+	cout<<endl;
+	cout<<"node: "<<data<<" is at level "<<level;
+}
+
+//preorder traverse
+void preTBT(BTNode *T, int level){
+	if(T) {
+		visit(T->data,level);
+		preTBT(T->lc,level+1);
+		preTBT(T->rc,level+1);
+	}
+}
+
+//inorder traverse
+void inTBT(BTNode *T, int level){
+	if(T) {		
+		inTBT(T->lc,level+1);
+		visit(T->data,level);
+		inTBT(T->rc,level+1);
+	}
+}
+
+//postorder traverse
+void postTBT(BTNode *T, int level){
+	if(T) {		
+		postTBT(T->lc,level+1);		
+		postTBT(T->rc,level+1);
+		visit(T->data,level);
+	}
+}
+
+int main(){
+	
+	BTNode *T=create_BT();
+	cout<<endl<<"preorder traverse:";
+	preTBT(T,1);
+
+	cout<<endl<<"inorder traverse:";
+	inTBT(T,1);
+
+	cout<<endl<<"postorder traverse:";
+	postTBT(T,1);
+
+	return 0;
+}
+*/
+
+
+//threaded binary tree
+/*
+enum BT_thread {link_,thread_};
+
+struct TBTNode{
+	char data;
+	TBTNode *lc;
+	TBTNode *rc;
+	BT_thread lt;
+	BT_thread rt;
+
+	TBTNode(char value){
+		data = value;
+		lc=nullptr;
+		rc=nullptr;
+		lt=BT_thread::link_;
+		rt=BT_thread::link_;
+	}
+};
+
+TBTNode* prev_node=nullptr;
+
+TBTNode* create_TBT() { 
+	char input_data;
+	cout<<"put in the data(0 means empty):";
+	cin>>input_data;
+	//input_data=getchar();
+	if(input_data == '0'){
+		return nullptr;
+	} 
+
+	TBTNode *T=new TBTNode(input_data);
+
+	cout<<"put in "<<input_data<<"'s left child value:";	
+	T->lc=create_TBT();
+	if(T->lc == nullptr){
+		T->lt = BT_thread::thread_;
+		T->lc = prev_node;
+	}
+	if((prev_node != nullptr) && (prev_node->rc == nullptr)){
+		prev_node->rt = BT_thread::thread_;
+		prev_node->rc = T;
+	}
+	prev_node = T;
+	cout<<"put in "<<input_data<<"'s right child value:";
+	T->rc=create_TBT();
+	return T;	
+}
+
+void inTBT(TBTNode *T){
+	
+}
+
+
+int main(){
+	TBTNode* T=create_TBT();
+	//inTBT(T);
 	return 0;
 }
 */
