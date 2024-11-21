@@ -5878,10 +5878,6 @@ int main() {
 
 
 
-
-
-
-
 //输入输出流格式控制
 /*
 #define D(a) T<<#a<<endl; a
@@ -6106,6 +6102,7 @@ int main() {
 }
 */
 
+
 /*
 int main() {
 	int val1 = 1;
@@ -6114,8 +6111,6 @@ int main() {
 	decltype(val3) k = 10.689;
 	cout << typeid(k).name() << endl;
 }*/
-
-
 
 
 //Gupta Random Marchtest
@@ -8150,11 +8145,7 @@ int main() {
 
 
 
-
-
-
-
-//八皇后问题
+//Eight queen
 /*
 ofstream outfile("queen.txt");
 bool check(int(&queen)[8], int lev, int place) {
@@ -8522,3 +8513,339 @@ int main(){
 	return 0;
 }
 */
+
+
+//multiple methods of creating graph, traversing graph
+
+
+//Knight's Tour(DFS)
+/*
+#define X 5
+#define Y 5
+
+int chess[X][Y];
+
+int nextxy(int &x,int &y, int count){
+	switch(count){
+		case 1:
+			if(x-1>=0 && y-2>=0 && chess[x-1][y-2]==0){
+				x-=1;
+				y-=2;
+				return 1;
+			}
+			break;
+		case 2:
+			if(x+1<=X-1 && y-2>=0 && chess[x+1][y-2]==0){
+				x+=1;
+				y-=2;
+				return 1;
+			}
+			break;
+		case 3:
+			if(x+2<=X-1 && y-1>=0 && chess[x+2][y-1]==0){
+				x+=2;
+				y-=1;
+				return 1;
+			}
+			break;
+		case 4:
+			if(x+2<=X-1 && y+1<=X-1 && chess[x+2][y+1]==0){
+				x+=2;
+				y+=1;
+				return 1;
+			}
+			break;
+		case 5:
+			if(x+1<=X-1 && y+2<=X-1 && chess[x+1][y+2]==0){
+				x+=1;
+				y+=2;
+				return 1;
+			}
+			break;
+		case 6:
+			if(x-1>=0 && y+2<=X-1 && chess[x-1][y+2]==0){
+				x-=1;
+				y+=2;
+				return 1;
+			}
+			break;
+		case 7:
+			if(x-2>=0 && y+1<=X-1 && chess[x-2][y+1]==0){
+				x-=2;
+				y+=1;
+				return 1;
+			}
+			break;
+		case 8:
+			if(x-2>=0 && y-1>=0 && chess[x-2][y-1]==0){
+				x-=2;
+				y-=1;
+				return 1;
+			}
+			break;
+		default:
+			break;		
+	}
+	return 0;
+}
+
+void print(){
+	for(int i =0;i<X;i++){
+		for(int j=0;j<Y;j++){
+			cout<<chess[i][j]<<"\t";
+		}
+		cout<<endl;
+	}
+	cout<<endl;
+}
+
+int TravelBoard(int x, int y, int tag){
+	chess[x][y]=tag;
+	int x1=x,y1=y,flag;
+	//print();
+	if(tag==X*Y){
+		print();
+		return 1;
+	}
+	for (int i = 0;i < 8; i++){
+		flag=nextxy(x,y,i+1);
+		if(flag){			
+			//chess[x][y]=tag;
+			if(TravelBoard(x,y,tag+1)){
+				return 1;
+			}
+			chess[x][y]=0;
+			x=x1;
+			y=y1;
+		}
+	}
+	return 0;
+}
+
+int main(){
+	int i,k;
+	memset(chess,0,sizeof(chess));
+	if(!TravelBoard(0,0,1)){
+		cout<<"failed"<<endl;
+	}
+	cout<<sizeof(chess)<<endl;
+	return 0;
+}
+*/
+
+
+#define X 10
+#define Y 10
+
+
+
+
+struct coordinate{
+	int x;
+	int y;
+};
+
+
+
+
+coordinate set_in(char* table){
+	srand(time(0));
+	int tmp=(rand()%(2*Y+2*X-3))+1;
+	int x,y;
+	switch(tmp/X){
+		case 0:
+			y=0;
+			x=tmp%X;
+			break;
+		case 1:
+			y=tmp%X;
+			x=X-1;
+			break;
+		case 2:
+			y=Y-1;
+			x=tmp%X;
+			break;
+		case 3:
+			x=0;
+			y=tmp%Y;
+			break;
+		default:
+			break;
+	}
+	//cout<<tmp<<endl;
+	coordinate in;
+	in.x=x;
+	in.y=y;
+	cout<<"The in point coordinate is: ("<<in.x<<","<<in.y<<")."<<endl;
+	*(table+y*X+x)='0';
+	return in;
+}
+
+
+coordinate set_out(char* table,coordinate &in){	
+	srand(time(0));	
+	int tmp;
+	int x,y;
+	do{
+		tmp=(rand()%(2*Y+2*X-3))+1;
+		switch(tmp/X){
+			case 0:
+				y=0;
+				x=tmp%X;
+				break;
+			case 1:
+				y=tmp%X;
+				x=X-1;
+				break;
+			case 2:
+				y=Y-1;
+				x=tmp%X;
+				break;
+			case 3:
+				x=0;
+				y=tmp%Y;
+				break;
+			default:
+				break;
+		}
+	} while((x==in.x) || (y==in.y) || (x==in.x+1) || (x==in.x-1) || (y==in.y+1) || (y==in.y-1));
+	
+	coordinate out;
+	out.x=x;
+	out.y=y;
+	*(table+y*X+x)='1';
+	cout<<"The out point coordinate is: ("<<out.x<<","<<out.y<<")."<<endl;	
+	return out;
+}
+
+void swap(int *a,int *b){
+	int tmp0=a[0];
+	int tmp1=a[1];
+	a[0]=b[0];
+	a[1]=b[1];
+	b[0]=tmp0;
+	b[1]=tmp1;
+}
+
+void random_direction(int* direction){
+	for(int i=0;i<4;i++){
+		int j=rand()%4;
+		swap(direction[i],direction[j]);
+	}
+}
+
+bool in_bound(coordinate &a){
+	if(a.x>=0 && a.x<X && a.y>=0 && a.y<Y){
+		return true;
+	} else{
+		return false;
+	}
+}
+
+bool create_maze(char* table,coordinate &in, coordinate &out){
+	*(table+in.y*X+in.x)=' ';
+	int direction[4][2]={{0,2},{0,-2},{2,0},{-2,0}}; //up, down, left, right
+	random_direction(&direction[0][0]);	
+	for(int i=0;i<4;i++){		
+		coordinate next_new;
+		next_new.x=in.x+direction[i][0];
+		next_new.y=in.y+direction[i][1];
+		if(in_bound(next_new) && (*(table+(in.y+direction[i][1]/2)*X+(in.x+direction[i][0]/2))=='*')){
+			*(table+(in.y+direction[i][1]/2)*X+(in.x+direction[i][0]/2))=' ';
+			create_maze(table,next_new, out);
+		}
+	}	
+}
+
+void print_maze(char* table){
+	
+	for(int i=0;i<Y;i++){
+		for(int j=0;j<X;j++){
+			cout<<*(table+i*X+j)<<" ";
+		}
+		cout<<endl;
+	}
+}
+
+
+int nextxy(char* table,coordinate &in, int count){
+	switch(count){
+		case 1:
+			if(in.x-1>=0 && *(table+in.y*X+(in.x-1))==' ' || *(table+in.y*X+(in.x-1))=='1'){
+				in.x-=1;
+				return 1;
+			}
+			break;
+		case 2:
+			if(in.x+1<X && *(table+in.y*X+(in.x+1))==' ' || *(table+in.y*X+(in.x+1))=='1'){
+				in.x+=1;
+				return 1;
+			}
+			break;
+		case 3:
+			if(in.y-1>=0 && *(table+(in.y-1)*X+in.x)==' ' || *(table+(in.y-1)*X+in.x)=='1'){
+				in.y-=1;
+				return 1;
+			}
+			break;
+		case 4:
+			if(in.y+1<Y && *(table+(in.y+1)*X+in.x)==' ' || *(table+(in.y+1)*X+in.x)=='1'){
+				in.y+=1;
+				return 1;
+			}
+			break;		
+		default:
+			break;		
+	}
+	return 0;
+}
+
+
+bool find_way(char* table, coordinate &in,coordinate &out){
+	*(table+in.y*X+in.x)='A';
+	int flag;
+	coordinate old;
+	old.x=in.x;
+	old.y=in.y;
+	if(in.x==out.x && in.y==out.y){		
+		return true;
+	}
+	for (int i = 0;i < 4; i++){
+		flag=nextxy(table,in,i+1);
+		if(flag){			
+			//chess[x][y]=tag;
+			if(find_way(table,in,out)){
+				return true;
+			}
+			*(table+in.y*X+in.x)=' ';
+			in.x=old.x;
+			in.y=old.y;
+		}
+	}
+	return false;
+
+}
+
+int main(){
+	char maze[X][Y];
+	memset(maze,'*',sizeof(maze));
+	coordinate in=set_in(&maze[0][0]);
+	coordinate out=set_out(&maze[0][0],in);
+	create_maze(&maze[0][0],in,out);
+	maze[in.y][in.x]='0';
+	maze[out.y][out.x]='1';
+	cout<<"Maze was built:"<<endl;
+	print_maze(&maze[0][0]);
+	if(find_way(&maze[0][0],in,out)){
+		cout<<"Path is found:"<<endl;
+		print_maze(&maze[0][0]);
+	} else{
+		cout<<"Path is not found"<<endl;
+	}
+	
+	
+	return 0;
+
+}
+
+
