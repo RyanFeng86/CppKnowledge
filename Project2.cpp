@@ -8634,8 +8634,10 @@ int main(){
 */
 
 
-#define X 10
-#define Y 10
+//create a maze, set in point and out point, then find the path
+/*
+#define X 20
+#define Y 20
 
 
 
@@ -8722,7 +8724,7 @@ void swap(int *a,int *b){
 	int tmp0=a[0];
 	int tmp1=a[1];
 	a[0]=b[0];
-	a[1]=b[1];
+	a[1]=b[1]; 
 	b[0]=tmp0;
 	b[1]=tmp1;
 }
@@ -8742,17 +8744,21 @@ bool in_bound(coordinate &a){
 	}
 }
 
+
 bool create_maze(char* table,coordinate &in, coordinate &out){
 	*(table+in.y*X+in.x)=' ';
-	int direction[4][2]={{0,2},{0,-2},{2,0},{-2,0}}; //up, down, left, right
+	if(in.x==out.x && in.y==out.y){
+		return true;
+	}
+	int direction[4][2]={{0,3},{0,-3},{3,0},{-3,0}}; //up, down, left, right
 	random_direction(&direction[0][0]);	
 	for(int i=0;i<4;i++){		
 		coordinate next_new;
 		next_new.x=in.x+direction[i][0];
 		next_new.y=in.y+direction[i][1];
-		if(in_bound(next_new) && (*(table+(in.y+direction[i][1]/2)*X+(in.x+direction[i][0]/2))=='*')){
-			*(table+(in.y+direction[i][1]/2)*X+(in.x+direction[i][0]/2))=' ';
-			create_maze(table,next_new, out);
+		if(in_bound(next_new) && (*(table+(in.y+direction[i][1]/3)*X+(in.x+direction[i][0]/3))=='*')){
+			*(table+(in.y+direction[i][1]/3)*X+(in.x+direction[i][0]/3))=' ';
+			if(create_maze(table,next_new,out)){}
 		}
 	}	
 }
@@ -8768,7 +8774,39 @@ void print_maze(char* table){
 }
 
 
-int nextxy(char* table,coordinate &in, int count){
+int nextxy_1(char* table,coordinate &in, int count){
+	switch(count){
+		case 1:
+			if(in.x-1>=0 && *(table+in.y*X+(in.x-1))==' ' || *(table+in.y*X+(in.x-1))=='1'){
+				in.x-=1;
+				return 1;
+			}
+			break;		
+		case 2:
+			if(in.y-1>=0 && *(table+(in.y-1)*X+in.x)==' ' || *(table+(in.y-1)*X+in.x)=='1'){
+				in.y-=1;
+				return 1;
+			}
+			break;
+		case 3:
+			if(in.x+1<X && *(table+in.y*X+(in.x+1))==' ' || *(table+in.y*X+(in.x+1))=='1'){
+				in.x+=1;
+				return 1;
+			}
+			break;			
+		case 4:
+			if(in.y+1<Y && *(table+(in.y+1)*X+in.x)==' ' || *(table+(in.y+1)*X+in.x)=='1'){
+				in.y+=1;
+				return 1;
+			}
+			break;			
+		default:
+			break;		
+	}
+	return 0;
+}
+
+int nextxy_2(char* table,coordinate &in, int count){
 	switch(count){
 		case 1:
 			if(in.x-1>=0 && *(table+in.y*X+(in.x-1))==' ' || *(table+in.y*X+(in.x-1))=='1'){
@@ -8777,14 +8815,47 @@ int nextxy(char* table,coordinate &in, int count){
 			}
 			break;
 		case 2:
+			if(in.y+1<Y && *(table+(in.y+1)*X+in.x)==' ' || *(table+(in.y+1)*X+in.x)=='1'){
+				in.y+=1;
+				return 1;
+			}
+			break;
+		
+		case 3:
 			if(in.x+1<X && *(table+in.y*X+(in.x+1))==' ' || *(table+in.y*X+(in.x+1))=='1'){
 				in.x+=1;
 				return 1;
 			}
 			break;
-		case 3:
+		case 4:
 			if(in.y-1>=0 && *(table+(in.y-1)*X+in.x)==' ' || *(table+(in.y-1)*X+in.x)=='1'){
 				in.y-=1;
+				return 1;
+			}
+			break;									
+		default:
+			break;		
+	}
+	return 0;
+}
+
+int nextxy_3(char* table,coordinate &in, int count){
+	switch(count){		
+		case 1:
+			if(in.x+1<X && *(table+in.y*X+(in.x+1))==' ' || *(table+in.y*X+(in.x+1))=='1'){
+				in.x+=1;
+				return 1;
+			}
+			break;
+		case 2:
+			if(in.y-1>=0 && *(table+(in.y-1)*X+in.x)==' ' || *(table+(in.y-1)*X+in.x)=='1'){
+				in.y-=1;
+				return 1;
+			}
+			break;
+		case 3:
+			if(in.x-1>=0 && *(table+in.y*X+(in.x-1))==' ' || *(table+in.y*X+(in.x-1))=='1'){
+				in.x-=1;
 				return 1;
 			}
 			break;
@@ -8793,12 +8864,80 @@ int nextxy(char* table,coordinate &in, int count){
 				in.y+=1;
 				return 1;
 			}
-			break;		
+			break;				
+				
 		default:
 			break;		
 	}
 	return 0;
 }
+
+int nextxy_4(char* table,coordinate &in, int count){
+	switch(count){
+		case 1:
+			if(in.x+1<X && *(table+in.y*X+(in.x+1))==' ' || *(table+in.y*X+(in.x+1))=='1'){
+				in.x+=1;
+				return 1;
+			}
+			break;
+		case 2:
+			if(in.y+1<Y && *(table+(in.y+1)*X+in.x)==' ' || *(table+(in.y+1)*X+in.x)=='1'){
+				in.y+=1;
+				return 1;
+			}
+			break;
+		case 3:
+			if(in.x-1>=0 && *(table+in.y*X+(in.x-1))==' ' || *(table+in.y*X+(in.x-1))=='1'){
+				in.x-=1;
+				return 1;
+			}
+			break;
+			
+		case 4:
+			if(in.y-1>=0 && *(table+(in.y-1)*X+in.x)==' ' || *(table+(in.y-1)*X+in.x)=='1'){
+				in.y-=1;
+				return 1;
+			}
+			break;			
+		default:
+			break;		
+	}
+	return 0;
+}
+
+
+int nextxy_5(char* table,coordinate &in, int count){
+	switch(count){
+		case 1:
+			if(in.x+1<X && *(table+in.y*X+(in.x+1))==' ' || *(table+in.y*X+(in.x+1))=='1'){
+				in.x+=1;
+				return 1;
+			}
+			break;
+		case 2:
+			if(in.x-1>=0 && *(table+in.y*X+(in.x-1))==' ' || *(table+in.y*X+(in.x-1))=='1'){
+				in.x-=1;
+				return 1;
+			}
+			break;
+		case 3:
+			if(in.y+1<Y && *(table+(in.y+1)*X+in.x)==' ' || *(table+(in.y+1)*X+in.x)=='1'){
+				in.y+=1;
+				return 1;
+			}
+			break;				
+		case 4:
+			if(in.y-1>=0 && *(table+(in.y-1)*X+in.x)==' ' || *(table+(in.y-1)*X+in.x)=='1'){
+				in.y-=1;
+				return 1;
+			}
+			break;			
+		default:
+			break;		
+	}
+	return 0;
+}
+
 
 
 bool find_way(char* table, coordinate &in,coordinate &out){
@@ -8810,10 +8949,21 @@ bool find_way(char* table, coordinate &in,coordinate &out){
 	if(in.x==out.x && in.y==out.y){		
 		return true;
 	}
+
+
 	for (int i = 0;i < 4; i++){
-		flag=nextxy(table,in,i+1);
-		if(flag){			
-			//chess[x][y]=tag;
+		if(in.x>out.x && in.y>out.y){
+			flag=nextxy_1(table,in,i+1);
+		} else if(in.x>out.x && in.y<out.y){
+			flag=nextxy_2(table,in,i+1);
+		} else if(in.x<out.x && in.y>out.y){
+			flag=nextxy_3(table,in,i+1);
+		} else if(in.x<out.x && in.y<out.y){
+			flag=nextxy_4(table,in,i+1);
+		} else{
+			flag=nextxy_5(table,in,i+1);
+		}
+		if(flag){				
 			if(find_way(table,in,out)){
 				return true;
 			}
@@ -8847,5 +8997,452 @@ int main(){
 	return 0;
 
 }
+*/
+
+
+
+//all different sorting algorithms realization and time counting
+template <class T>
+inline T fromString(const string &str) {
+	istringstream is(str);  //创建字符串输入流
+	T v;
+	is >> v;    //从字符串输入流中读取变量v
+	return v;   //返回变量v
+}
+
+struct time_counter{
+	string name;
+	clock_t start_time;
+	clock_t end_time;
+
+	time_counter(string name_){
+		name=name_;
+	}
+};
+
+vector<time_counter> note_time; //note all different algorithms' name, start and end time stamp
+
+void generate_number(){//generate 100k of random data
+	srand(time(0));
+	ofstream outfile("random_data.txt");
+	vector<int> number;
+	for(int i=0;i<100000;i++){
+		number.push_back((rand()%100000+1));
+	}	
+	for(auto i:number){
+		outfile<< i <<endl;
+	}
+	outfile.close();
+}
+
+void handle_time(vector<time_counter> &all_info){
+	for(auto i:all_info){
+		cout<<i.name<<" time consumption: ";
+		cout<<(double)(i.end_time-i.start_time)/CLOCKS_PER_SEC<<" Second"<<endl;
+	}
+}
+
+void bubble_sort(){
+	ifstream input_file("random_data.txt");
+	string each_line;
+	vector<int> data_to_sort;
+	while(getline(input_file,each_line)){
+		data_to_sort.push_back(fromString<int>(each_line));
+	}
+	input_file.close();
+
+	for(int i =0; i< data_to_sort.size();i++){
+		for (int j=1;j<data_to_sort.size()-i;j++){
+			if(data_to_sort[j-1]>data_to_sort[j]){
+				int tmp = data_to_sort[j-1];
+				data_to_sort[j-1]=data_to_sort[j];
+				data_to_sort[j]=tmp;
+			}
+		}
+	}
+
+	ofstream outfile("Sort_Bubble.txt");	
+	for(auto i:data_to_sort){
+		outfile<< i <<endl;
+	}
+	outfile.close();
+
+}
+
+void select_sort(){
+	ifstream input_file("random_data.txt");
+	string each_line;
+	vector<int> data_to_sort;
+	while(getline(input_file,each_line)){
+		data_to_sort.push_back(fromString<int>(each_line));
+	}
+	input_file.close();
+
+	for(int i=0;i<data_to_sort.size();i++){
+		for(int j=i+1;j<data_to_sort.size();j++){
+			if(data_to_sort[j]<data_to_sort[i]){
+				int tmp=data_to_sort[j];
+				data_to_sort[j]=data_to_sort[i];
+				data_to_sort[i]=tmp;
+			}
+		}
+	}
+
+
+	ofstream outfile("Sort_Select.txt");	
+	for(auto i:data_to_sort){
+		outfile<< i <<endl;
+	}
+	outfile.close();
+
+}
+//coded another way
+void insert_sort_(){
+	ifstream input_file("random_data.txt");
+	string each_line;
+	vector<int> data_to_sort;
+	while(getline(input_file,each_line)){
+		data_to_sort.push_back(fromString<int>(each_line));
+	}
+	input_file.close();
+
+	
+	for(int i=1;i<data_to_sort.size();i++){
+		for(int j=i-1;j>=0;j--){			
+			if(i==1){
+				if(data_to_sort[i]<data_to_sort[j]){					
+					int tmp=data_to_sort[j];
+					data_to_sort[j]=data_to_sort[i];
+					data_to_sort[i]=tmp;
+				}
+			}else if(data_to_sort[i]<data_to_sort[j] && data_to_sort[i]>=data_to_sort[j-1]){
+				int tmp=data_to_sort[i];
+				data_to_sort.erase(data_to_sort.begin()+i);
+				data_to_sort.insert(data_to_sort.begin()+j,tmp);
+				break;
+			}
+		}
+	}
+
+
+	ofstream outfile("Sort_Insert_.txt");	
+	for(auto i:data_to_sort){
+		outfile<< i <<endl;
+	}
+	outfile.close();
+}
+
+void insert_sort(){
+	ifstream input_file("random_data.txt");
+	string each_line;
+	vector<int> data_to_sort;
+	while(getline(input_file,each_line)){
+		data_to_sort.push_back(fromString<int>(each_line));
+	}
+	input_file.close();
+
+	
+	for(int i=1;i<data_to_sort.size();i++){
+		int key=data_to_sort[i];
+		int j=i-1;
+		while(j>=0 && key<data_to_sort[j]){
+			data_to_sort[j+1]=data_to_sort[j];
+			j--;
+		}
+		data_to_sort[j+1]=key;
+	}
+
+
+	ofstream outfile("Sort_Insert.txt");	
+	for(auto i:data_to_sort){
+		outfile<< i <<endl;
+	}
+	outfile.close();
+}
+
+void shell_sort(){
+	ifstream input_file("random_data.txt");
+	string each_line;
+	vector<int> data_to_sort;
+	while(getline(input_file,each_line)){
+		data_to_sort.push_back(fromString<int>(each_line));
+	}
+	input_file.close();	
+	
+	int length=data_to_sort.size();
+	for(int gap=length/2;gap>0;gap=gap/2){
+		for(int i = gap;i<length;i++){
+			int key=data_to_sort[i];
+			int j =i;
+			while(j>=gap && data_to_sort[j-gap]>key){
+				data_to_sort[j]=data_to_sort[j-gap];
+				j=j-gap;
+			}
+			data_to_sort[j]=key;
+		}
+	}
+
+	ofstream outfile("Sort_Shell.txt");	
+	for(auto i:data_to_sort){
+		outfile<< i <<endl;
+	}
+	outfile.close();
+}
+
+void drop_heap(vector<int> &input_arr,int point_to_adjust, int length){	
+	for(int i=2*point_to_adjust;i<length;i=i*2){
+		input_arr[0]=input_arr[point_to_adjust];
+		if(i<length && input_arr[i]<input_arr[i+1]){
+			i++;
+		}
+		if(input_arr[0]>=input_arr[i]){
+			break;
+		} else{
+			input_arr[point_to_adjust]=input_arr[i];
+			input_arr[i]=input_arr[0];
+			point_to_adjust=i;			
+		}
+	}
+}
+
+void build_max_heap(vector<int> &input_arr,int length){
+	for(int i=length/2;i>0;i--){
+		drop_heap(input_arr,i,length);
+	}
+}
+
+void heap_sort(){
+	ifstream input_file("random_data.txt");
+	string each_line;
+	vector<int> data_to_sort;
+	while(getline(input_file,each_line)){
+		data_to_sort.push_back(fromString<int>(each_line));
+	}
+	input_file.close();	
+	
+	data_to_sort.insert(data_to_sort.begin(),0);
+	int length=data_to_sort.size();
+	build_max_heap(data_to_sort,length);	
+	for(int i=length-1;i>1;i--){		
+		int tmp=data_to_sort[1];
+		data_to_sort[1]=data_to_sort[i];
+		data_to_sort[i]=tmp;
+		drop_heap(data_to_sort,1,i-1);
+	}
+
+
+	ofstream outfile("Sort_Heap.txt");	
+	for(auto i=data_to_sort.begin()+1;i!=data_to_sort.end();++i){
+		outfile<< *i <<endl;
+	}
+	outfile.close();
+}
+
+void merge_core(vector<int> &data_to_sort,int gap){
+	vector<int> tmp;
+	if(gap>=data_to_sort.size()){
+		return;
+	} else {
+		int length=data_to_sort.size();		
+		int i=0;
+		while(i<length){
+			int j=i;
+			int k=i+gap;			
+			while((j<length && j<gap+i) || (k<length && k<i+2*gap)){
+				if((k<length && k<i+2*gap) && (j==gap+i || data_to_sort[j]>=data_to_sort[k])){
+					tmp.push_back(data_to_sort[k]);
+					k++;
+				}
+				if(((k>=length) || (k>=i+2*gap) || (data_to_sort[j]<data_to_sort[k])) && (j<length && j<gap+i)){
+					tmp.push_back(data_to_sort[j]);
+					j++;
+				}				
+			}
+			//cout<<tmp.size()<<endl;
+			//cout<<i<<endl;
+			i=i+2*gap;
+					
+		}
+		
+		data_to_sort.clear();
+		data_to_sort=tmp;
+		//cout<<tmp.size()<<endl;
+		merge_core(data_to_sort,floor(gap*2));
+	}
+	
+}
+
+void merge_sort(){
+	ifstream input_file("random_data.txt");
+	string each_line;
+	vector<int> data_to_sort;
+	while(getline(input_file,each_line)){
+		data_to_sort.push_back(fromString<int>(each_line));
+	}
+	input_file.close();
+
+	merge_core(data_to_sort,1);
+
+
+	ofstream outfile("Sort_Merge.txt");	
+	for(auto i:data_to_sort){
+		outfile<< i <<endl;
+	}
+	outfile.close();
+}
+
+void quick_core(vector<int> &data_to_sort,int low, int high){
+	int pre_low=low,pre_high=high;
+	if(low >= high){
+		return;
+	} else {
+		int tmp=data_to_sort[low];
+		bool index_h=true;		
+		while(low != high){
+			if(index_h==false){
+				if(data_to_sort[low]>tmp){
+					data_to_sort[high]=data_to_sort[low];
+					high--;
+					index_h=true;
+				} else {
+					low++;
+				}
+			} else {
+				if(data_to_sort[high]>tmp){
+					high--;
+				} else {
+					data_to_sort[low]=data_to_sort[high];
+					low++;
+					index_h=false;
+				}
+			}					
+		}
+		data_to_sort[high]=tmp;
+		quick_core(data_to_sort,pre_low,high-1);
+		quick_core(data_to_sort,high+1,pre_high);
+	}
+}
+
+void quick_sort(){
+	ifstream input_file("random_data.txt");
+	string each_line;
+	vector<int> data_to_sort;
+	while(getline(input_file,each_line)){
+		data_to_sort.push_back(fromString<int>(each_line));
+	}
+	input_file.close();
+
+	quick_core(data_to_sort,0,data_to_sort.size()-1);
+
+	ofstream outfile("Sort_Quick.txt");	
+	for(auto i:data_to_sort){
+		outfile<< i <<endl;
+	}
+	outfile.close();
+}
+
+//call sorting functions
+void Bubble_Sort(){
+	time_counter b("Bubble Sort");
+	b.start_time=clock();
+	bubble_sort();
+	b.end_time=clock();
+	note_time.push_back(b);
+}
+
+void Select_Sort(){
+	time_counter c("Select Sort");
+	c.start_time=clock();
+	select_sort();
+	c.end_time=clock();
+	note_time.push_back(c);
+}
+
+void Insert_Sort(){
+	time_counter d("Insert Sort");
+	d.start_time=clock();
+	insert_sort();
+	d.end_time=clock();
+	note_time.push_back(d);
+}
+
+void Insert_Sort_(){
+	time_counter d_("Insert Sort_");
+	d_.start_time=clock();
+	insert_sort_();
+	d_.end_time=clock();
+	note_time.push_back(d_);
+}
+
+void Shell_Sort(){
+	time_counter e("Shell Sort");
+	e.start_time=clock();
+	shell_sort();
+	e.end_time=clock();
+	note_time.push_back(e);
+}
+
+void Heap_Sort(){
+	time_counter f("Heap Sort");
+	f.start_time=clock();
+	heap_sort();
+	f.end_time=clock();
+	note_time.push_back(f);
+}
+
+void Merge_Sort(){
+	time_counter g("Merge Sort");
+	g.start_time=clock();
+	merge_sort();
+	g.end_time=clock();
+	note_time.push_back(g);
+}
+
+void Quick_Sort(){
+	time_counter h("Quick Sort");
+	h.start_time=clock();
+	quick_sort();
+	h.end_time=clock();
+	note_time.push_back(h);
+}
+
+int main(){
+
+	time_counter a("Generate Data");
+	a.start_time=clock();
+	generate_number();
+	a.end_time=clock();
+	note_time.push_back(a);
+
+	//parallel execute
+	vector<thread> threads;
+	int i=0;	
+	threads.push_back(thread{Bubble_Sort});
+	threads.push_back(thread{Select_Sort});
+	threads.push_back(thread{Insert_Sort});
+	threads.push_back(thread{Insert_Sort_});
+	threads.push_back(thread{Shell_Sort});
+	threads.push_back(thread{Heap_Sort});
+	threads.push_back(thread{Merge_Sort});
+	threads.push_back(thread{Quick_Sort});
+
+	for(auto &t : threads){
+		t.join();
+	}
+
+	//serial execute
+	Bubble_Sort();
+	Select_Sort();
+	Insert_Sort();
+	Insert_Sort_();
+	Shell_Sort();
+	Heap_Sort();
+	Merge_Sort();
+	Quick_Sort();
+	
+	handle_time(note_time);
+	return 0;
+}
+
 
 
