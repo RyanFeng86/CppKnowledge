@@ -1365,205 +1365,6 @@ int main()
 */
 
 
-
-
-//面向对象试验1
-/*
-enum CPU_Rank{P1=1,P2,P3,P4,P5,P6,P7};
-class CPU {
-private:
-	CPU_Rank rank;
-	int frequency;
-	float voltage;
-public:
-	CPU(CPU_Rank r, int f, float v) ;
-	CPU();
-	~CPU();
-	int GetFrequency();
-	CPU_Rank GetRank();
-	float GetVoltage();
-	void SetFrequency(int f);
-	void SetVoltage(float v);
-	void SetRank(CPU_Rank r);
-	void Run();
-	void Stop();
-};
-
-CPU::CPU(){
-}
-CPU::CPU(CPU_Rank r, int f, float v) :rank(r), frequency(f), voltage(v) {
-	cout << "Created a CPU" << endl;
-}
-CPU::~CPU() {
-	cout << "Released a CPU" << endl;
-}
-
-int CPU::GetFrequency() {
-	return frequency;
-}
-CPU_Rank CPU::GetRank() {
-	return rank;
-}
-float CPU::GetVoltage() {
-	return voltage;
-}
-void CPU::SetFrequency(int f) {
-	frequency = f;
-}
-void CPU::SetVoltage(float v) {
-	voltage = v;
-}
-void CPU::SetRank(CPU_Rank r) {
-	rank = r;
-}
-void CPU::Run() {
-	cout << "A CPU is running" << endl;
-}
-void CPU::Stop() {
-	cout << "A CPU has stopped" << endl;
-}
-
-enum RAM_Type{DDR2=2,DDR3,DDR4};
-class RAM {
-private:
-	RAM_Type type;
-	unsigned int frequency;
-	unsigned int size;
-public:
-	RAM() { cout << "Created a RAM" << endl; };
-	~RAM() { cout << "Released a RAM" << endl; }
-	RAM(RAM_Type t, unsigned int f, unsigned int s) :type(t), frequency(f), size(s) {
-		cout << "Created a RAM" << endl;
-	}
-	void SetType(RAM_Type a) { type = a; };
-	void SetFrequency(unsigned int b) { frequency = b; };
-	void SetSize(unsigned int c) { size = c; };
-	unsigned int GetFrequency() { return frequency; };
-	RAM_Type GetType() { return type; };
-	unsigned int GetSize() { return size; };
-	void Run() { cout << "A RAM is running" << endl; }
-	void Stop() { cout << "A RAM has stopped" << endl; }
-};
-
-enum CDROM_Interface{SATA,USB};
-enum CDROM_Install_Type{external,built_in};
-class CDROM {
-private:
-	CDROM_Interface InterfaceType;
-	CDROM_Install_Type InstallType;
-	unsigned int frequency;
-	unsigned int size;
-public:
-	CDROM() { cout << "Created a CD_RAM" << endl; }
-	CDROM(CDROM_Interface Interface,CDROM_Install_Type Install,unsigned int f, unsigned int s):
-		InterfaceType(Interface), InstallType(Install),frequency(f),size(s){
-		cout << "Created a CD_RAM" << endl;
-	}
-	~CDROM() { cout << "Released a CD_ROM" << endl; }
-	void SetInterface(CDROM_Interface Interface) { InterfaceType = Interface; }
-	void SetInstallType(CDROM_Install_Type Install) { InstallType = Install; }
-	void SetFrequency(unsigned int f) { frequency = f; }
-	void SetSize(unsigned s) { size = s; }
-	CDROM_Interface GetInterfaceT() { return InterfaceType; }
-	CDROM_Install_Type GetInstallT() { return InstallType; }
-	unsigned int GetFrequency() { return frequency; }
-	unsigned int GetSize() { return size; }
-	void Run() { cout << "A CD_ROM is running" << endl; }
-	void Stop() { cout << "A CD_ROM has stopped" << endl; }
-};
-
-class Computer {
-private:
-	CPU MyCPU;
-	RAM MyRAM;
-	CDROM MyCDROM;
-	unsigned int StorageSize;
-	unsigned int Bandwidth;
-public:
-	Computer() { cout << "Created a computer" << endl; }
-	Computer(CPU cpu, RAM ram, CDROM mycdrom, unsigned int storagesize, unsigned int bandwidth):
-		MyCPU(cpu),MyRAM(ram),MyCDROM(mycdrom),StorageSize(storagesize),Bandwidth(bandwidth)
-	{
-		cout << "Created a computer" << endl;
-	}
-	~Computer() {
-
-		cout << "Released a computer" << endl; }
-	void Run();
-	void Stop();
-};
-void Computer::Run() {
-	MyCPU.Run();
-	MyCDROM.Run();
-	MyRAM.Run();
-	cout << "A Computer is running" << endl;
-}
-void Computer::Stop() {
-	MyCDROM.Stop();
-	MyCPU.Stop();
-	MyRAM.Stop();
-	cout << "A Computer has stopped" << endl;
-}
-
-
-
-int main() {
-	CPU a(P6, 300, 2.8);
-	RAM b(DDR4, 50, 4);
-	CDROM c(USB, external, 100, 4);
-	Computer MyPC(a, b, c, 1024, 600);
-
-	cout << "************" << endl;
-	MyPC.Run();
-	cout << "************" << endl;
-
-	MyPC.Stop();
-	//system("pause");
-	return 0;
-}
-*/
-
-
-
-//面向对象试验2  求a,b的最大公因数
-/*
-class Integer {
-private:
-	int _num;
-public:
-	//构造函数
-	Integer() {};
-	Integer(int num) {
-		_num = num;
-	}
-	//计算当前Integer 和 b之间的最大公约数
-	int gcd(Integer b);
-};
-
-int Integer::gcd(Integer b) {
-	int j = 1;
-	for (int i = 1; i <= max(_num, b._num); i++) {
-		if (_num%i == 0 && b._num%i == 0)
-			j = i;
-
-	}
-	return j;
-}
-
-int main() {
-	int a, b;
-	cin >> a >> b;
-	Integer A(a);
-	Integer B(b);
-	cout << A.gcd(B) << endl;
-	//system("pause");
-	return 0;
-}
-*/
-
-
-
-//标识符的作用域和可见性
 /*
 int i;// 全局变量，文件作用域
 int main() {
@@ -9001,6 +8802,8 @@ int main(){
 
 
 
+//all sorting algorithms
+/*
 //all different sorting algorithms realization and time counting
 template <class T>
 inline T fromString(const string &str) {
@@ -9444,5 +9247,74 @@ int main(){
 	return 0;
 }
 
+*/
 
 
+//reverse one direction list
+/*
+struct node{
+	int value;
+	node *next;
+};
+
+node* reverse(node *head){
+	node *tmp1=head;
+	node *tmp2=(*tmp1).next;
+	node *tmp3=(*tmp2).next;
+	(*tmp1).next=nullptr;
+	
+	while(tmp2){				
+		(*tmp2).next=tmp1;
+		tmp1=tmp2;
+		tmp2=tmp3;
+		if(tmp3)
+			tmp3=(*tmp3).next;			
+	}
+	head=tmp1;
+	return head;
+	
+}
+
+int main(){	
+	node head;
+	node *tmp=&head;	
+	for(int i=1;i<6;i++){
+		(*tmp).value=i;	
+		node *current=new(node);		
+		(*tmp).next=current;
+		if(i<5)
+			tmp=(*tmp).next;
+		else
+			(*tmp).next=nullptr;
+	}
+	node* out=reverse(&head);
+
+	return 0;
+}
+*/
+
+
+//try memcpy
+/*
+int main(){
+	srand(time(0));
+	int a[10][10];
+	int b[10][10];
+	for(int i =0;i<10;i++){
+		for(int j =0;j<10;j++){
+			a[i][j]=rand()%50;
+		}
+	}
+	memcpy(b,a,sizeof(int)*10*10);
+	for(int i =0;i<10;i++){
+		for(int j=0;j<10;j++){
+			cout<<a[i][j]<<" ";
+		}
+		cout<<"\t";
+		for(int j=0;j<10;j++){
+			cout<<b[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	return 0;
+}*/
