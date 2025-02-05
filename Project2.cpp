@@ -104,6 +104,40 @@ int main() {
 }
 */
 
+//same as above function
+/*
+void putout(vector<int> &input,vector<int> &tmp,int ToSelect,int StartFrom){
+	if(ToSelect==0){
+		for(auto j:tmp){
+			cout<<j<<" ";
+		}
+		cout<<endl;
+		
+		return;
+	}
+	for(int i =StartFrom;i<input.size();i++){
+		tmp[ToSelect-1]=input[i];
+		putout(input,tmp,ToSelect-1,i+1);
+	}
+}
+
+int main(){
+	cout << "n= ";
+	int n;
+	cin >> n;
+	cout << endl;
+	cout << "m= ";
+	int m;
+	cin >> m;
+	cout << endl;
+	vector<int> n_;
+	vector<int> out(m);
+	for (int i = 1; i <= n; i++)
+		n_.push_back(i);
+	putout(n_,out,m,0);
+
+}
+*/
 
 
 
@@ -132,7 +166,6 @@ void hanoi(int n, char src, char medium, char dest) {
 //把A针上剩下的一个盘子移到C针上；
 
 //将n - 1个盘子从B针移到C针上（借助A针）。
-
 
 int main() {
 	int m;
@@ -1109,6 +1142,7 @@ int main() {
 
 
 
+
 //组合类及拷贝构造函数
 /*
 class Point { //Point类定义
@@ -1153,6 +1187,7 @@ Line::Line(Line &l) : p1(l.p1), p2(l.p2) {//组合类的复制构造函数
 
 int main() {
 	Point myp1(1, 1), myp2(4, 5); //construct point object
+	Point test(myp1);
 	Line line(myp1, myp2); //construct line object
 	Line line2(line); //using copy constructor construct a new object
 	cout << "The length of the line is: ";
@@ -2003,8 +2038,8 @@ int main()
 		cout << endl;
 	}
 	return 0;
-}*/
-
+}
+*/
 
 
 
@@ -2208,6 +2243,7 @@ int main() {
 	return 0;
 }
 */
+
 
 
 
@@ -3047,11 +3083,10 @@ int main() {
 	//访问Derived类成员
 	d.var = 1;
 	d.fun();
-
+	
 	//访问Base1基类成员
 	d.Base1::var = 2;
 	d.Base1::fun();
-
 	//访问Base2基类成员
 	p->Base2::var = 3;
 	p->Base2::fun();	
@@ -5107,6 +5142,10 @@ int main()
 	m["a"] = 5;//使用下标插入
 	for (auto it = m.begin(); it != m.end(); it++)
 		cout << it->first << " " << it->second << endl;
+	auto it =m.find("b");
+	if(it!=m.end()){
+		cout<<"abc"<<":"<<it->second<<endl;
+	}
 	return 0;
 }
 */
@@ -5161,7 +5200,7 @@ int main() {
 	//输出每个字母出现次数
 	for (map<char, int>::iterator iter = s.begin(); iter != s.end(); ++iter)
 		cout << iter->first << " " << iter->second << "  " << endl;
-	cout << endl;
+
 	return 0;
 }
 */
@@ -5528,7 +5567,6 @@ int main() {
 */
 
 
-
 //将数值转换为字符串
 /*
 template <class T>
@@ -5566,6 +5604,31 @@ int main() {
 	return 0;
 }
 */
+
+
+
+//istringstream more example
+/*
+int main() {
+    // 创建一个 istringstream 对象，并初始化为一个字符串
+    std::istringstream iss("42 3.14 Hello");
+
+    int intVal;
+    double doubleVal;
+    std::string strVal;
+
+    // 从字符串流中读取数据
+    iss >> intVal >> doubleVal >> strVal;
+
+    // 输出读取的数据
+    std::cout << "Integer: " << intVal << std::endl;    // 输出: Integer: 42
+    std::cout << "Double: " << doubleVal << std::endl;  // 输出: Double: 3.14
+    std::cout << "String: " << strVal << std::endl;     // 输出: String: Hello
+
+    return 0;
+}
+*/
+
 
 
 /*
@@ -8045,7 +8108,7 @@ void remove(list<int> &a, int start){
 int main() {
 	//p=static_cast<*int>(value);
 	list<int> a;
-	for(int i=1;i<=41;i++){
+	for(int i=1;i<=7;i++){
 		a.push_back(i);
 	}
 	remove(a,0);	
@@ -8187,7 +8250,7 @@ struct BTNode{
 	}
 };
 
-BTNode* create_BT() { 
+BTNode* pre_order_create_BT() { 
 	char input_data;
 	cout<<"put in the data(0 means empty):";
 	cin>>input_data;
@@ -8198,11 +8261,23 @@ BTNode* create_BT() {
 
 	BTNode *T=new BTNode(input_data);
 	cout<<"put in "<<input_data<<"'s left child value:";
-	T->lc=create_BT();
+	T->lc=pre_order_create_BT();
 	cout<<"put in "<<input_data<<"'s right child value:";
-	T->rc=create_BT();
+	T->rc=pre_order_create_BT();
 	return T;
 	
+}
+
+BTNode* in_order_create_BT(){
+	
+}
+
+BTNode* post_order_create_BT(){
+
+}
+
+BTNode* level_order_create_BT(){
+		
 }
 
 void visit(char data, int level){
@@ -8238,8 +8313,24 @@ void postTBT(BTNode *T, int level){
 }
 
 int main(){
+	int a;
+	cout<<"Put in Number to Choose Way of Creating Tree"<<endl<<"1: pre-order; 2: in-order; 3:post-order; 4: level-order"<<endl;
+	cin>>a;
+	BTNode *T;
+	if(a==1){
+		T=pre_order_create_BT();
+	}
+	if(a==2){
+		T=in_order_create_BT();
+	}
+	if(a==3){
+		T=post_order_create_BT();
+	}
+	if(a==4){
+		T=level_order_create_BT();
+	}
+
 	
-	BTNode *T=create_BT();
 	cout<<endl<<"preorder traverse:";
 	preTBT(T,1);
 
@@ -8316,13 +8407,14 @@ int main(){
 */
 
 
+
 //multiple methods of creating graph, traversing graph
 
 
 //Knight's Tour(DFS)
 /*
-#define X 5
-#define Y 5
+#define X 8
+#define Y 8
 
 int chess[X][Y];
 
@@ -8435,21 +8527,163 @@ int main(){
 */
 
 
+
+//Knight's tour(BFS)
+/*
+#define X 4
+#define Y 4
+
+int chess[X][Y];
+
+int nextxy(int &x,int &y, int count){
+	switch(count){
+		case 1:
+			if(x-1>=0 && y-2>=0 && chess[x-1][y-2]==0){
+				x-=1;
+				y-=2;
+				return 1;
+			}
+			break;
+		case 2:
+			if(x+1<=X-1 && y-2>=0 && chess[x+1][y-2]==0){
+				x+=1;
+				y-=2;
+				return 1;
+			}
+			break;
+		case 3:
+			if(x+2<=X-1 && y-1>=0 && chess[x+2][y-1]==0){
+				x+=2;
+				y-=1;
+				return 1;
+			}
+			break;
+		case 4:
+			if(x+2<=X-1 && y+1<=X-1 && chess[x+2][y+1]==0){
+				x+=2;
+				y+=1;
+				return 1;
+			}
+			break;
+		case 5:
+			if(x+1<=X-1 && y+2<=X-1 && chess[x+1][y+2]==0){
+				x+=1;
+				y+=2;
+				return 1;
+			}
+			break;
+		case 6:
+			if(x-1>=0 && y+2<=X-1 && chess[x-1][y+2]==0){
+				x-=1;
+				y+=2;
+				return 1;
+			}
+			break;
+		case 7:
+			if(x-2>=0 && y+1<=X-1 && chess[x-2][y+1]==0){
+				x-=2;
+				y+=1;
+				return 1;
+			}
+			break;
+		case 8:
+			if(x-2>=0 && y-1>=0 && chess[x-2][y-1]==0){
+				x-=2;
+				y-=1;
+				return 1;
+			}
+			break;
+		default:
+			break;		
+	}
+	return 0;
+}
+
+void print(){
+	for(int i =0;i<X;i++){
+		for(int j=0;j<Y;j++){
+			cout<<chess[i][j]<<"\t";
+		}
+		cout<<endl;
+	}
+	cout<<endl;
+}
+struct each_depth{
+	int x;
+	int y;
+	int tag;
+	each_depth(int x_,int y_,int z_):x(x_),y(y_),tag(z_){
+	}
+};
+
+int TravelBoard(int x, int y, int tag, vector<queue<each_depth>> &path){	
+	queue<each_depth> q;
+	q.push(each_depth(x,y,tag));
+	path.push_back(q);	
+	
+	if(tag==X*Y){
+		for(int i=0;i<path.size();i++){
+			while(!path[i].empty()){
+				auto j=path[i].front();
+				cout<<"("<<j.x<<", "<<j.y<<") -> ";
+			}
+			cout<<endl;
+		}
+		return 1;
+	}
+	for(int i=0;i<path.size();i++){
+		if(path[i].size()==tag){
+
+		}
+	}
+	
+	while(push_times>0){
+		auto current=q.front();
+		q.pop();
+		push_times--;				
+		int x_=current.x;
+		int y_=current.y;
+		bool find_path=false;				
+		for(int i=0;i<8;i++){
+			if(nextxy(x_,y_,i)){
+				chess[x_][y_]=tag;
+				q.push(each_depth(x_,y_,tag));
+				push_times++;
+				if(!find_path){
+					find_path=true;
+				}				
+			}
+			
+		}
+		if(find_path && push_times==q.size()){
+			tag++;
+		}		
+	}
+	return 0;
+}
+
+int main(){
+	int i,k;
+	memset(chess,0,sizeof(chess));
+	if(!TravelBoard(0,0,1)){
+		cout<<"failed"<<endl;
+	}
+	cout<<sizeof(chess)<<endl;
+	return 0;
+}
+*/
+
+
+
 //create a maze, set in point and out point, then find the path
 /*
-#define X 20
-#define Y 20
-
-
-
+#define X 19
+#define Y 19
 
 struct coordinate{
 	int x;
 	int y;
 };
-
-
-
 
 coordinate set_in(char* table){
 	srand(time(0));
@@ -8483,7 +8717,6 @@ coordinate set_in(char* table){
 	*(table+y*X+x)='0';
 	return in;
 }
-
 
 coordinate set_out(char* table,coordinate &in){	
 	srand(time(0));	
@@ -8573,7 +8806,6 @@ void print_maze(char* table){
 		cout<<endl;
 	}
 }
-
 
 int nextxy_1(char* table,coordinate &in, int count){
 	switch(count){
@@ -8706,7 +8938,6 @@ int nextxy_4(char* table,coordinate &in, int count){
 	return 0;
 }
 
-
 int nextxy_5(char* table,coordinate &in, int count){
 	switch(count){
 		case 1:
@@ -8738,8 +8969,6 @@ int nextxy_5(char* table,coordinate &in, int count){
 	}
 	return 0;
 }
-
-
 
 bool find_way(char* table, coordinate &in,coordinate &out){
 	*(table+in.y*X+in.x)='A';
@@ -8778,6 +9007,7 @@ bool find_way(char* table, coordinate &in,coordinate &out){
 }
 
 int main(){
+	srand(time(0));
 	char maze[X][Y];
 	memset(maze,'*',sizeof(maze));
 	coordinate in=set_in(&maze[0][0]);
@@ -8829,8 +9059,8 @@ void generate_number(){//generate 100k of random data
 	srand(time(0));
 	ofstream outfile("random_data.txt");
 	vector<int> number;
-	for(int i=0;i<100000;i++){
-		number.push_back((rand()%100000+1));
+	for(int i=0;i<10;i++){
+		number.push_back((rand()%10+1));
 	}	
 	for(auto i:number){
 		outfile<< i <<endl;
@@ -9218,6 +9448,7 @@ int main(){
 	note_time.push_back(a);
 
 	//parallel execute
+	/*
 	vector<thread> threads;
 	int i=0;	
 	threads.push_back(thread{Bubble_Sort});
@@ -9232,6 +9463,7 @@ int main(){
 	for(auto &t : threads){
 		t.join();
 	}
+	
 
 	//serial execute
 	Bubble_Sort();
@@ -9246,7 +9478,6 @@ int main(){
 	handle_time(note_time);
 	return 0;
 }
-
 */
 
 
@@ -9294,6 +9525,36 @@ int main(){
 */
 
 
+
+struct link_node{
+	char data;
+	link_node *next;
+
+	link_node(char in){
+		data=in;
+		next=nullptr;
+	}
+};
+
+link_node *build_list(){	
+	char input;
+	cin>>input;
+	if(input == '0'){
+		return nullptr;
+	}
+	link_node *head = new link_node(input);
+	head->next=build_list();
+	return head;
+}
+
+int main(){
+	link_node *link_list;
+	link_list=build_list();
+	return 0;
+
+}
+
+
 //try memcpy
 /*
 int main(){
@@ -9318,3 +9579,43 @@ int main(){
 	}
 	return 0;
 }*/
+
+
+class Base {
+    public:
+        Base() {std::cout << "create Base" << std::endl;}
+        ~Base() {method();}
+        virtual void method() {std::cout << "from Base" << std::endl;}
+        void baseMethod() {method();}
+};
+
+class A : public Base {
+    public:
+        A() {std::cout << "create A" << std::endl;}
+        ~A() {baseMethod();}
+        void baseMethod() {std::cout << "BaseMethod A" << std::endl;}
+        void method() {std::cout << "from A" << std::endl;}
+};
+
+class B : public A {
+    public:
+        B() {std::cout << "create B" << std::endl;}
+        ~B() {std::cout << "destroy B" << std::endl;}
+        void method() {std::cout << "from B" << std::endl;}
+};
+
+int main(void) {
+    Base* base = new B();
+    std::cout << std::endl;
+    base->baseMethod();
+    std::cout << std::endl;
+    delete base;
+    std::cout << std::endl;
+
+    A* test = new A;
+    std::cout << std::endl;
+    test->baseMethod();
+    std::cout << std::endl;
+    delete test;
+    return 0;
+}
