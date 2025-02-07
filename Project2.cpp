@@ -9059,8 +9059,8 @@ void generate_number(){//generate 100k of random data
 	srand(time(0));
 	ofstream outfile("random_data.txt");
 	vector<int> number;
-	for(int i=0;i<10;i++){
-		number.push_back((rand()%10+1));
+	for(int i=0;i<50;i++){
+		number.push_back((rand()%50+1));
 	}	
 	for(auto i:number){
 		outfile<< i <<endl;
@@ -9462,8 +9462,7 @@ int main(){
 
 	for(auto &t : threads){
 		t.join();
-	}
-	
+	}	
 
 	//serial execute
 	Bubble_Sort();
@@ -9481,78 +9480,167 @@ int main(){
 */
 
 
+
 //reverse one direction list
 /*
-struct node{
-	int value;
-	node *next;
+enum direction{
+	forward,backward,first,last
 };
 
-node* reverse(node *head){
-	node *tmp1=head;
-	node *tmp2=(*tmp1).next;
-	node *tmp3=(*tmp2).next;
-	(*tmp1).next=nullptr;
-	
-	while(tmp2){				
-		(*tmp2).next=tmp1;
-		tmp1=tmp2;
-		tmp2=tmp3;
-		if(tmp3)
-			tmp3=(*tmp3).next;			
+struct list_node{
+	char value;
+	list_node *next;
+	list_node(){
+		next=nullptr;
+	};
+	list_node(char input):value(input){
+		next=nullptr;
+	};
+};
+
+list_node* build_list_iteration(){	
+	list_node* head;
+	list_node* tmp;
+	bool first_node=true;
+	while(1){
+		char input;
+		cout<<"Key in value to build the list(auto ends at '0')"<<endl;
+		cin>>input;
+		if(input=='0'){
+			cout<<"Done iteration build!"<<endl;
+			break;
+		}					
+		if(first_node){
+			head=new list_node(input);
+			tmp=head;
+			first_node=false;
+		} else{
+			(*tmp).next=new list_node(input);
+			tmp=(*tmp).next;
+			//tmp->next=new list_node(input);
+			//tmp=tmp->next;
+		}
 	}
-	head=tmp1;
 	return head;
-	
+}  
+
+list_node* build_list_recursive(){
+	char input;
+	cout<<"Key in value to build the list(auto ends at '0')"<<endl;
+	cin>>input;
+	list_node* tmp;
+	if(input=='0'){
+		cout<<"Done recursive build!"<<endl;
+		return nullptr;
+	} else{
+		tmp=new list_node(input);
+		(*tmp).next=build_list_recursive();
+	}
+	return tmp;
 }
 
-int main(){	
-	node head;
-	node *tmp=&head;	
-	for(int i=1;i<6;i++){
-		(*tmp).value=i;	
-		node *current=new(node);		
-		(*tmp).next=current;
-		if(i<5)
-			tmp=(*tmp).next;
-		else
-			(*tmp).next=nullptr;
-	}
-	node* out=reverse(&head);
+list_node* insert_node(list_node* head,list_node* node, direction search=direction::last, char pivot_value=' '){
+	if(pivot_value!=' '){
+		if(search==first || search==last){
+			cout<<"When you are trying to search then insert, the insert direction must be forward or backward"<<endl;
+			cout<<"Please try again"<<endl;
+			
+		}else{
+			list_node* tmp=head;
+			if(search==direction::forward){//insert node to the front of the targeting node
+				
+				if(head->value == pivot_value){
+					 return insert_node(head,node,first);
+				} else{
+					while(tmp->next){
+						if(tmp->next->value == pivot_value){							
+							break;
+						}
+						tmp=tmp->next;
+					}
+					if(tmp->next){
+						list_node* tmp_=tmp->next;
+						tmp->next=node;
+						node->next=tmp_;
+					}else{
+						return insert_node(head,node,last);
+					}
+				}
 
+			}else{//insert node to the following of the targeting node
+				while(tmp->next){
+					if(tmp->value == pivot_value){
+						break;
+					}
+					tmp=tmp->next;
+				}
+				list_node* tmp_=tmp->next;
+				tmp->next=node;
+				node->next=tmp_;
+			}
+		}
+	}else{
+		if(search==direction::forward || search==direction::backward){
+			cout<<"When inserting without pivot_value, the direction must be first or last"<<endl;
+			cout<<"Please try again"<<endl;
+			
+		}else{
+			if(search==first){//insert node in the first place
+				list_node* tmp=head;
+				head=node;
+				(*head).next=tmp;
+			}else{//insert node to the last place
+				list_node* tmp=head;
+				while(tmp->next){
+					tmp=tmp->next;
+				}
+				tmp->next=node;
+			}
+
+		}
+	}
+	return head;
+}
+
+void print_list(list_node* head){
+	list_node* tmp=head;
+	cout<<"List elements are:"<<endl;
+	while(tmp!=nullptr){
+		cout<<(*tmp).value<<" ";
+		tmp=(*tmp).next;
+	}
+	cout<<endl;
+}
+
+list_node* reverse(list_node *head){
+	list_node *tmp1=nullptr;
+	list_node *tmp2=head;
+	list_node *tmp3=nullptr;
+	
+	while(tmp2){				
+		tmp3=tmp2->next;
+		tmp2->next=tmp1;
+		tmp1=tmp2;
+		tmp2=tmp3;
+	}	
+	return tmp1;	
+}
+
+int main(){
+	list_node* list1=build_list_iteration();
+	//list_node* list2=build_list_recursive();	
+	list_node A('A');
+	print_list(list1);
+	list1=insert_node(list1,new list_node('X'));
+	print_list(list1);
+	list1=insert_node(list1,&A,direction::backward,'1');
+	print_list(list1);
+	list1=reverse(list1);
+	print_list(list1);
 	return 0;
 }
 */
 
-
-
-struct link_node{
-	char data;
-	link_node *next;
-
-	link_node(char in){
-		data=in;
-		next=nullptr;
-	}
-};
-
-link_node *build_list(){	
-	char input;
-	cin>>input;
-	if(input == '0'){
-		return nullptr;
-	}
-	link_node *head = new link_node(input);
-	head->next=build_list();
-	return head;
-}
-
-int main(){
-	link_node *link_list;
-	link_list=build_list();
-	return 0;
-
-}
 
 
 //try memcpy
@@ -9581,6 +9669,8 @@ int main(){
 }*/
 
 
+
+/*
 class Base {
     public:
         Base() {std::cout << "create Base" << std::endl;}
@@ -9618,4 +9708,17 @@ int main(void) {
     std::cout << std::endl;
     delete test;
     return 0;
+}
+*/
+
+
+
+
+//3{b}a4{cd6{mn}ef}jk
+
+int main(){
+	string input="3{b}a4{cd6{mn}ef}jk";
+	stack<char> a;
+	stack<int> b;
+	
 }
