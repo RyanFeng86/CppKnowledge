@@ -9714,11 +9714,53 @@ int main(void) {
 
 
 
-//3{b}a4{cd6{mn}ef}jk
-
+//puzzle: extend string based on number in the front of bracket
+//ab10{c}a2{c3{x}d3{mn}ef}jy
 int main(){
-	string input="3{b}a4{cd6{mn}ef}jk";
-	stack<char> a;
-	stack<int> b;
-	
+	string input="ab10{c}a2{c3{x}d3{mn}ef}jy";
+	string output="";
+	stack<char> original;
+	stack<char> alph;
+	stack<int> digit;
+	int tmp_digit=0;
+	for(int i=input.size()-1;i>=0;i--){
+		original.push(input[i]);
+	}
+	while(!original.empty()){
+		char tmp=original.top();
+		original.pop();
+		if(tmp>='0' && tmp<='9'){
+			tmp_digit=tmp_digit*10+(tmp-'0');			
+		} else if(tmp!='}'){
+			alph.push(tmp);
+			if(tmp=='{'){
+				digit.push(tmp_digit);
+				tmp_digit=0;
+			}
+		}
+		if(tmp=='}'){
+			int number=digit.top();
+			digit.pop();
+			string tmp_alph="";
+			while(alph.top()!='{'){
+				tmp_alph+=alph.top();
+				alph.pop();
+			}
+			alph.pop();
+			string current_string="";
+			for(int i=0;i<number;i++){
+				current_string+=tmp_alph;
+			}
+			for(int i=current_string.size()-1;i>=0;i--){
+				alph.push(current_string[i]);
+			}
+		}
+	}
+	while(!alph.empty()){
+		output+=alph.top();
+		alph.pop();
+	}
+	reverse(output.begin(),output.end());	
+	cout<< output <<endl;
+	return 0;	
 }
