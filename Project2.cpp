@@ -9713,7 +9713,6 @@ int main(void) {
 
 
 
-
 //puzzle: extend string based on number in the front of bracket
 //ab10{c}a2{c3{x}d3{mn}ef}jy
 int main(){
